@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+
+            $table->string('type'); // B or S
+            $table->string('product');
+            $table->integer('quantity');
+            $table->dateTime('date');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+
         });
     }
 
