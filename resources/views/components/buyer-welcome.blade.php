@@ -1,3 +1,9 @@
+@php
+    use Illuminate\Support\Facades\Auth;
+
+    $typeOfAccount = Auth::user()->type;
+@endphp
+
 <div class="p-6 lg:p-8 bg-white dark:bg-gray-800 dark:bg-gradient-to-bl dark:from-gray-700/50 dark:via-transparent border-b border-gray-200 dark:border-gray-700">
     <x-application-logo class="block h-12 w-auto" />
 

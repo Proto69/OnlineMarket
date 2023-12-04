@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AccountSwitchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,16 +15,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::post('/switch-account', [AccountSwitchController::class, 'switchAccount'])->name('switch.account');
+
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
+// Routes with verification
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+
+    // Route to the dashboard (main page)
     Route::get('/dashboard', function () {
-        return view('dashboard');
+
+        // Getting the authenticated user and checking its type
+        $user = Auth::user(); 
+        if ($user && $user->type === "Buyer") {
+
+            // returning buyer-dashboard if it is not null and is Buyer
+            return view('buyer-dashboard');
+        }
+
+        // otherwise returning the seller dashboard
+        return view('seller-dashboard');
+        
     })->name('dashboard');
 });
+

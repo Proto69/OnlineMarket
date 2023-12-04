@@ -29,6 +29,26 @@
                 <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
 
+            <x-label for="accountTypeBuyer" class="flex items-center mt-3">
+                <input id="accountTypeBuyer" class="form-radio h-5 w-5" type="radio" name="accountTypeBuyer" value="Seller" />
+                <span class="ml-2 text-gray-700 dark:text-gray-300">Buyer</span>
+            </x-label>
+
+            <x-label for="accountTypeSeller" class="flex items-center mt-3">
+                <input id="accountTypeSeller" class="form-radio h-5 w-5 text-indigo-600" type="radio" name="accountTypeBuyer" value="Buyer" />
+                <span class="ml-2 text-gray-700 dark:text-gray-300">Seller</span>
+            </x-label>
+
+            <div id="sellerInfo" class="mt-2 text-gray-700 dark:text-gray-300" style="display: none">
+                <div class="mt-4">
+                    <x-label for="stripeKey" value="{{ __('Stripe Key') }}" />
+                    <x-input id="stripeKey" class="block mt-1 w-full" type="password" name="stripe_key"/>
+                </div>
+            </div>
+            <div class="mt-4" style="display: block">
+                <x-input id="type" class="block mt-1 w-full" type="type" name="type" autocomplete="type" />
+            </div>
+
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">
                     <x-label for="terms">
@@ -58,3 +78,30 @@
         </form>
     </x-authentication-card>
 </x-guest-layout>
+
+<script>
+    const accountTypeBuyer = document.getElementById('accountTypeBuyer');
+    const accountTypeSeller = document.getElementById('accountTypeSeller');
+    const sellerInfoDiv = document.getElementById('sellerInfo');
+    const accountTypeDiv = document.getElementById('type');
+
+    accountTypeBuyer.checked = true;
+    accountTypeDiv.value = "Buyer"
+                           
+    accountTypeSeller.addEventListener('change', () => {
+        if (accountTypeSeller.checked) {
+            sellerInfoDiv.style.display = 'block'; // Show the message div
+            accountTypeDiv.value = "Seller"
+        } else {
+            sellerInfoDiv.style.display = 'none'; // Hide the message div if not checked
+        }
+    });
+
+    accountTypeBuyer.addEventListener('change', () => {
+        if (accountTypeBuyer.checked) {
+            sellerInfoDiv.style.display = 'none'; 
+            accountTypeDiv.value = "Buyer"
+        }
+    });
+</script>
+

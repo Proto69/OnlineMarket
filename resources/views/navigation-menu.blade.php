@@ -1,3 +1,15 @@
+@php
+    use Illuminate\Support\Facades\Auth;
+    use App\Models\Seller;
+
+    $typeOfAccount = Auth::user()->type;
+
+    $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
+@endphp
+
+
+
+
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -52,6 +64,31 @@
                                 {{ __('Profile') }}
                             </x-dropdown-link>
 
+                                <form id="switchAcc" method="POST" action="{{ route('switch.account') }}">
+                                    @csrf
+                                    @if ($typeOfAccount === "Buyer")
+                                        <input type="hidden" name="newType" value="Seller">
+                                        <input type="hidden" name="stripe_key" id="stripe_key">
+                                        @if (!$existingSeller)
+                                            <x-dropdown-link id="openPopup" href="{{ route('dashboard') }}" onclick="event.preventDefault();">
+                                                {{ __('Switch to Seller') }}
+                                            </x-dropdown-link>
+                                        @else
+                                            <x-dropdown-link href="{{ route('dashboard') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+                                                {{ __('Switch to Seller') }}
+                                            </x-dropdown-link>
+                                        @endif
+                                    @else ($typeOfAccount === "Seller")
+                                        <input type="hidden" name="newType" value="Buyer">
+                                        <x-dropdown-link href="{{ route('dashboard') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+                                            {{ __('Switch to Buyer') }}
+                                        </x-dropdown-link>
+                                    @endif
+                                </form>
+
+                                
+
+                            
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                                 <x-dropdown-link href="{{ route('api-tokens.index') }}">
                                     {{ __('API Tokens') }}
@@ -74,6 +111,14 @@
                 </div>
             </div>
 
+            <div id="popup" style="display: none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.5);">
+                <div style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);background-color: #fff;padding: 20px;border-radius: 5px;text-align: center;">
+                    <span style="float: right; cursor: pointer;" id="closePopup">&times;</span>
+                    <h2>Enter Something</h2>
+                    <input type="text" id="inputField" placeholder="Type something..." style="width: 80%;padding: 10px;margin-bottom: 15px;">
+                    <button id="submitInput" type="button" class="padding: 10px 20px; cursor: pointer;">Submit</button>
+                </div>
+            </div>
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
@@ -134,3 +179,39 @@
         </div>
     </div>
 </nav>
+
+<script>
+    // Get references to elements
+    const openButton = document.getElementById('openPopup');
+    const closeButton = document.getElementById('closePopup');
+    const popup = document.getElementById('popup');
+    const submitButton = document.getElementById('submitInput');
+    const inputField = document.getElementById('inputField');
+    const stripeField = document.getElementById('stripe_key');
+    const accForm = document.getElementById('switchAcc');
+
+    // Function to open the pop-up
+    function openPopup() {
+        popup.style.display = 'block';
+    }
+
+    // Function to close the pop-up
+    function closePopup() {
+        popup.style.display = 'none';
+    }
+
+    // Event listeners
+    openButton.addEventListener('click', openPopup);
+    closeButton.addEventListener('click', closePopup);
+
+    // Handle submit button click
+    submitButton.addEventListener('click', function() {
+        const userInput = inputField.value;
+        closePopup();
+        stripeField.value = userInput;
+        accForm.submit();
+    });
+
+
+</script>
+
