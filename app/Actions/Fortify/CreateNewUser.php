@@ -52,6 +52,8 @@ class CreateNewUser implements CreatesNewUsers
                 ]);
             }
 
+            $user->createToken('personal_token');
+            
             return $user;
         });
         

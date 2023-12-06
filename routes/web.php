@@ -41,5 +41,34 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('seller-dashboard');
         
     })->name('dashboard');
+
+    Route::get('/shopping-cart', function () {
+
+        $user = Auth::user(); 
+        if ($user && $user->type === "Buyer") {
+
+            // returning buyer-dashboard if it is not null and is Buyer
+            return view('shopping-cart');
+        }
+    })->name('shopping-cart');
+
+    Route::get('/previous-purchases', function () {
+
+        $user = Auth::user(); 
+        if ($user && $user->type === "Buyer") {
+
+            // returning buyer-dashboard if it is not null and is Buyer
+            return view('previous-purchases');
+        }
+    })->name('previous-purchases');
+
+    Route::get('/sells', function () {
+        $user = Auth::user(); 
+        if ($user && $user->type === "Seller") {
+
+            // returning buyer-dashboard if it is not null and is Buyer
+            return view('sells');
+        }
+    })->name('sells');
 });
 
