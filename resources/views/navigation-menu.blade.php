@@ -50,22 +50,21 @@
                     </x-nav-link>
                 </div>
 
-                @endif
-            </div>
-
-
-            @if ($typeOfAccount == "Buyer")
-                <div class="hidden sm:flex sm:flex sm:ml-6">
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('shopping-cart') }}" :active="request()->routeIs('shopping-cart')">
                         Shopping cart
                     </x-nav-link>
                 </div>
-            @endif
+                @endif
 
-            <div class="hidden sm:flex sm:items-center sm:ml-6">
-               
+                
+            </div>
+
+            <div class="hidden sm:flex sm:items-center sm:ml-3">
+
+
                 <!-- Settings Dropdown -->
-                <div class="ml-3 relative">
+                <div class="ml-3 relative ">
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
@@ -133,14 +132,16 @@
                 </div>
             </div>
 
+            <!-- Popup -->
             <div id="popup" style="display: none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(17, 24, 39, 0.7); backdrop-filter: blur(10px);">
                 <div style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);background-color: rgba(17, 24, 39);;padding: 20px;border-radius: 5px;text-align: center;">
                     <h2 style="color: #fff">Enter your Stripe Key</h2>
                     <x-input type="text" id="inputField" placeholder="Enter your Stripe Key" style="width: 80%;padding: 10px;" class="mt-1 mb-4"/>
-                    <x-secondary-button id="submitInput" type="button" class="me-5">Save</x-secondary-button>
-                    <x-danger-button id="closePopup" type="button" class="ms-5">Cancel</x-danger-button>
+                        <x-secondary-button id="submitInput" type="button">Save</x-secondary-button>
+                        <x-danger-button id="closePopup" type="button">Cancel</x-danger-button>
                 </div>
             </div>
+
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">

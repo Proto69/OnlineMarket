@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AccountSwitchController;
+use App\Http\Controllers\ShoppingListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,6 @@ use App\Http\Controllers\AccountSwitchController;
 */
 
 
-Route::post('/switch-account', [AccountSwitchController::class, 'switchAccount'])->name('switch.account');
 
 
 Route::get('/', function () {
@@ -70,5 +70,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             return view('sells');
         }
     })->name('sells');
+
+    Route::post('/add-to-shopping-list/{productId}', [ShoppingListController::class, 'addToShoppingList'])->name('add.to.shopping.list');
+    Route::post('/switch-account', [AccountSwitchController::class, 'switchAccount'])->name('switch.account');
+
 });
 
