@@ -8,6 +8,7 @@ use App\Models\ShoppingList;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\Session;
 
 class ShoppingListController extends Controller
 {
@@ -81,11 +82,14 @@ class ShoppingListController extends Controller
                 // Add other necessary fields to the shopping list entry
             ]);
 
-            // Handle success or redirect as needed
-            return back()->with('message', 'Product added');
+            // Set a success message in the session
+            Session::flash('success', 'Product added to shopping list.');
+
+            // Return a success response
+            return response()->json(['success' => true]);
         }
 
-        // Handle inactive product or invalid ID
-        return back()->with('message', 'smth');
+        // Return an error response
+        return response()->json(['error' => 'Invalid product or inactive'], 400);
     }
 }
