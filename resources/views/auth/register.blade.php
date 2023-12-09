@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="mt-4" style="display: block">
-                <x-input id="type" class="block mt-1 w-full" type="type" name="type" autocomplete="type" />
+                <x-input id="type" class="block mt-1 w-full" type="hidden" name="type" autocomplete="type" />
             </div>
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())

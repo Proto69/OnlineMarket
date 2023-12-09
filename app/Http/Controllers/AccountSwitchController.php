@@ -40,7 +40,9 @@ class AccountSwitchController extends Controller
             $user->save();
         }
 
-        // Redirect back to the user's profile or another appropriate route
-        return redirect()->route('dashboard');
+        if ($newType === 'Seller')
+            return redirect()->route('dashboard');
+        else
+            return redirect()->route('shopping');
     }
 }
