@@ -98,8 +98,6 @@
 
     $('.add-to-cart').on('click', function() {
         let productId = $(this).data('product-id');
-        console.log(productId);
-        console.log(typeof(productId));
         $.ajax({
             url: '/add-to-cart',
             method: 'POST',

@@ -8,7 +8,6 @@ use App\Models\ShoppingList;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Product;
-use Illuminate\Support\Facades\Session;
 
 class ShoppingListController extends Controller
 {
@@ -71,21 +70,39 @@ class ShoppingListController extends Controller
     public function addToShoppingList(Request $request)
     {
         $productId = $request->product_id;
-        
+        $userId = Auth::user()->id;
+
+
+
         // Retrieve the product based on the provided ID
         $product = Product::find($productId);
 
         // Check if the product exists and is active
         if ($product && $product->active) {
-            // Add the product to the shopping list
-            ShoppingList::create([
-                'buyers_user_id' => Auth::user()->id, // Assuming you have user authentication
-                'products_id' => $productId,
-                // Add other necessary fields to the shopping list entry
-            ]);
 
-            // Return a success response
-            return response()->json(['message' => 'Продуктът беше добавен успешно към количката']);
+            $shoppingListItem = ShoppingList::where('buyers_user_id', $userId)->where('products_id', $productId)->first();
+
+
+            if ($shoppingListItem) {
+
+                $newQuantity = $shoppingListItem->quantity + 1;
+
+                $shoppingListItem->quantity = $newQuantity;
+
+                $shoppingListItem->save();
+
+                return response()->json(['message' => 'Quantity updated successfully']);
+            } else {
+
+                ShoppingList::create([
+                    'buyers_user_id' => $userId,
+                    'products_id' => $productId,
+                    'quantity' => 1,
+                ]);
+
+                // Return a success response
+                return response()->json(['message' => 'Продуктът беше добавен успешно към количката']);
+            }
         }
 
         // Return an error response
