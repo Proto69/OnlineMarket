@@ -69,7 +69,25 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-3">
+                <button id="mode-toggle-light" class="dark:display-flex dark:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun align-middle">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
 
+                <button id="mode-toggle-dark" class="text-black dark:hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon align-middle">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
 
                 <!-- Settings Dropdown -->
                 <div class="ml-3 relative ">
@@ -239,5 +257,24 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
         closePopup();
         stripeField.value = userInput;
         accForm.submit();
+    });
+
+    const modeButtonDark = document.getElementById('mode-toggle-dark');
+    const modeButtonLight = document.getElementById('mode-toggle-light');
+
+    if (localStorage.theme === "light"){
+        modeButtonLight.classList.add('hidden');
+    }
+
+    modeButtonDark.addEventListener('click', function() {
+        console.log('clicked');
+        localStorage.theme = 'dark';
+        location.reload();
+    });
+
+    modeButtonLight.addEventListener('click', function() {
+        console.log('clicked');
+        localStorage.theme = 'light';
+        location.reload();
     });
 </script>

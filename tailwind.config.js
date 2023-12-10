@@ -21,4 +21,12 @@ export default {
     },
 
     plugins: [forms, typography, require('flowbite/plugin')],
+
+
 };
+
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+    darkMode: 'class',
+    // ...
+}

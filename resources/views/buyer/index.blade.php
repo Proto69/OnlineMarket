@@ -44,9 +44,6 @@
 </x-app-layout>
 
 <script>
-    const button = document.getElementById('close-toast-button');
-    const toastDiv = document.getElementById('toast-success');
-
     function createToast() {
         // Create a new toast element
         var toast = document.createElement('div');
