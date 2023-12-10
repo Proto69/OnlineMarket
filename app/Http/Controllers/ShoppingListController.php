@@ -68,8 +68,10 @@ class ShoppingListController extends Controller
         //
     }
 
-    public function addToShoppingList(Request $request, $productId)
+    public function addToShoppingList(Request $request)
     {
+        $productId = $request->product_id;
+        
         // Retrieve the product based on the provided ID
         $product = Product::find($productId);
 
@@ -82,14 +84,11 @@ class ShoppingListController extends Controller
                 // Add other necessary fields to the shopping list entry
             ]);
 
-            // Set a success message in the session
-            Session::flash('success', 'Product added to shopping list.');
-
             // Return a success response
-            return response()->json(['success' => true]);
+            return response()->json(['message' => 'Продуктът беше добавен успешно към количката']);
         }
 
         // Return an error response
-        return response()->json(['error' => 'Invalid product or inactive'], 400);
+        return response()->json(['message' => 'Invalid product or inactive']);
     }
 }

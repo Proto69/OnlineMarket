@@ -40,6 +40,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 
 
-    Route::post('/add-to-shopping-list/{productId}', [ShoppingListController::class, 'addToShoppingList'])->name('add.to.shopping.list');
     Route::post('/switch-account', [AccountSwitchController::class, 'switchAccount'])->name('switch.account');
 });
+
+Route::post('/add-to-cart', [ShoppingListController::class, 'addToShoppingList'])->name('add-to-cart');
