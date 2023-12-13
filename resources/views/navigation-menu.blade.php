@@ -70,20 +70,21 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
 
             <div class="hidden sm:flex sm:items-center sm:ml-3">
 
+                @if ($typeOfAccount === "Buyer")
                 <!-- Search input -->
-                <form class="me-3">
+                <form action="/search" method="GET" class="me-3">
+                    @csrf
                     <x-label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</x-label>
                     <div class="relative">
-                        
-                        <x-input type="search" id="default-search" class="block w-96 p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search . . ." required />
+                        <x-input type="search" name="keyWord" id="default-search" class="block w-96 p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search a product . . ." required />
                         <x-button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        <svg class="w-4 h-4 text-gray-100 dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <svg class="w-4 h-4 text-gray-100 dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                             </svg>
                         </x-button>
                     </div>
                 </form>
-
+                @endif
 
                 <!-- Button to set dark theme -->
                 <button id="mode-toggle-light" class="dark:display-flex dark:text-white">
@@ -256,12 +257,14 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
     const accForm = document.getElementById('switchAcc');
 
     // Function to open the pop-up
-    function openPopup() {
+    function openPopup() 
+    {
         popup.style.display = 'block';
     }
 
     // Function to close the pop-up
-    function closePopup() {
+    function closePopup() 
+    {
         popup.style.display = 'none';
     }
 
@@ -270,7 +273,8 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
     closeButton.addEventListener('click', closePopup);
 
     // Handle submit button click
-    submitButton.addEventListener('click', function() {
+    submitButton.addEventListener('click', function() 
+    {
         const userInput = inputField.value;
         closePopup();
         stripeField.value = userInput;
@@ -280,17 +284,20 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
     const modeButtonDark = document.getElementById('mode-toggle-dark');
     const modeButtonLight = document.getElementById('mode-toggle-light');
 
-    if (localStorage.theme === "light") {
+    if (localStorage.theme === "light") 
+    {
         modeButtonLight.classList.add('hidden');
     }
 
-    modeButtonDark.addEventListener('click', function() {
+    modeButtonDark.addEventListener('click', function() 
+    {
         console.log('clicked');
         localStorage.theme = 'dark';
         location.reload();
     });
 
-    modeButtonLight.addEventListener('click', function() {
+    modeButtonLight.addEventListener('click', function() 
+    {
         console.log('clicked');
         localStorage.theme = 'light';
         location.reload();

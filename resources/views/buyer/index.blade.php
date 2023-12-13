@@ -12,6 +12,7 @@
 
                     @foreach($products as $product)
                     @csrf
+                    @if ($product->active)
                     <div>
                         <div class="flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-6 h-6 stroke-gray-400">
@@ -28,12 +29,13 @@
                             Available quantity: {{ $product->quantity }}
                         </p>
 
-                        @if ($product->active)
+                        @if ($product->quantity !== 0)
                         <x-button class="add-to-cart mt-3" data-product-id="{{ $product->id }}">Add to cart</x-button>
                         @else
-                        <x-button class="mt-3" disabled> Out of stock</x-button>
+                        <x-button class="mt-3" disabled>Out of stock</x-button>
                         @endif
                     </div>
+                    @endif
                     @endforeach
 
                 </div>

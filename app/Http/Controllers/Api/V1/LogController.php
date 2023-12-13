@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Requests\StoreBuyerRequest;
-use App\Http\Requests\UpdateBuyerRequest;
-use App\Models\Buyer;
+use App\Http\Requests\StoreLogRequest;
+use App\Http\Requests\UpdateLogRequest;
+use App\Models\Log;
+use App\Http\Controllers\Controller;
 
-class BuyerController extends Controller
+class LogController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class BuyerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBuyerRequest $request)
+    public function store(StoreLogRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class BuyerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Buyer $buyer)
+    public function show(Log $log)
     {
         //
     }
@@ -43,7 +44,7 @@ class BuyerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Buyer $buyer)
+    public function edit(Log $log)
     {
         //
     }
@@ -51,7 +52,7 @@ class BuyerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBuyerRequest $request, Buyer $buyer)
+    public function update(UpdateLogRequest $request, Log $log)
     {
         //
     }
@@ -59,7 +60,7 @@ class BuyerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Buyer $buyer)
+    public function destroy(Log $log)
     {
         //
     }

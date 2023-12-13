@@ -1,19 +1,32 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Filters\V1\ProductFilter;
+use App\Http\Resources\ProductCollection;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $filter = new ProductFilter();
+        $queryItems = $filter->transform($request); // ['column', 'operator', 'value']
+        
+        $products = Product::query();
+        
+        if (count($queryItems) > 0) {
+            $products->where($queryItems);
+        }
+    
+        return new ProductCollection($products->get());
     }
 
     /**

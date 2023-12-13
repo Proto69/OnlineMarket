@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
-
-
+use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
@@ -20,6 +19,23 @@ class PageController extends Controller
         }
 
         $products = Product::all();
+
+        return view('buyer.index', compact('products'));
+    }
+
+    public function shoppingKeyWord(Request $request)
+    {
+        $typeOfAccount = Auth::user()->type;
+
+        if ($typeOfAccount !== 'Buyer') {
+            abort(404); // If type is not 'Buyer', return a 404 not found error
+        }
+
+        $keyWord = $request->keyWord;
+
+        $products = Product::where(function ($query) use ($keyWord){
+            $query -> where('name', 'like', "%$keyWord%");
+        })->get();
 
         return view('buyer.index', compact('products'));
     }

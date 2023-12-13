@@ -56,16 +56,3 @@
 </body>
 
 </html>
-
-<script>
-    const modeButton = document.getElementById('mode-toggle');
-
-    modeButton.addEventListener('click', function() {
-        console.log('clicked');
-        if (localStorage.theme === "dark")
-            localStorage.theme = 'light';
-        else
-            localStorage.theme = 'dark';
-        location.reload();
-    });
-</script>

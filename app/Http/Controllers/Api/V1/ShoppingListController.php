@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Requests\StoreShoppingListRequest;
 use App\Http\Requests\UpdateShoppingListRequest;
@@ -8,6 +8,7 @@ use App\Models\ShoppingList;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Http\Controllers\Controller;
 
 class ShoppingListController extends Controller
 {

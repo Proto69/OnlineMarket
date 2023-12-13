@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AccountSwitchController;
-use App\Http\Controllers\ShoppingListController;
+use App\Http\Controllers\Api\V1\ShoppingListController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Session;
 
@@ -39,8 +38,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     });
 
 
-
     Route::post('/switch-account', [AccountSwitchController::class, 'switchAccount'])->name('switch.account');
+    Route::post('/add-to-cart', [ShoppingListController::class, 'addToShoppingList'])->name('add-to-cart');
 });
 
-Route::post('/add-to-cart', [ShoppingListController::class, 'addToShoppingList'])->name('add-to-cart');
+Route::get('/search', [PageController::class, 'shoppingKeyWord']);
