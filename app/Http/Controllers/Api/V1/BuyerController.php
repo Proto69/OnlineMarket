@@ -6,6 +6,9 @@ use App\Http\Requests\StoreBuyerRequest;
 use App\Http\Requests\UpdateBuyerRequest;
 use App\Models\Buyer;
 use App\Http\Controllers\Controller;
+use App\Models\ShoppingList;
+use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 class BuyerController extends Controller
 {
@@ -63,5 +66,25 @@ class BuyerController extends Controller
     public function destroy(Buyer $buyer)
     {
         //
+    }
+
+    public function getShoppingCart()
+    {
+        $userId = Auth::user()->id;
+
+        // Fetch shopping cart items for the user
+        $shoppingCart = ShoppingList::where('buyers_user_id', $userId)->get();
+
+        $products = [];
+
+        foreach ($shoppingCart as $shoppingItem) {
+            // Fetch each product related to the shopping cart item
+            $product = Product::where('id', $shoppingItem->products_id)->first();
+
+            // Add the fetched product to the $products array
+            $products[] = $product;
+        }
+
+        return $products;
     }
 }

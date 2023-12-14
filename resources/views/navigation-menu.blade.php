@@ -10,7 +10,18 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
 
 
 
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+<nav id="navMenu" x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+
+    <!-- Popup -->
+    <div id="popup" style="display: none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(17, 24, 39, 0.7); backdrop-filter: blur(10px);">
+        <div style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);background-color: rgba(17, 24, 39);;padding: 20px;border-radius: 5px;text-align: center;">
+            <h2 style="color: #fff">Enter your Stripe Key</h2>
+            <x-input type="text" id="inputField" placeholder="Enter your Stripe Key" style="width: 80%;padding: 10px;" class="mt-1 mb-4" />
+            <x-secondary-button id="submitInput" type="button">Save</x-secondary-button>
+            <x-danger-button id="closePopup" type="button">Cancel</x-danger-button>
+        </div>
+    </div>
+
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -58,14 +69,13 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex relative">
                     <x-nav-link href="{{ route('shopping-cart') }}" :active="request()->routeIs('shopping-cart')">
                         {{ __('Shopping cart') }}
                     </x-nav-link>
                 </div>
                 @endif
-
-
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-3">
@@ -176,15 +186,21 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                 </div>
             </div>
 
-            <!-- Popup -->
-            <div id="popup" style="display: none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(17, 24, 39, 0.7); backdrop-filter: blur(10px);">
-                <div style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);background-color: rgba(17, 24, 39);;padding: 20px;border-radius: 5px;text-align: center;">
-                    <h2 style="color: #fff">Enter your Stripe Key</h2>
-                    <x-input type="text" id="inputField" placeholder="Enter your Stripe Key" style="width: 80%;padding: 10px;" class="mt-1 mb-4" />
-                    <x-secondary-button id="submitInput" type="button">Save</x-secondary-button>
-                    <x-danger-button id="closePopup" type="button">Cancel</x-danger-button>
+            @if ($typeOfAccount === "Buyer")
+            <!-- Search input -->
+            <form action="/search" method="GET" class="me-3 sm:hidden">
+                @csrf
+                <x-label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</x-label>
+                <div class="relative">
+                    <x-input type="search" name="keyWord" id="default-search" class="block w-96 p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search a product . . ." required />
+                    <x-button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <svg class="w-4 h-4 text-gray-100 dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                        </svg>
+                    </x-button>
                 </div>
-            </div>
+            </form>
+            @endif
 
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
@@ -200,6 +216,7 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
@@ -257,14 +274,12 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
     const accForm = document.getElementById('switchAcc');
 
     // Function to open the pop-up
-    function openPopup() 
-    {
+    function openPopup() {
         popup.style.display = 'block';
     }
 
     // Function to close the pop-up
-    function closePopup() 
-    {
+    function closePopup() {
         popup.style.display = 'none';
     }
 
@@ -273,8 +288,7 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
     closeButton.addEventListener('click', closePopup);
 
     // Handle submit button click
-    submitButton.addEventListener('click', function() 
-    {
+    submitButton.addEventListener('click', function() {
         const userInput = inputField.value;
         closePopup();
         stripeField.value = userInput;
@@ -284,20 +298,17 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
     const modeButtonDark = document.getElementById('mode-toggle-dark');
     const modeButtonLight = document.getElementById('mode-toggle-light');
 
-    if (localStorage.theme === "light") 
-    {
+    if (localStorage.theme === "light") {
         modeButtonLight.classList.add('hidden');
     }
 
-    modeButtonDark.addEventListener('click', function() 
-    {
+    modeButtonDark.addEventListener('click', function() {
         console.log('clicked');
         localStorage.theme = 'dark';
         location.reload();
     });
 
-    modeButtonLight.addEventListener('click', function() 
-    {
+    modeButtonLight.addEventListener('click', function() {
         console.log('clicked');
         localStorage.theme = 'light';
         location.reload();
