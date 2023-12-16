@@ -59,11 +59,15 @@ class PageController extends Controller
             $products[] = $product;
         }
 
-        $sum = Product::join('shopping_lists', 'products.id', '=', 'shopping_lists.products_id')
-            ->where('shopping_lists.buyers_user_id', $userId)
-            ->sum('products.price');
+        $sum = 0.00;
 
-        return view('buyer.shopping-cart',['products' => $products], compact('sum'));
+        foreach ($products as $product){
+            $quantity = ShoppingList::where('products_id', $product->id)->first()->quantity;
+            $price = $product->price * $quantity;
+            $sum += $price;
+        }
+
+        return view('buyer.shopping-cart',['products' => $products], ['sum' => $sum]);
     }
 
     public function previousPurchases()
