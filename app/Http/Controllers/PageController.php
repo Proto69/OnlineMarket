@@ -43,31 +43,33 @@ class PageController extends Controller
 
     public function shoppingCart()
     {
-        $typeOfAccount = Auth::user()->type;
-        $userId = Auth::user()->id;
+        $user = Auth::user();
 
-        if ($typeOfAccount !== 'Buyer') {
+        if ($user->type !== 'Buyer') {
             abort(404); // If type is not 'Buyer', return a 404 not found error
         }
 
-        $productIds = ShoppingList::where('buyers_user_id', $userId)->get();
-        $products = [];
+        $shoppingList = ShoppingList::where('buyers_user_id', $user->id)->get();
 
-        foreach ($productIds as $item) {
-            $product = Product::where('id', $item->products_id)->first();
-            $product->bought_quantity = $item->quantity;
-            $products[] = $product;
-        }
+        $products = [];
 
         $sum = 0.00;
 
-        foreach ($products as $product){
-            $quantity = ShoppingList::where('products_id', $product->id)->first()->quantity;
-            $price = $product->price * $quantity;
-            $sum += $price;
+        foreach ($shoppingList as $item) {
+            $product = Product::find($item->products_id);
+
+            if ($product) {
+                $product->bought_quantity = $item->quantity;
+                $price = $product->price * $item->quantity;
+                $sum += $price;
+                $products[] = $product;
+            }
         }
 
-        return view('buyer.shopping-cart',['products' => $products], ['sum' => $sum]);
+        return view('buyer.shopping-cart', [
+            'products' => $products,
+            'sum' => $sum
+        ]);
     }
 
     public function previousPurchases()

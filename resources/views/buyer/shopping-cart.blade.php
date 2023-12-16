@@ -3,10 +3,6 @@
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Shopping Cart') }}
         </h2>
-
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight mt-2">
-            Обща сума: {{ $sum }}
-        </h2>
     </x-slot>
 
     <div class="py-12">
@@ -51,67 +47,72 @@
                 </div>
                 @endforeach
             </div>
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg pt-3 mt-4">
+                <h2 class="dark:text-white text-black font-semibold text-xl ps-3">
+                    Reciept:
+                </h2>
+                @foreach ($products as $product)
+                <p class="ps-3 dark:text-gray-400 text-gray-900 receipt-section">
+                    {{ $product->name }} x {{ $product->bought_quantity }} = {{ $product->price * $product->bought_quantity}}
+                </p>
+                @endforeach
+
+                <h1 class="ps-3 dark:text-lime-400 text-lime-600 font-bold text-2xl pt-3 total-sum">
+                    Total sum: {{ $sum }}
+                </h1>
+
+                
+            </div>
         </div>
     </div>
 </x-app-layout>
 
 <script>
-    $('.decrement-button').on('click', function() {
-        let boughtQuantity = parseInt($(this).siblings('.quantity-input').val()) - 1;
+    $('.decrement-button, .increment-button').on('click', function() {
+        let currentValue = parseInt($(this).siblings('.quantity-input').val());
         let productId = $(this).data('product-id');
         let minValue = $(this).siblings('.quantity-input').data('input-counter-min');
-        if (boughtQuantity < minValue) {
-            boughtQuantity += 1;
-        }
-        console.log(boughtQuantity);
-        console.log(productId);
-        $.ajax({
-            url: '/edit-quantity',
-            method: 'POST',
-            data: {
-                product_id: productId,
-                new_bought_quantity: boughtQuantity,
-                "_token": "{{ csrf_token() }}"
-            },
-            success: function(response) {
-                console.log('success');
-            },
-            error: function(xhr, status, error) {
-                console.error('Error:', error);
-                console.error('Status:', status);
-                console.error('Response Text:', xhr.responseText);
-            }
-
-        });
-    });
-
-    $('.increment-button').on('click', function() {
-        let boughtQuantity = parseInt($(this).siblings('.quantity-input').val());
-        let productId = $(this).data('product-id');
         let maxValue = $(this).siblings('.quantity-input').data('input-counter-max');
-        boughtQuantity += 1;
-        if (boughtQuantity > maxValue) {
-            boughtQuantity -= 1;
+
+        // Decrement or increment based on the clicked button
+        if ($(this).hasClass('decrement-button')) {
+            currentValue = Math.max(currentValue - 1, minValue);
+        } else {
+            currentValue = Math.min(currentValue + 1, maxValue);
         }
-        console.log(boughtQuantity);
-        console.log(productId);
+
+        // Make the AJAX request
+        updateQuantity(productId, currentValue);
+    });
+
+    function updateQuantity(productId, newQuantity) {
         $.ajax({
             url: '/edit-quantity',
             method: 'POST',
             data: {
                 product_id: productId,
-                new_bought_quantity: boughtQuantity,
+                new_bought_quantity: newQuantity,
                 "_token": "{{ csrf_token() }}"
             },
             success: function(response) {
                 console.log('success');
+
+                let receiptHTML = '';
+                response.products.forEach(product => {
+                    receiptHTML += `<p>${product.name} x ${product.bought_quantity} = ${product.price * product.bought_quantity}</p>`;
+                });
+
+                // Replace the receipt section content
+                $('.receipt-section').html(receiptHTML);
+
+                // Update the total sum
+                $('.total-sum').text(`Total sum: ${response.sum}`);
             },
             error: function(xhr, status, error) {
                 console.error('Error:', error);
                 console.error('Status:', status);
                 console.error('Response Text:', xhr.responseText);
             }
-
         });
-    });
+    }
 </script>

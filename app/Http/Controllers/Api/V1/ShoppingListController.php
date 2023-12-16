@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 
 class ShoppingListController extends Controller
 {
@@ -114,12 +115,41 @@ class ShoppingListController extends Controller
     {
         $productId = $request->product_id;
         $newBoughtQuantity = $request->new_bought_quantity;
-        $userId = Auth::user()->id;   
+        $userId = Auth::user()->id;
 
-        $shoppingList = ShoppingList::where('buyers_user_id', $userId)->where('products_id', $productId)->first();
+        // Validate and authorize the user
+        $shoppingListItem = ShoppingList::where('buyers_user_id', $userId)
+            ->where('products_id', $productId)
+            ->firstOrFail(); // Fail if item not found or unauthorized
 
-        $shoppingList->quantity = $newBoughtQuantity;
+        // Update quantity and save
+        $shoppingListItem->quantity = $newBoughtQuantity;
+        $shoppingListItem->save();
 
-        $shoppingList->save();
+        // Fetch updated product list and total sum
+        $products = [];
+        $sum = 0.00;
+
+        $shoppingList = ShoppingList::where('buyers_user_id', $userId)->get();
+
+        foreach ($shoppingList as $item) {
+            $product = Product::find($item->products_id);
+
+            if ($product) {
+                $product->bought_quantity = $item->quantity;
+                $price = $product->price * $item->quantity;
+                $sum += $price;
+                $products[] = $product;
+            }
+        }
+
+        // Prepare data to return
+        $data = [
+            'products' => $products,
+            'sum' => $sum
+        ];
+
+        // Return a JSON response with the updated data
+        return response()->json($data, Response::HTTP_OK);
     }
 }
