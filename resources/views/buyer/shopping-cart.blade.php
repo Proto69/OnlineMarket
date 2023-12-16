@@ -28,15 +28,16 @@
                     </p>
 
                     <form class="max-w-xs mx-auto">
+                        @csrf
                         <label for="quantity-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Edit quantity:</label>
                         <div class="relative flex items-center max-w-[8rem]">
-                            <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input" class="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                            <button type="button" id="decrement-button" data-product-id="{{ $product->id }}" data-input-counter-decrement="quantity-input" class="decrement-button bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
                                 <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
                                 </svg>
                             </button>
-                            <input type="text" id="quantity-input" data-input-counter data-input-counter-min="1" data-input-counter-max="{{ $product->quantity }}" aria-describedby="helper-text-explanation" class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $product->bought_quantity }}" required>
-                            <button type="button" id="increment-button" data-input-counter-increment="quantity-input" class="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                            <input type="text" id="quantity-input" data-input-counter data-input-counter-min="1" data-input-counter-max="{{ $product->quantity }}" aria-describedby="helper-text-explanation" class="quantity-input bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $product->bought_quantity }}" required>
+                            <button type="button" id="increment-button" data-product-id="{{ $product->id }}" data-input-counter-increment="quantity-input" class="increment-button bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
                                 <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
                                 </svg>
@@ -53,3 +54,64 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    $('.decrement-button').on('click', function() {
+        let boughtQuantity = parseInt($(this).siblings('.quantity-input').val()) - 1;
+        let productId = $(this).data('product-id');
+        let minValue = $(this).siblings('.quantity-input').data('input-counter-min');
+        if (boughtQuantity < minValue) {
+            boughtQuantity += 1;
+        }
+        console.log(boughtQuantity);
+        console.log(productId);
+        $.ajax({
+            url: '/edit-quantity',
+            method: 'POST',
+            data: {
+                product_id: productId,
+                new_bought_quantity: boughtQuantity,
+                "_token": "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                console.log('success');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                console.error('Status:', status);
+                console.error('Response Text:', xhr.responseText);
+            }
+
+        });
+    });
+
+    $('.increment-button').on('click', function() {
+        let boughtQuantity = parseInt($(this).siblings('.quantity-input').val());
+        let productId = $(this).data('product-id');
+        let maxValue = $(this).siblings('.quantity-input').data('input-counter-max');
+        boughtQuantity += 1;
+        if (boughtQuantity > maxValue) {
+            boughtQuantity -= 1;
+        }
+        console.log(boughtQuantity);
+        console.log(productId);
+        $.ajax({
+            url: '/edit-quantity',
+            method: 'POST',
+            data: {
+                product_id: productId,
+                new_bought_quantity: boughtQuantity,
+                "_token": "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                console.log('success');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                console.error('Status:', status);
+                console.error('Response Text:', xhr.responseText);
+            }
+
+        });
+    });
+</script>

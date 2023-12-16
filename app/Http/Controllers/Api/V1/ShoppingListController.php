@@ -109,4 +109,17 @@ class ShoppingListController extends Controller
         // Return an error response
         return response()->json(['message' => 'Invalid product or inactive']);
     }
+
+    public function editQuantity(Request $request)
+    {
+        $productId = $request->product_id;
+        $newBoughtQuantity = $request->new_bought_quantity;
+        $userId = Auth::user()->id;   
+
+        $shoppingList = ShoppingList::where('buyers_user_id', $userId)->where('products_id', $productId)->first();
+
+        $shoppingList->quantity = $newBoughtQuantity;
+
+        $shoppingList->save();
+    }
 }
