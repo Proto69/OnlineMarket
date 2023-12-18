@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Shopping') }}
+            {{ __('Пазаруване') }}
         </h2>
     </x-slot>
 
@@ -15,10 +15,7 @@
                     @if ($product->active)
                     <div class="border border-gray-300 p-4 rounded-lg">
                         <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-6 h-6 stroke-gray-400">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-                            </svg>
-                            <h2 class="ml-3 text-xl font-semibold text-gray-900 dark:text-white">
+                            <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
                                 <a href="https://laravel.com/docs">{{ $product->name}}</a>
                             </h2>
                         </div>
@@ -26,13 +23,13 @@
                         <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
                             {{ $product->description }}
                             <br />
-                            Available quantity: {{ $product->quantity }}
+                            Налично количество: {{ $product->quantity }}
                         </p>
 
                         @if ($product->quantity !== 0)
-                        <x-button class="add-to-cart mt-3" data-product-id="{{ $product->id }}">Add to cart</x-button>
+                        <x-button class="add-to-cart mt-3" data-product-id="{{ $product->id }}">Добави в количка</x-button>
                         @else
-                        <x-button class="mt-3" disabled>Out of stock</x-button>
+                        <x-button class="mt-3" disabled>Изчерпан</x-button>
                         @endif
                     </div>
                     @endif

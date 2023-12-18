@@ -15,10 +15,10 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
     <!-- Popup -->
     <div id="popup" style="display: none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(17, 24, 39, 0.7); backdrop-filter: blur(10px);">
         <div style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);background-color: rgba(17, 24, 39);;padding: 20px;border-radius: 5px;text-align: center;">
-            <h2 style="color: #fff">Enter your Stripe Key</h2>
+            <h2 style="color: #fff">Въведи твоя Stripe Key</h2>
             <x-input type="text" id="inputField" placeholder="Enter your Stripe Key" style="width: 80%;padding: 10px;" class="mt-1 mb-4" />
-            <x-secondary-button id="submitInput" type="button">Save</x-secondary-button>
-            <x-danger-button id="closePopup" type="button">Cancel</x-danger-button>
+            <x-secondary-button id="submitInput" type="button">Запази</x-secondary-button>
+            <x-danger-button id="closePopup" type="button">Отказ</x-danger-button>
         </div>
     </div>
 
@@ -45,13 +45,13 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Manage products') }}
+                        {{ __('Управляване на продукти') }}
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('sells') }}" :active="request()->routeIs('sells')">
-                        {{ __('Sells') }}
+                        {{ __('Продажби') }}
                     </x-nav-link>
                 </div>
 
@@ -59,20 +59,20 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('shopping') }}" :active="request()->routeIs('shopping')">
-                        {{ __('Shopping') }}
+                        {{ __('Пазаруване') }}
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('previous-purchases') }}" :active="request()->routeIs('previous-purchases')">
-                        {{ __('Previous purchases') }}
+                        {{ __('Минали покупки') }}
                     </x-nav-link>
                 </div>
 
                 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex relative">
                     <x-nav-link href="{{ route('shopping-cart') }}" :active="request()->routeIs('shopping-cart')">
-                        {{ __('Shopping cart') }}
+                        {{ __('Количка') }}
                     </x-nav-link>
                 </div>
                 @endif
@@ -84,9 +84,9 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                 <!-- Search input -->
                 <form action="/search" method="GET" class="me-3">
                     @csrf
-                    <x-label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</x-label>
+                    <x-label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Търси</x-label>
                     <div class="relative">
-                        <x-input type="search" name="keyWord" id="default-search" class="block w-96 p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search a product . . ." required />
+                        <x-input type="search" name="keyWord" id="default-search" class="block w-96 p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Търси продукт . . ." required />
                         <x-button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             <svg class="w-4 h-4 text-gray-100 dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
@@ -142,11 +142,11 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                         <x-slot name="content">
                             <!-- Account Management -->
                             <div class="block px-4 py-2 text-xs text-gray-400">
-                                {{ __('Manage Account') }}
+                                {{ __('Управляване на акаунт') }}
                             </div>
 
                             <x-dropdown-link href="{{ route('profile.show') }}">
-                                {{ __('Profile') }}
+                                {{ __('Профил') }}
                             </x-dropdown-link>
 
                             <form id="switchAcc" method="POST" action="{{ route('switch.account') }}">
@@ -156,17 +156,17 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                                 <input type="hidden" name="stripe_key" id="stripe_key">
                                 @if (!$existingSeller)
                                 <x-dropdown-link id="openPopup" href="{{ route('dashboard') }}" onclick="event.preventDefault();">
-                                    {{ __('Switch to Seller') }}
+                                    {{ __('Премини към продавач') }}
                                 </x-dropdown-link>
                                 @else
                                 <x-dropdown-link href="{{ route('dashboard') }}" onclick="event.preventDefault(); this.closest('form').submit();">
-                                    {{ __('Switch to Seller') }}
+                                    {{ __('Премини към продавач') }}
                                 </x-dropdown-link>
                                 @endif
                                 @else ($typeOfAccount === "Seller")
                                 <input type="hidden" name="newType" value="Buyer">
                                 <x-dropdown-link href="{{ route('dashboard') }}" onclick="event.preventDefault(); this.closest('form').submit();">
-                                    {{ __('Switch to Buyer') }}
+                                    {{ __('Премини към купувач') }}
                                 </x-dropdown-link>
                                 @endif
                             </form>
@@ -178,7 +178,7 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                                 @csrf
 
                                 <x-dropdown-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
-                                    {{ __('Log Out') }}
+                                    {{ __('Изход') }}
                                 </x-dropdown-link>
                             </form>
                         </x-slot>
@@ -190,9 +190,8 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
             <!-- Search input -->
             <form action="/search" method="GET" class="me-3 sm:hidden">
                 @csrf
-                <x-label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</x-label>
+                <x-label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Търси</x-label>
                 <div class="relative">
-                    <x-input type="search" name="keyWord" id="default-search" class="block w-96 p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search a product . . ." required />
                     <x-button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         <svg class="w-4 h-4 text-gray-100 dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
@@ -255,7 +254,7 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                     @csrf
 
                     <x-responsive-nav-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
-                        {{ __('Log Out') }}
+                        {{ __('Изход') }}
                     </x-responsive-nav-link>
                 </form>
             </div>
