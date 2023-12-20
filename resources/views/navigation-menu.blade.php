@@ -63,16 +63,20 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <!-- Future ideas -->
+                <!-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('previous-purchases') }}" :active="request()->routeIs('previous-purchases')">
                         {{ __('Минали покупки') }}
                     </x-nav-link>
-                </div>
+                </div> -->
 
-                
+
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex relative">
                     <x-nav-link href="{{ route('shopping-cart') }}" :active="request()->routeIs('shopping-cart')">
                         {{ __('Количка') }}
+                        <svg class="ms-1 w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9V4a3 3 0 0 0-6 0v5m9.92 10H2.08a1 1 0 0 1-1-1.077L2 6h14l.917 11.923A1 1 0 0 1 15.92 19Z" />
+                        </svg>
                     </x-nav-link>
                 </div>
                 @endif
