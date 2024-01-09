@@ -7,16 +7,15 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="bg-gray-200 dark:bg-gray-800 bg-opacity-25 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 p-6 lg:p-8">
+            <div class="overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="bg-transparent bg-opacity-25 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-6 p-6">
 
                     @foreach($products as $product)
-                    @csrf
                     @if ($product->active)
-                    <div class="border border-gray-300 p-4 rounded-lg">
+                    <div class="bg-gray-300 dark:bg-gray-800 border border-gray-300 p-4 rounded-lg">
                         <div class="flex items-center">
                             <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                <a href="https://laravel.com/docs">{{ $product->name}}</a>
+                                <a">{{ $product->name }}</a>
                             </h2>
                         </div>
                         <input type="hidden" name="product_id" value="{{ $product->id }}">

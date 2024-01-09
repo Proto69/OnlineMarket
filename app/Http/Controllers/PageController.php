@@ -38,7 +38,7 @@ class PageController extends Controller
             $query->where('name', 'like', "%$keyWord%");
         })->get();
 
-        return view('buyer.index', compact('products'));
+        return view('buyer.index', ['products' => $products]);
     }
 
     public function shoppingCart()
@@ -85,13 +85,17 @@ class PageController extends Controller
 
     public function sellerDashboard()
     {
-        $typeOfAccount = Auth::user()->type;
+        $user = Auth::user();
+        $userId = $user->id;
+        $typeOfAccount = $user->type;
 
         if ($typeOfAccount !== 'Seller') {
             return redirect()->route('shopping');
         }
 
-        return view('seller.index');
+        $products = Product::where('seller_user_id', $userId)->get();
+
+        return view('seller.index', ['products' => $products]);
     }
 
     public function sells()
