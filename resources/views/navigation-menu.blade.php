@@ -276,19 +276,15 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
     const stripeField = document.getElementById('stripe_key');
     const accForm = document.getElementById('switchAcc');
 
-    // Function to open the pop-up
-    function openPopup() {
-        popup.style.display = 'block';
+    if (openButton != null && closeButton != null) {
+        // Event listeners
+        openButton.addEventListener('click', function() {
+            popup.style.display = 'block';
+        });
+        closeButton.addEventListener('click', function() {
+            popup.style.display = 'none';
+        });
     }
-
-    // Function to close the pop-up
-    function closePopup() {
-        popup.style.display = 'none';
-    }
-
-    // Event listeners
-    openButton.addEventListener('click', openPopup);
-    closeButton.addEventListener('click', closePopup);
 
     // Handle submit button click
     submitButton.addEventListener('click', function() {

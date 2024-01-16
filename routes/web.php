@@ -5,6 +5,7 @@ use App\Http\Controllers\AccountSwitchController;
 use App\Http\Controllers\Api\V1\ShoppingListController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Api\V1\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +41,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::post('/switch-account', [AccountSwitchController::class, 'switchAccount'])->name('switch.account');
     Route::post('/add-to-cart', [ShoppingListController::class, 'addToShoppingList'])->name('add-to-cart');
-    Route::post('/edit-quantity', [ShoppingListController::class, 'editQuantity'])->name('edit-quantity');
+    Route::post('/edit-shopping-quantity', [ShoppingListController::class, 'editShoppingQuantity'])->name('edit-shopping-quantity');
+    Route::post('/edit-product', [ProductController::class, 'edit'])->name('edit-product');
 
     Route::get('/remove-product-from-cart', [ShoppingListController::class, 'removeProduct']);
     Route::get('/search', [PageController::class, 'shoppingKeyWord']);

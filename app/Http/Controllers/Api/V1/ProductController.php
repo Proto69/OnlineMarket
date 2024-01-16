@@ -9,6 +9,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Filters\V1\ProductFilter;
 use App\Http\Resources\ProductCollection;
+use App\Http\Resources\ProductResource;
+use Illuminate\Http\Response;
+
 
 class ProductController extends Controller
 {
@@ -30,19 +33,11 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        return new ProductResource(Product::create($request->all()));
     }
 
     /**
@@ -50,15 +45,36 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return new ProductResource($product); 
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit(Request $request)
     {
-        //
+        $productId = $request->product_id;
+        $newQuantity = $request->quantity;
+        $newName = $request->name;
+        $newDescription = $request->description;
+        $newPrice = $request->price;
+        $newState = $request->state;
+
+        $product = Product::where('id', $productId)->first();
+
+        if ($product) {
+            $product->quantity = $newQuantity;
+            $product->name = $newName;
+            $product->description = $newDescription;
+            $product->price = $newPrice;
+            $product->active = $newState;
+
+            $product->save();
+
+            return response()->json(Response::HTTP_OK);
+        }
+
+        return response()->json(Response::HTTP_NOT_MODIFIED);
     }
 
     /**
@@ -66,7 +82,8 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $this->checkIfAuthorized($product);
+        $product->update($request->all());
     }
 
     /**

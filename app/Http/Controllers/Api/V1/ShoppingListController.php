@@ -111,7 +111,7 @@ class ShoppingListController extends Controller
         return response()->json(['message' => 'Invalid product or inactive']);
     }
 
-    public function editQuantity(Request $request)
+    public function editShoppingQuantity(Request $request)
     {
         $productId = $request->product_id;
         $newBoughtQuantity = $request->new_bought_quantity;
@@ -151,6 +151,29 @@ class ShoppingListController extends Controller
 
         // Return a JSON response with the updated data
         return response()->json($data, Response::HTTP_OK);
+    }
+
+    public function editProduct(Request $request)
+    {
+        $productId = $request->product_id;
+        $newQuantity = $request->new_quantity;
+        $newName = $request->new_name;
+        $newDescription = $request->new_description;
+        $newPrice = $request->new_price;
+
+        $product = Product::where('id', $productId)->get();
+
+        if ($product) {
+            $product->quantity = $newQuantity;
+            $product->name = $newName;
+            $product->description = $newDescription;
+            $product->price = $newPrice;
+
+            return response()->json(Response::HTTP_OK);
+        }
+
+        return response()->json(Response::HTTP_NOT_MODIFIED);
+
     }
 
     public function removeProduct(Request $request)

@@ -12,24 +12,32 @@
 
                     @foreach($products as $product)
                     @if ($product->active)
-                    <div class="bg-gray-300 dark:bg-gray-800 border border-gray-300 p-4 rounded-lg">
-                        <div class="flex items-center">
-                            <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                <a">{{ $product->name }}</a>
-                            </h2>
-                        </div>
-                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                            {{ $product->description }}
-                            <br />
-                            Налично количество: {{ $product->quantity }}
-                        </p>
+                    <div class="w-full max-w-sm bg-white border border-gray-300 rounded-lg shadow dark:bg-gray-800 p-4">
+                        <a href="#">
+                            <img class="p-8 rounded-t-lg" src="/docs/images/products/apple-watch.png" alt="product image" />
+                        </a>
+                        <div class="px-5 pb-5">
+                            <a href="#">
+                                <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ $product->name }}</h5>
+                            </a>
+                            <div class="flex items-center mt-2.5 mb-5">
+                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
+                                    {{ $product->description }}
+                                    <br />
+                                    Налично количество: {{ $product->quantity }}
+                                </p>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-3xl font-bold text-gray-900 dark:text-white">${{ $product->price }}</span>
+                                @if ($product->quantity !== 0)
+                                <x-button class="add-to-cart mt-3" data-product-id="{{ $product->id }}">Добави в количка</x-button>
+                                @else
+                                <x-button class="mt-3" disabled>Изчерпан</x-button>
+                                @endif
 
-                        @if ($product->quantity !== 0)
-                        <x-button class="add-to-cart mt-3" data-product-id="{{ $product->id }}">Добави в количка</x-button>
-                        @else
-                        <x-button class="mt-3" disabled>Изчерпан</x-button>
-                        @endif
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            </div>
+                        </div>
                     </div>
                     @endif
                     @endforeach
