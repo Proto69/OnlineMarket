@@ -29,7 +29,7 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
             'type' => ['required', 'string'],
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
-            'stripe_key' => ['nullable','string']
+            'stripe_key' => ['nullable', 'string']
         ])->validate();
 
         return DB::transaction(function () use ($input) {
@@ -39,6 +39,8 @@ class CreateNewUser implements CreatesNewUsers
                 'password' => Hash::make($input['password']),
                 'type' => $input['type'],
             ]);
+
+            $token = $user->createToken('personal_token')->accessToken;
 
             if ($input['type'] === 'Seller') {
                 Seller::create([
@@ -52,10 +54,7 @@ class CreateNewUser implements CreatesNewUsers
                 ]);
             }
 
-            $user->createToken('personal_token');
-            
             return $user;
         });
-        
     }
 }
