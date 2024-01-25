@@ -21,7 +21,7 @@ use App\Http\Controllers\Api\V1\ProductController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 // Routes with verification
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
@@ -32,6 +32,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/previous-purchases', [PageController::class, 'previousPurchases'])->name('previous-purchases');
     Route::get('/dashboard', [PageController::class, 'sellerDashboard'])->name('dashboard');
     Route::get('/sells', [PageController::class, 'sells'])->name('sells');
+    Route::get('/new-product', [PageController::class, 'newProduct'])->name('new-product');
+    Route::post('/new-product', [ProductController::class, 'store'])->name('new-product');
 
 
     Route::get('/get-session-message', function () {

@@ -108,4 +108,15 @@ class PageController extends Controller
 
         return view('seller.sells');
     }
+
+    public function newProduct()
+    {
+        $typeOfAccount = Auth::user()->type;
+
+        if ($typeOfAccount !== 'Seller') {
+            abort(404); // If type is not 'Seller', return a 404 not found error
+        }
+        
+        return view('seller.new-product');
+    }
 }

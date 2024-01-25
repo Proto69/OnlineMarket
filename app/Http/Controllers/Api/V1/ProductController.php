@@ -22,13 +22,13 @@ class ProductController extends Controller
     {
         $filter = new ProductFilter();
         $queryItems = $filter->transform($request); // ['column', 'operator', 'value']
-        
+
         $products = Product::query();
-        
+
         if (count($queryItems) > 0) {
             $products->where($queryItems);
         }
-    
+
         return new ProductCollection($products->get());
     }
 
@@ -37,7 +37,14 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        return new ProductResource(Product::create($request->all()));
+        $name = $request->name;
+        $description = $request->description;
+        $quantity = $request->quantity;
+        $price = $request->price;
+        $bought_quantity = 0;
+        $currency = "eur";
+        $active = 1;
+        $product_key = getProductKey();
     }
 
     /**
@@ -45,7 +52,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return new ProductResource($product); 
+        return new ProductResource($product);
     }
 
     /**
@@ -84,6 +91,13 @@ class ProductController extends Controller
     {
         $this->checkIfAuthorized($product);
         $product->update($request->all());
+    }
+
+    // Function for getting product key from stripe API
+    public function getProductKey() : string
+    {
+
+        return "";
     }
 
     /**

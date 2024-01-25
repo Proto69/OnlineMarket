@@ -4,7 +4,9 @@
             <h2 class="font-semibold text-xl leading-tight">
                 {{ __('Табло') }}
             </h2>
-            <x-success-button class="col-end-7 col-span-1">Добави нов продукт</x-success-button>
+            <x-success-button class="col-end-7 col-span-1" href="{{ route('new-product') }}">
+                Добави нов продукт
+            </x-success-button>
         </div>
     </x-slot>
 
@@ -44,6 +46,7 @@
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
                                 </svg>
                             </button>
+                            
                         </div>
                         <label class="text-xl block mb-2 mt-3 text-sm font-medium text-gray-900 dark:text-white ">Цена: </label>
                         <x-input class="price ps-2 mb-4" type="text" value="{{ $product->price }}"></x-input> <br />
