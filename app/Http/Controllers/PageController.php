@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Product;
+use App\Models\Log;
 use App\Models\ShoppingList;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -100,13 +101,17 @@ class PageController extends Controller
 
     public function sells()
     {
-        $typeOfAccount = Auth::user()->type;
+        $user = Auth::user();
+        $userId = $user->id;
+        $typeOfAccount = $user->type;
 
         if ($typeOfAccount !== 'Seller') {
             abort(404); // If type is not 'Seller', return a 404 not found error
         }
 
-        return view('seller.sells');
+        $logs = Log::where('user_id', $userId)->get();
+
+        return view('seller.sells', ['logs' => $logs]);
     }
 
     public function newProduct()
