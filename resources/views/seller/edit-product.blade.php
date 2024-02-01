@@ -12,7 +12,7 @@
                                 @error('name')
                                 <p class="text-red-500 text-sm mt-1 mb-1">{{ $message }}</p>
                                 @enderror
-                                <x-input type="text" name="name" class="name" value="{{ old('name') }}"></x-input>
+                                <x-input type="text" name="name" class="name" value="{{ $product->name }}"></x-input>
                             </h2>
                         </div>
 
@@ -21,24 +21,25 @@
                         @error('description')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
-                        <textarea name="description" class="ps-2 pe-2 description border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 mb-3" cols="20" rows="5">{{ old('description') }}</textarea>
+                        <textarea name="description" class="ps-2 pt-1 pe-2 description border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 mb-3" cols="20" rows="5">{{ $product->description }}</textarea>
 
                         <!-- Количество -->
                         <label for="quantity-input" class="block mb-1 text-xl font-medium text-gray-900 dark:text-white">Количество:</label>
                         @error('quantity')
                         <p class="text-red-500 text-sm mt-1 mb-1">{{ $message }}</p>
                         @enderror
-                        <x-input type="text" name="quantity" id="quantity" class="h-11 text-center text-sm py-2.5" value="{{ old('quantity', '1') }}" required></x-input>
+                        <x-input type="text" name="quantity" id="quantity" class="h-11 text-center text-sm py-2.5" value="{{ $product->quantity }}" required></x-input>
 
                         <!-- Въвеждане на цена -->
                         <label class="text-xl block mb-1 mt-3 text-sm font-medium text-gray-900 dark:text-white">Цена: </label>
                         @error('price')
                         <p class="text-red-500 text-sm mt-1 mb-1">{{ $message }}</p>
                         @enderror
-                        <x-input name="price" class="ps-2 mb-4 text-center" type="text" value="{{ old('price', '0.00') }}"></x-input> <br />
+                        <x-input name="price" class="ps-2 mb-4 text-center" type="text" value="{{ $product->price }}"></x-input> <br />
 
                         <!-- Качване на снимка -->
-                        <label class="text-xl block mb-1 mt-3 text-sm font-medium text-gray-900 dark:text-white">Снимка </label>
+                        <label class="text-xl block mb-1 mt-3 text-sm font-medium text-gray-900 dark:text-white">Снимка: </label>
+                        <img class="mt-1 mb-2 productImage" src="{{ $product->getImageURL() }}">
                         @error('image')
                         <p class="text-red-500 text-sm mt-1 mb-1">{{ $message }}</p>
                         @enderror
@@ -46,7 +47,7 @@
 
                         <!-- Добавяне на продукт -->
                         <x-success-button class="mt-3 me-2" type="submit">
-                            Добави продукт
+                            Запази промените
                         </x-success-button>
                     </form>
 

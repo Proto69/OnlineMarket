@@ -11,6 +11,8 @@
                 @if (count($products) > 0)
                 @foreach ($products as $product)
                 <div class="border border-gray-500 p-4 rounded-lg">
+                    <img class="mt-1 mb-2 productImage" src="{{ $product->getImageURL() }}">
+
                     <div class="flex items-center">
                         <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
                             <a>{{ $product->name}}</a>

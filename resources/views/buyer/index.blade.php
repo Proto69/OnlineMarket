@@ -13,9 +13,8 @@
                     @foreach($products as $product)
                     @if ($product->active)
                     <div class="w-full max-w-sm bg-white border border-gray-300 rounded-lg shadow dark:bg-gray-800 p-4">
-                        <a href="#">
-                            <img class="p-8 rounded-t-lg" src="/docs/images/products/apple-watch.png" alt="product image" />
-                        </a>
+                        <img class="mt-1 mb-2 ms-5" src="{{ $product->getImageURL() }}">
+
                         <div class="px-5 pb-5">
                             <a href="#">
                                 <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ $product->name }}</h5>

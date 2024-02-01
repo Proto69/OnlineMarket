@@ -33,7 +33,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard', [PageController::class, 'sellerDashboard'])->name('dashboard');
     Route::get('/sells', [PageController::class, 'sells'])->name('sells');
     Route::get('/new-product', [PageController::class, 'newProduct'])->name('new-product');
-    Route::post('/new-product', [ProductController::class, 'store'])->name('new-product');
+    Route::get('/edit-product/{product_id}', [PageController::class, 'editProduct'])->name('edit-product');
 
 
     Route::get('/get-session-message', function () {
@@ -41,10 +41,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     });
 
 
+    Route::post('/new-product', [ProductController::class, 'store'])->name('new-product-add');
     Route::post('/switch-account', [AccountSwitchController::class, 'switchAccount'])->name('switch.account');
     Route::post('/add-to-cart', [ShoppingListController::class, 'addToShoppingList'])->name('add-to-cart');
     Route::post('/edit-shopping-quantity', [ShoppingListController::class, 'editShoppingQuantity'])->name('edit-shopping-quantity');
-    Route::post('/edit-product', [ProductController::class, 'edit'])->name('edit-product');
+    Route::post('/edit-product', [ProductController::class, 'edit'])->name('edit-product-save');
+    Route::post('/change-status/{product_id}/{status}', [ProductController::class, 'changeStatus'])->name('change-status');
 
     Route::get('/remove-product-from-cart', [ShoppingListController::class, 'removeProduct']);
     Route::get('/search', [PageController::class, 'shoppingKeyWord']);

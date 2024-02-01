@@ -4,9 +4,11 @@
             <h2 class="font-semibold text-xl leading-tight">
                 {{ __('Табло') }}
             </h2>
-            <x-success-button class="col-end-7 col-span-1" href="{{ route('new-product') }}">
-                Добави нов продукт
-            </x-success-button>
+            <form class="col-end-7 col-span-1" action="{{ route('new-product') }}" method="GET">
+                <x-success-button type="submit">
+                    Добави нов продукт
+                </x-success-button>
+            </form>
         </div>
     </x-slot>
 
@@ -16,137 +18,131 @@
                 <div class="bg-transparent bg-opacity-25 grid grid-cols-1 md:grid-cols-4 gap-4 p-3">
 
                     @foreach ($products as $product)
-                    <div class="card-form bg-white dark:bg-gray-800 border border-gray-300 p-4 rounded-lg">
-                        <div class="flex items-center">
-                            @if (!$product->active || $product->quantity === 0)
-                            <h2 class="text-xxl font-semibold text-red-700 dark:text-red-400">
-                                <x-input type="text" class="name" value="{{ $product->name }}"></x-input>
-                            </h2>
-                            @else
-                            <h2 class="text-xxl font-semibold text-gray-900 dark:text-white">
-                                <x-input type="text" class="name" value="{{ $product->name }}"></x-input>
-                            </h2>
+                    <form method="GET" action="{{ route('edit-product', $product->id) }}">
+                        @csrf
+                        <div class="card-form bg-white dark:bg-gray-800 border border-gray-300 p-4 rounded-lg">
+                            <!-- Показване и качване на снимка  -->
+                            <img class="mt-1 mb-2 productImage" src="{{ $product->getImageURL() }}">
+                            <input type="hidden" class="productId" value="{{ $product->id }}"></input>
+
+                            <!-- Име на продукта -->
+                            <div class="flex items-center">
+                                <label class="block mb-2 text-xl font-medium text-gray-900 dark:text-white">{{ $product->name }}</label>
+                            </div>
+
+                            <!-- Описание -->
+                            <p class="text-gray-500 dark:text-gray-400 text-xl bg-white">
+                                {{ $product->description }}
+                            </p>
+
+                            <!-- Количество -->
+                            <label for="quantity-input" class="block mb-2 text-xl font-medium text-gray-900 dark:text-white">Количество: {{ $product->quantity }}</label>
+
+                            <!-- Цена -->
+                            <label class="text-xl block mt-3 text-sm font-medium text-gray-900 dark:text-white ">Цена: {{ $product->price }}</label>
+                            <br />
+
+                            <!-- Изчерпан продукт -->
+                            @if ($product->quantity === 0)
+                            <cr class="sold-product mt-2 text-red-800 dark:text-red-500 font-bold">Този продукт е изчерпан!</cr>
+                            <br />
                             @endif
+
+
+                            <!-- Активен/Неактивен switch -->
+                            <span class="activity-state state text-xxl font-medium text-gray-900 dark:text-gray-300">{{ $product->active ? 'Активен' : 'Неактивен'}}</span>
+                            <br />
+                            <label class="mt-3 relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" value="" class="sr-only peer activity-toggle" {{ $product->active ? 'checked' : '' }}>
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            </label>
+                            <br />
+
+                            <x-success-button class="mt-3" type="submit" data-product-id="{{ $product->id }}">
+                                Промени продукт
+                            </x-success-button>
                         </div>
-                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        <p class="text-gray-500 dark:text-gray-400 text-xl">
-                            <textarea class="ps-2 pt-1 pe-2 description border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-3 mb-3" cols="20" rows="5">{{ $product->description }}</textarea>
-                        </p>
-                        <label for="quantity-input" class="block mb-2 text-xl font-medium text-gray-900 dark:text-white">Количество:</label>
-                        <x-input name="product_id" id="default-search" class="hidden" value="{{ $product->id }}" />
-                        <div class="relative flex items-center max-w-[8rem]">
-                            <button type="button" id="decrement-button-{{ $product->id }}" data-product-id="{{ $product->id }}" data-input-counter-decrement="quantity-input-{{ $product->id }}" class="decrement-button bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
-                                <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
-                                </svg>
-                            </button>
-                            <input type="text" id="quantity-input-{{ $product->id }}" data-product-id="{{ $product->id }}" data-input-counter data-input-counter-min="0" aria-describedby="helper-text-explanation" class="quantity-input bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $product->quantity }}" required>
-                            <button type="button" id="increment-button-{{ $product->id }}" data-product-id="{{ $product->id }}" data-input-counter-increment="quantity-input-{{ $product->id }}" class="increment-button bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
-                                <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-                                </svg>
-                            </button>
-                            
-                        </div>
-                        <label class="text-xl block mb-2 mt-3 text-sm font-medium text-gray-900 dark:text-white ">Цена: </label>
-                        <x-input class="price ps-2 mb-4" type="text" value="{{ $product->price }}"></x-input> <br />
-
-                        @if (!$product->active)
-                        <cr class="unactive-product mt-2 text-red-800 dark:text-red-500 font-bold">Този продукт е неактивен!</cr>
-                        <br />
-                        @endif
-
-                        @if ($product->quantity === 0)
-                        <cr class="sold-product mt-2 text-red-800 dark:text-red-500 font-bold">Този продукт е изчерпан!</cr>
-                        <br />
-                        @endif
-
-
-                        <span class="activity-state state text-xxl font-medium text-gray-900 dark:text-gray-300">{{ $product->active ? 'Активен' : 'Неактивен'}}</span>
-                        <br />
-
-                        <label class="mt-3 relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" value="" class="sr-only peer activity-toggle" {{ $product->active ? 'checked' : '' }}>
-                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                        </label>
-                        <br />
-
-                        <x-button class="save-changes mt-3" data-product-id="{{ $product->id }}">
-                            Запази промените
-                        </x-button>
-                    </div>
+                    </form>
                     @endforeach
                 </div>
             </div>
         </div>
     </div>
+    <div id="toast-container" class="toast-container" />
 </x-app-layout>
 
 <script>
-    $('.quantity-input, .price, .name').on("keydown", function(event) {
-        if (event.keyCode === 13) {
-            event.preventDefault();
-        }
-    });
+    function createToast(state) {
+        // Create a new toast element
+        var toast = document.createElement('div');
+        var toastId = 'toast-' + Date.now(); // Unique ID for each toast
+        toast.setAttribute('id', toastId);
+        toast.classList.add('fixed', 'right-5', 'flex', 'items-center', 'w-full', 'max-w-xs', 'p-4', 'mb-4', 'text-gray-500', 'bg-white', 'rounded-lg', 'shadow', 'dark:text-gray-400', 'dark:bg-gray-800', 'toast');
+        toast.setAttribute('role', 'alert');
+        toast.style.transition = 'opacity 0.3s ease-in-out';
+
+        toast.style.position = 'absolute';
+        toast.style.bottom = '1px'; // Adjust this value to set the distance between toasts
+        toast.style.transform = 'translateX(+0%) translateY(-' + (document.querySelectorAll('.toast').length * 35) + 'px)'; // Adjust this value to control the vertical stacking
+        toast.style.opacity = '0';
+        // Construct toast content
+        toast.innerHTML = `
+        <!-- Your toast content -->
+        <div class="toast inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+            </svg>
+            <span class="sr-only">Check icon</span>
+        </div>
+        <div class="ms-3 text-sm font-normal">Успешно ` + state + `  продукт!</div>
+        <button type="button" class="close-toast-button" aria-label="Close">
+            <!-- Your close button content -->
+        </button>
+    `;
+
+        // Append the toast to the container
+        var toastContainer = document.getElementById('toast-container');
+        toastContainer.appendChild(toast);
+
+        // Animate the toast appearance
+        setTimeout(function() {
+            toast.style.opacity = '1';
+        }, 100); // Adding a slight delay for smoother animation
+
+        // Remove the toast after 3 seconds
+        setTimeout(function() {
+            toast.style.opacity = '0';
+            setTimeout(function() {
+                toast.remove();
+            }, 300); // Additional delay to ensure the fade-out transition completes
+        }, 3000);
+    }
 
     $('.activity-toggle').on('change', function() {
         let cardForm = $(this).closest('.card-form');
         let activityState = cardForm.find('.activity-state');
+        let id = cardForm.find('.productId').val();
 
         //  maybe could be used for smth
         let message = cardForm.find('.unactive-product');
 
         if (this.checked) {
             activityState.text('Активен');
+            updateStatus(id, 1);
+            createToast('активирахте');
         } else {
             activityState.text('Неактивен');
-
-        }
-
-    });
-
-    $('.save-changes').on('click', function() {
-        let cardForm = $(this).closest('.card-form');
-        let productId = cardForm.find('.quantity-input').data('product-id');
-        let currentValue = parseInt(cardForm.find('.quantity-input').val());
-        let name = cardForm.find('.name').val();
-        let description = cardForm.find('.description').val();
-        let price = cardForm.find('.price').val();
-        let activityState = cardForm.find('.activity-state').text();
-        let state = 0;
-
-        if (activityState == "Активен") {
-            state = 1;
-        }
-
-        updateProduct(productId, currentValue, name, description, price, state);
-    });
-
-    $('.decrement-button, .increment-button').on('click', function() {
-        let productId = $(this).data('product-id');
-        let currentValue = parseInt($(this).siblings('.quantity-input').val());
-        let minValue = $(this).siblings('.quantity-input').data('input-counter-min');
-        let maxValue = $(this).siblings('.quantity-input').data('input-counter-max');
-
-        // Decrement or increment based on the clicked button
-        if ($(this).hasClass('decrement-button')) {
-            currentValue = Math.max(currentValue - 1, minValue);
-        } else {
-            currentValue = Math.min(currentValue + 1, maxValue);
+            updateStatus(id, 0);
+            createToast('деактивирахте');
         }
     });
 
-    function updateProduct(productId, newQuantity, newName, newDescription, newPrice, newState) {
+
+    function updateStatus(productId, status) {
         $.ajax({
-            url: '/edit-product',
+            url: '/change-status/' + productId + '/' + status,
             method: 'POST',
             data: {
-                product_id: productId,
-                quantity: newQuantity,
-                name: newName,
-                description: newDescription,
-                price: newPrice,
-                state: newState,
                 "_token": "{{ csrf_token() }}"
             },
             success: function(response) {

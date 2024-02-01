@@ -21,7 +21,7 @@ class PageController extends Controller
 
         $products = Product::all();
 
-        return view('buyer.index', compact('products'));
+        return view('buyer.index', ['products' => $products]);
     }
 
     public function shoppingKeyWord(Request $request)
@@ -118,5 +118,18 @@ class PageController extends Controller
         }
         
         return view('seller.new-product');
+    }
+
+    public function editProduct($product_id)
+    {
+        $typeOfAccount = Auth::user()->type;
+
+        if ($typeOfAccount !== 'Seller') {
+            abort(404); // If type is not 'Seller', return a 404 not found error
+        }
+        
+        $product = Product::where('id', $product_id)->first();
+
+        return view('seller.edit-product', ['product' => $product]);
     }
 }
