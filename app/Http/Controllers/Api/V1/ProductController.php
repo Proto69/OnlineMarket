@@ -82,23 +82,33 @@ class ProductController extends Controller
      */
     public function edit(Request $request)
     {
-        $productId = $request->product_id;
-        $newQuantity = $request->quantity;
-        $newName = $request->name;
-        $newDescription = $request->description;
-        $newPrice = $request->price;
+        $validated = request()->validate([
+            'name' => 'required|min:3|max:40',
+            'description' => 'required|min:5|max:255',
+            'quantity' => 'required|min:1',
+            'price' => 'required|min:0',
+            'image' => 'image'
+        ]);
 
-        $product = Product::where('id', $productId)->first();
+        $validated['id'] = $request->product_id;
+        $validated['quantity'] = $request->quantity;
+        $validated['name'] = $request->name;
+        $validated['description'] = $request->description;
+        $validated['price'] = $request->price;
+
+        $product = Product::where('id', $request->product_id)->first();
 
         if ($product) {
-            $product->quantity = $newQuantity;
-            $product->name = $newName;
-            $product->description = $newDescription;
-            $product->price = $newPrice;
+            if (request()->has('image')){
+                $imagePath = request()->file('image')->store('product', 'public');
+                $validated['image'] = $imagePath;
 
-            $product->save();
+                Storage::disk('public')->delete($product->image);
+            }
 
-            return response()->json(Response::HTTP_OK);
+            $product->update($validated);
+
+            return redirect()->route('dashboard');
         }
 
         return response()->json(Response::HTTP_NOT_MODIFIED);
