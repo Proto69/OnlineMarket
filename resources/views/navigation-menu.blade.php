@@ -13,14 +13,21 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
 <nav id="navMenu" x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
 
     <!-- Popup -->
-    <div id="popup" style="display: none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(17, 24, 39, 0.7); backdrop-filter: blur(10px);">
-        <div style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);background-color: rgba(17, 24, 39);;padding: 20px;border-radius: 5px;text-align: center;">
-            <h2 style="color: #fff">Въведи твоя Stripe Key</h2>
-            <x-input type="text" id="inputField" placeholder="Enter your Stripe Key" style="width: 80%;padding: 10px;" class="mt-1 mb-4" />
-            <x-secondary-button id="submitInput" type="button">Запази</x-secondary-button>
-            <x-danger-button id="closePopup" type="button">Отказ</x-danger-button>
+    <form method="POST" action="{{ route('switch.account') }}">
+        @csrf
+        <div id="popup" style="display: none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(17, 24, 39, 0.7); backdrop-filter: blur(10px);">
+            <div style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);background-color: rgba(17, 24, 39);;padding: 20px;border-radius: 5px;text-align: center;">
+                <h2 style="color: #fff">Въведи твоя Stripe Key</h2>
+               
+                <input type="hidden" name="newType" value="Seller">
+
+                <x-input type="text" name="stripe_key" placeholder="Enter your Stripe Key" style="width: 80%;padding: 10px;" class="mt-1 mb-4" />
+
+                <x-secondary-button type="submit" class="me-1">Запази</x-secondary-button>
+                <x-danger-button id="closePopup" type="button" class="ms-1">Отказ</x-danger-button>
+            </div>
         </div>
-    </div>
+    </form>
 
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -71,7 +78,7 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                 </div> -->
 
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex relative">
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('shopping-cart') }}" :active="request()->routeIs('shopping-cart')">
                         {{ __('Количка') }}
                         <svg class="ms-1 w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
