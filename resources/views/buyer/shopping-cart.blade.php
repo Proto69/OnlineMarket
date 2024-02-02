@@ -70,15 +70,6 @@
                     <p class="ps-3 dark:text-gray-400 text-gray-900">
                         <strong>{{ $product->name }}</strong> x <strong>{{ $product->bought_quantity }}</strong> = <strong>{{ $product->price * $product->bought_quantity}}</strong>
                     </p>
-                    <p class="ps-3 dark:text-gray-400 text-gray-900">
-                        <strong>{{ $product->name }}</strong> x <strong>{{ $product->bought_quantity }}</strong> = <strong>{{ $product->price * $product->bought_quantity}}</strong>
-                    </p>
-                    <p class="ps-3 dark:text-gray-400 text-gray-900">
-                        <strong>{{ $product->name }}</strong> x <strong>{{ $product->bought_quantity }}</strong> = <strong>{{ $product->price * $product->bought_quantity}}</strong>
-                    </p>
-                    <p class="ps-3 dark:text-gray-400 text-gray-900">
-                        <strong>{{ $product->name }}</strong> x <strong>{{ $product->bought_quantity }}</strong> = <strong>{{ $product->price * $product->bought_quantity}}</strong>
-                    </p>
                     @endforeach
                 </div>
 
