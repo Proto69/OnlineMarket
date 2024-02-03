@@ -34,6 +34,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/sells', [PageController::class, 'sells'])->name('sells');
     Route::get('/new-product', [PageController::class, 'newProduct'])->name('new-product');
     Route::get('/edit-product/{product_id}', [PageController::class, 'editProduct'])->name('edit-product');
+    Route::get('/stats', [PageController::class, 'stats'])->name('stats');
 
 
     Route::get('/get-session-message', function () {

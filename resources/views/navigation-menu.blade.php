@@ -62,6 +62,12 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                     </x-nav-link>
                 </div>
 
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link href="{{ route('stats') }}" :active="request()->routeIs('stats')">
+                        {{ __('Статистики') }}
+                    </x-nav-link>
+                </div>
+
                 @else
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">

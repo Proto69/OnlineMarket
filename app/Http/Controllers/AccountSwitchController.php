@@ -23,7 +23,7 @@ class AccountSwitchController extends Controller
             // Insert new data for the seller in the 'sellers' table
             Seller::create([
                 'user_id' => $user->id,
-                'stripe_key' => Hash::make($stripeKey), // Additional fields for sellers
+                'stripe_key' => $stripeKey, // Additional fields for sellers
             ]);
         } elseif ($newType === 'Buyer' && !$existingBuyer) {
             // Insert new data for the buyer in the 'buyers' table

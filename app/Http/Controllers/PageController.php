@@ -114,6 +114,40 @@ class PageController extends Controller
         return view('seller.sells', ['logs' => $logs]);
     }
 
+    public function stats()
+    {
+        $user = Auth::user();
+        $userId = $user->id;
+        $typeOfAccount = $user->type;
+
+        if ($typeOfAccount !== 'Seller') {
+            abort(404); // If type is not 'Seller', return a 404 not found error
+        }
+
+        $dateLogs = Log::where('user_id', $userId)->get();
+
+        // Initialize an empty array to store summed prices for each date
+        $summedPrices = [];
+
+        // Iterate over the logs
+        foreach ($dateLogs as $log) {
+            $date = $log->date;
+            $price = $log->price;
+
+            // If the date is not already in the summedPrices array, initialize it with the current price
+            if (!isset($summedPrices[$date])) {
+                $summedPrices[$date] = $price;
+            } else {
+                // If the date already exists, add the current price to the existing sum
+                $summedPrices[$date] += $price;
+            }
+        }
+
+        $totalIncome = 0;
+
+        return view('seller.stats', ['dateLogs' => $dateLogs, 'totalIncome' => $totalIncome]);
+    }
+
     public function newProduct()
     {
         $typeOfAccount = Auth::user()->type;
@@ -121,7 +155,7 @@ class PageController extends Controller
         if ($typeOfAccount !== 'Seller') {
             abort(404); // If type is not 'Seller', return a 404 not found error
         }
-        
+
         return view('seller.new-product');
     }
 
@@ -132,7 +166,7 @@ class PageController extends Controller
         if ($typeOfAccount !== 'Seller') {
             abort(404); // If type is not 'Seller', return a 404 not found error
         }
-        
+
         $product = Product::where('id', $product_id)->first();
 
         return view('seller.edit-product', ['product' => $product]);
