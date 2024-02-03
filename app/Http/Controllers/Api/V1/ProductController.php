@@ -48,7 +48,7 @@ class ProductController extends Controller
         ]);
 
         $bought_quantity = 0;
-        $currency = "лв";
+        $currency = "bgn";
         $active = 1;
         $seller_user_id = Auth::user()->id;
         $product_key = ProductController::getProductStripeId(request()->name, request()->description, request()->price * 100);
