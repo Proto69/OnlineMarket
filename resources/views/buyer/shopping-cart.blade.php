@@ -130,7 +130,7 @@
 
                 let receiptHTML = '';
                 response.products.forEach(product => {
-                    receiptHTML += `<p class="ps-3 dark:text-gray-400 text-gray-900">${product.name} x ${product.bought_quantity} = ${product.price * product.bought_quantity}</p>`;
+                    receiptHTML += `<p class="ps-3 dark:text-gray-400 text-gray-900"><strong>${product.name}</strong> x <strong>${product.bought_quantity}</strong> = <strong>${product.price * product.bought_quantity}</strong></p>`;
                 });
 
                 // Replace the receipt section content
