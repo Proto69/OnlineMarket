@@ -58,8 +58,9 @@
         toast.setAttribute('role', 'alert');
         toast.style.transition = 'opacity 0.3s ease-in-out';
 
-        toast.style.position = 'absolute';
-        toast.style.bottom = '1px'; // Adjust this value to set the distance between toasts
+        toast.style.position = 'fixed';
+        toast.style.bottom = '1rem'; // Adjust this value to set the distance between toasts
+        toast.style.right = '1rem'; // Adjust this value to set the distance between toasts
         toast.style.transform = 'translateX(+0%) translateY(-' + (document.querySelectorAll('.toast').length * 35) + 'px)'; // Adjust this value to control the vertical stacking
         toast.style.opacity = '0';
         // Construct toast content
