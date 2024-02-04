@@ -141,6 +141,8 @@ class ProductController extends Controller
                         'active' => false
                     ]
                 );
+
+                $validated['price_key'] = $priceId;
             }
             else {
                 $stripe->products->update(
