@@ -91,41 +91,6 @@ class BuyerController extends Controller
 
     public function completeOrder()
     {
-        // Get the products from the shopping cart
-        $products = BuyerController::getShoppingCart();
-
-        // Initialize an empty array to store line items
-        $lineItems = [];
-
-        // Iterate over the products and construct line items
-        foreach ($products as $product) {
-            // Retrieve the quantity from the shopping list
-            $quantity = ShoppingList::where('products_id', $product['id'])
-                ->where('buyers_user_id', Auth::user()->id)
-                ->first()->quantity;
-
-            // Construct each line item
-            $lineItems[] = [
-                'price' => $product['price_key'],
-                'quantity' => $quantity
-            ];
-        }
-
-        // Get the Stripe API key for the current user
-        $stripe_key = Seller::where('user_id', Auth::user()->id)->first()->stripe_key;
-
-        // Initialize the Stripe client
-        $stripe = new \Stripe\StripeClient($stripe_key);
-
-        // Create a checkout session
-        $session = $stripe->checkout->sessions->create([
-            'success_url' => 'https://example.com/success',
-            'cancel_url' => 'https://example.com/cancel',
-            'line_items' => $lineItems,
-            'mode' => 'payment',
-        ]);
-
-        // Redirect the user to the checkout session URL
-        return redirect()->away($session->url);
+        
     }
 }
