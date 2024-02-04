@@ -10,6 +10,14 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
                 @if (count($products) > 0)
                 @foreach ($products as $product)
+
+
+
+
+
+
+
+                
                 <div class="border border-gray-500 p-4 rounded-lg">
                     <img class="mt-1 mb-2 productImage" src="{{ $product->getImageURL() }}">
 
@@ -48,6 +56,15 @@
                         </div>
                     </form>
                 </div>
+
+
+
+
+
+
+
+
+
                 @endforeach
                 @else
                 <div class="border border-gray-500 p-4 rounded-lg">
@@ -59,29 +76,39 @@
                 </div>
                 @endif
             </div>
-            @if ($sum > 0)
-            <div class="px-4 fixed bottom-6 right-6 items-center block max-w-sm bg-white border border-lime-500 rounded-lg shadow-md dark:bg-gray-800 dark:border-lime-400 dark:hover:bg-gray-700 sm:rounded-lg pt-3 mt-4">
-                <h2 class="dark:text-white text-black font-bold text-xl ps-3">
-                    Касова бележка:
-                </h2>
 
-                <div class="receipt-section">
-                    @foreach ($products as $product)
-                    <p class="ps-3 dark:text-gray-400 text-gray-900">
-                        <strong>{{ $product->name }}</strong> x <strong>{{ $product->bought_quantity }}</strong> = <strong>{{ $product->price * $product->bought_quantity}}</strong>
-                    </p>
-                    @endforeach
+            @if ($sum > 0)
+            <div class="fixed top-44 right-6 bottom-12 items-center max-w-sm bg-white border border-lime-500 rounded-lg shadow-md dark:bg-gray-800 dark:border-lime-400 dark:hover:bg-gray-700 sm:rounded-lg pt-3">
+
+                <div class="px-4">
+                    <h2 class="dark:text-white text-black font-bold text-xl ps-3 pb-3">
+                        Касова бележка:
+                    </h2>
                 </div>
 
-                <h1 class="ps-3 dark:text-lime-200 text-lime-600 font-bold text-2xl mt-10 total-sum">
-                    Обща сума: {{ $sum }}
-                </h1>
+                <div class="overflow-y-scroll mx-0 max-h-80 border-y border-lime-500 dark:border-lime-400">
+                    <div class="receipt-section">
+                        @foreach ($products as $product)
+                        <p class="ps-3 dark:text-gray-400 text-gray-900">
+                            <strong>{{ $product->name }}</strong> x <strong>{{ $product->bought_quantity }}</strong> = <strong>{{ $product->price * $product->bought_quantity}}</strong>
+                        </p>
+                        @endforeach
+                    </div>
+                </div>
 
-                <button type="button" class="ms-3 mt-3 text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
-                    Завършване на поръчката
-                </button>
+                <div class="px-4">
+                    <h1 class="ps-3 dark:text-lime-200 text-lime-600 font-bold text-2xl mt-10 total-sum">
+                        Обща сума: {{ $sum }}
+                    </h1>
+
+                    <button type="button" class="ms-3 mt-3 text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
+                        Завършване на поръчката
+                    </button>
+                </div>
+
             </div>
             @endif
+
         </div>
     </div>
 </x-app-layout>
