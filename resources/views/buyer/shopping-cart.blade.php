@@ -7,61 +7,77 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="overflow-hidden shadow-xl sm:rounded-lg mr-96 mt-[-0.5rem]">
                 @if (count($products) > 0)
                 @foreach ($products as $product)
 
 
 
+                <div class="border border-red-500 bg-white dark:bg-gray-800 h-96 rounded-lg grid grid-cols-3">
 
 
 
 
-                
-                <div class="border border-gray-500 p-4 rounded-lg">
-                    <img class="mt-1 mb-2 productImage" src="{{ $product->getImageURL() }}">
 
-                    <div class="flex items-center">
-                        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
-                            <a>{{ $product->name}}</a>
-                        </h2>
+                    <div class="col-span-2 relative">
+                        <div class="absolute top-2 left-1/2 transform -translate-x-1/2">
+                            <img class="rounded-lg mb-2 productImage" src="{{ $product->getImageURL() }}" alt="{{ $product->name }}">
+                        </div>
+
+                        <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2">
+
+                            <div class="flex items-center">
+                                <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                    <a>{{ $product->name}}</a>
+                                </h2>
+                            </div>
+
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <p class="mt-8 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
+                                {{ $product->description }}
+                            </p>
+                        </div>
+
                     </div>
-                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-                    <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                        {{ $product->description }}
-                    </p>
 
-                    <form class="max-w-xs mx-auto" action="/remove-product-from-cart" method="GET">
-                        @csrf
-                        <label for="quantity-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Количество:</label>
-                        <x-input name="product_id" id="default-search" class="hidden" value="{{ $product->id }}" />
-                        <div class="relative flex items-center max-w-[8rem]">
-                            <button type="button" id="decrement-button-{{ $product->id }}" data-product-id="{{ $product->id }}" data-input-counter-decrement="quantity-input-{{ $product->id }}" class="decrement-button bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
-                                <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
-                                </svg>
-                            </button>
-                            <input type="text" id="quantity-input-{{ $product->id }}" data-product-id="{{ $product->id }}" data-input-counter data-input-counter-min="1" data-input-counter-max="{{ $product->quantity }}" aria-describedby="helper-text-explanation" class="quantity-input bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $product->bought_quantity }}" required>
-                            <button type="button" id="increment-button-{{ $product->id }}" data-product-id="{{ $product->id }}" data-input-counter-increment="quantity-input-{{ $product->id }}" class="increment-button bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
-                                <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-                                </svg>
-                            </button>
-                        </div>
 
-                        <div class="mt-7">
-                            <button type="submit" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
-                                Премахни
-                            </button>
-                        </div>
-                    </form>
+
+
+
+
+
+
+                    <div class="col-span-1 bg-blue-300 flex items-center justify-center">
+                        <form class="max-w-xs mx-auto" action="/remove-product-from-cart" method="GET">
+                            @csrf
+                            <label for="quantity-input" class="block mb-2 text-sm font-medium items-center text-gray-900 dark:text-white">
+                                <strong>Количество</strong></label>
+                            <x-input name="product_id" id="default-search" class="hidden" value="{{ $product->id }}" />
+                            <div class="relative flex items-center max-w-[8rem]">
+                                <button type="button" id="decrement-button-{{ $product->id }}" data-product-id="{{ $product->id }}" data-input-counter-decrement="quantity-input-{{ $product->id }}" class="decrement-button bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                    <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
+                                    </svg>
+                                </button>
+                                <input type="text" id="quantity-input-{{ $product->id }}" data-product-id="{{ $product->id }}" data-input-counter data-input-counter-min="1" data-input-counter-max="{{ $product->quantity }}" aria-describedby="helper-text-explanation" class="quantity-input bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $product->bought_quantity }}" required>
+                                <button type="button" id="increment-button-{{ $product->id }}" data-product-id="{{ $product->id }}" data-input-counter-increment="quantity-input-{{ $product->id }}" class="increment-button bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                    <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div class="mt-7">
+                                <button type="submit" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
+                                    Премахни
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+
+
                 </div>
-
-
-
-
-
-
 
 
 
@@ -78,7 +94,7 @@
             </div>
 
             @if ($sum > 0)
-            <div class="fixed top-44 right-6 bottom-12 items-center max-w-sm bg-white border border-lime-500 rounded-lg shadow-md dark:bg-gray-800 dark:border-lime-400 dark:hover:bg-gray-700 sm:rounded-lg pt-3">
+            <div class="fixed top-44 right-6 bottom-12 items-center mr-20 max-w-sm bg-white border border-lime-500 rounded-lg shadow-md dark:bg-gray-800 dark:border-lime-400 dark:hover:bg-gray-700 sm:rounded-lg pt-3">
 
                 <div class="px-4">
                     <h2 class="dark:text-white text-black font-bold text-xl ps-3 pb-3">
@@ -96,7 +112,8 @@
                     </div>
                 </div>
 
-                <div class="px-4">
+                <div class="fixed bottom-10 px-4 mb-4 ml-4">
+
                     <h1 class="ps-3 dark:text-lime-200 text-lime-600 font-bold text-2xl mt-10 total-sum">
                         Обща сума: {{ $sum }}
                     </h1>
