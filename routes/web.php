@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\ShoppingListController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Api\V1\ProductController;
+use App\Http\Controllers\Api\V1\BuyerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/edit-shopping-quantity', [ShoppingListController::class, 'editShoppingQuantity'])->name('edit-shopping-quantity');
     Route::post('/edit-product', [ProductController::class, 'edit'])->name('edit-product-save');
     Route::post('/change-status/{product_id}/{status}', [ProductController::class, 'changeStatus'])->name('change-status');
+    Route::post('/complete-order', [BuyerController::class, 'completeOrder'])->name('complete-order');
 
     Route::get('/remove-product-from-cart', [ShoppingListController::class, 'removeProduct']);
     Route::get('/search', [PageController::class, 'shoppingKeyWord']);
