@@ -15,7 +15,7 @@ class Seller extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id', 'stripe_key', 'balance'
+        'user_id', 'account_id', 'balance'
     ];
 
     

@@ -39,12 +39,6 @@
                 <span class="ml-2 text-gray-700 dark:text-gray-300">Seller</span>
             </x-label>
 
-            <div id="sellerInfo" class="mt-2 text-gray-700 dark:text-gray-300" style="display: none">
-                <div class="mt-4">
-                    <x-label for="stripeKey" value="{{ __('Stripe Key') }}" />
-                    <x-input id="stripeKey" class="block mt-1 w-full p-1" type="password" name="stripe_key"/>
-                </div>
-            </div>
             <div class="mt-4" style="display: block">
                 <x-input id="type" class="block mt-1 w-full" type="hidden" name="type" autocomplete="type" />
             </div>
@@ -90,16 +84,12 @@
                            
     accountTypeSeller.addEventListener('change', () => {
         if (accountTypeSeller.checked) {
-            sellerInfoDiv.style.display = 'block'; // Show the message div
             accountTypeDiv.value = "Seller"
-        } else {
-            sellerInfoDiv.style.display = 'none'; // Hide the message div if not checked
-        }
+        } 
     });
 
     accountTypeBuyer.addEventListener('change', () => {
         if (accountTypeBuyer.checked) {
-            sellerInfoDiv.style.display = 'none'; 
             accountTypeDiv.value = "Buyer"
         }
     });

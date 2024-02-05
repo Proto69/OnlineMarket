@@ -2,7 +2,7 @@
 
 namespace App\Actions\Fortify;
 
-use App\Models\Team;
+use Stripe;
 use App\Models\User;
 use App\Models\Seller;
 use App\Models\Buyer;
@@ -40,17 +40,31 @@ class CreateNewUser implements CreatesNewUsers
                 'type' => $input['type'],
             ]);
 
-            $token = $user->createToken('personal_token')->accessToken;
 
             if ($input['type'] === 'Seller') {
+
+                $stripe = new \Stripe\StripeClient('sk_test_51Oeyd6CSzZqinv6YQITQ0PKH67oGMrXHUYhp9N8rWF7EMZilZhqPuvQIhkhwSW40o5qmvDL2igC3Psow6JXtYqNa00enz66uGE');
+                $account = $stripe->accounts->create([
+                    'type' => 'standard'
+                ]);
+
+                $accountLink = $stripe->accountLinks->create([
+                    'account' => $account->id,
+                    'refresh_url' => route('refresh-stripe'),
+                    'return_url' => route('return-stripe'),
+                    'type' => 'account_onboarding',
+                  ]);
+
+                  redirect($accountLink->url);
+
                 Seller::create([
                     'user_id' => $user->id,
-                    'stripe_key' => Hash::make($input['stripe_key']), // Generate a key here
+                    'account_id' => $account->id
                 ]);
+                
             } elseif ($input['type'] === 'Buyer') {
                 Buyer::create([
                     'user_id' => $user->id,
-                    // Other fields for Buyer if needed
                 ]);
             }
 

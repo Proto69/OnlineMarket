@@ -18,7 +18,6 @@ use App\Http\Controllers\Api\V1\ProductController;
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('v1')->group(function () {
         Route::apiResource('products', ProductController::class);
-        Route::post('login', ['uses' => 'App\Http\Controllers\Api\V1\LoginController@login']);
     });
     
     Route::prefix('desktop')->group(function () {

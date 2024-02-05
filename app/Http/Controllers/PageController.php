@@ -171,4 +171,14 @@ class PageController extends Controller
 
         return view('seller.edit-product', ['product' => $product]);
     }
+
+    public function returnStripe()
+    {
+        return view('auth.register');
+    }
+
+    public function refreshStripe()
+    {
+        return view('auth.login');
+    }
 }

@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('price_key');
+        Schema::table('sellers', function (Blueprint $table) {
+            $table->dropColumn('stripe_key');
+            $table->string('account_id');
         });
     }
 
@@ -21,8 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->string('price_key');
+        Schema::table('sellers', function (Blueprint $table) {
+            $table->string('stripe_key');
+            $table->dropColumn('account_id');
         });
     }
 };
