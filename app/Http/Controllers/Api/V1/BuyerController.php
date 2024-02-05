@@ -8,7 +8,6 @@ use App\Models\Buyer;
 use App\Http\Controllers\Controller;
 use App\Models\ShoppingList;
 use App\Models\Product;
-use App\Models\Seller;
 use Illuminate\Support\Facades\Auth;
 
 class BuyerController extends Controller

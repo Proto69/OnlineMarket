@@ -84,7 +84,7 @@
                 $scrollClass = $productCount >= 14 ? 'overflow-y-scroll' : '';
                 @endphp
 
-                <div class="{{ $scrollClass }} mx-0 max-h-80 border-y border-lime-500 dark:border-lime-400">
+                <div class="{{ $scrollClass }} mx-0 max-h-80 border-y border-lime-500 dark:border-lime-400 py-3">
                     <div class="receipt-section">
                         @foreach ($products as $product)
                         <p class="ps-3 dark:text-gray-400 text-gray-900">
