@@ -95,7 +95,7 @@
                 </div>
 
                 <div class="flex flex-col items-center justify-end px-4 mb-4">
-                    <h1 class="ps-3 dark:text-lime-200 text-lime-600 font-bold text-2xl mt-2 mb-6">
+                    <h1 class="total-sum ps-3 dark:text-lime-200 text-lime-600 font-bold text-2xl mt-2 mb-6">
                         Обща сума: {{ $sum }}
                     </h1>
 
