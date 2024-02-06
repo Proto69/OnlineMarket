@@ -43,24 +43,16 @@ class CreateNewUser implements CreatesNewUsers
 
             if ($input['type'] === 'Seller') {
 
-                $stripe = new \Stripe\StripeClient('sk_test_51Oeyd6CSzZqinv6YQITQ0PKH67oGMrXHUYhp9N8rWF7EMZilZhqPuvQIhkhwSW40o5qmvDL2igC3Psow6JXtYqNa00enz66uGE');
+                $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
                 $account = $stripe->accounts->create([
                     'type' => 'standard'
                 ]);
-
-                $accountLink = $stripe->accountLinks->create([
-                    'account' => $account->id,
-                    'refresh_url' => route('refresh-stripe'),
-                    'return_url' => route('return-stripe'),
-                    'type' => 'account_onboarding',
-                  ]);
-
-                  redirect($accountLink->url);
 
                 Seller::create([
                     'user_id' => $user->id,
                     'account_id' => $account->id
                 ]);
+
                 
             } elseif ($input['type'] === 'Buyer') {
                 Buyer::create([

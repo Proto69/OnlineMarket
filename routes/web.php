@@ -36,6 +36,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/new-product', [PageController::class, 'newProduct'])->name('new-product');
     Route::get('/edit-product/{product_id}', [PageController::class, 'editProduct'])->name('edit-product');
     Route::get('/stats', [PageController::class, 'stats'])->name('stats');
+    Route::get('/connect-stripe', [PageController::class, 'connectStripe'])->name('connect-stripe');
     Route::get('/refresh-stripe', [PageController::class, 'refreshStripe'])->name('refresh-stripe');
     Route::get('/return-stripe', [PageController::class, 'returnStripe'])->name('return-stripe');
 
@@ -52,6 +53,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/edit-product', [ProductController::class, 'edit'])->name('edit-product-save');
     Route::post('/change-status/{product_id}/{status}', [ProductController::class, 'changeStatus'])->name('change-status');
     Route::post('/complete-order', [BuyerController::class, 'completeOrder'])->name('complete-order');
+
+    Route::post('/test', [PageController::class, 'test'])->name('test');
 
     Route::get('/remove-product-from-cart', [ShoppingListController::class, 'removeProduct']);
     Route::get('/search', [PageController::class, 'shoppingKeyWord']);

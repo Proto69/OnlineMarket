@@ -3,6 +3,14 @@
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Продажби') }}
         </h2>
+
+        <!-- For testing -->
+        <form action="{{ route('test') }}" method="POST">
+            @csrf
+            <x-success-button type="submit">
+                Test
+            </x-success-button>
+        </form>
     </x-slot>
 
     <div class="py-12">

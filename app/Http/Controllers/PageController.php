@@ -6,11 +6,26 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Log;
 use App\Models\ShoppingList;
+use App\Models\Seller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
+
+    public function connectStripe()
+    {
+        $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
+
+        $accountLink = $stripe->accountLinks->create([
+            'account' => Seller::where('user_id', Auth::user()->id)->first()->account_id,
+            'refresh_url' => route('refresh-stripe'),
+            'return_url' => route('return-stripe'),
+            'type' => 'account_onboarding',
+        ]);
+
+        return redirect($accountLink->url);
+    }
 
     public function shopping()
     {
@@ -172,13 +187,26 @@ class PageController extends Controller
         return view('seller.edit-product', ['product' => $product]);
     }
 
+    public function test()
+    {
+        $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
+
+        $stripe->transfers->create([
+            'amount' => 40000,
+            'currency' => 'bgn',
+            'destination' => Seller::where('user_id', Auth::user()->id)->first()->account_id
+        ]);
+
+        return redirect()->back();
+    }
+
     public function returnStripe()
     {
-        return view('auth.register');
+        return PageController::sellerDashboard();
     }
 
     public function refreshStripe()
     {
-        return view('auth.login');
+        return PageController::connectStripe();
     }
 }
