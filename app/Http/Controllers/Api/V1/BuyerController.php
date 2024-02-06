@@ -90,6 +90,39 @@ class BuyerController extends Controller
 
     public function completeOrder()
     {
-        
+        $shoppingCart = $shoppingCart = ShoppingList::where('buyers_user_id', Auth::user()->id)->get();
+
+        $lineItems = [];
+
+        // Iterate through the $checkout array to create line items
+        foreach ($shoppingCart as $item) {
+
+            $product = Product::where('id', $item->products_id)->first();
+
+            if ($product)
+            // Add each product as a line item
+            {
+                $lineItems[] = [
+                    'price_data' => [
+                        'currency' => 'bgn', // Adjust currency as needed
+                        'product_data' => [
+                            'name' => $product->name, // Product name from $checkout array
+                        ],
+                        'unit_amount' => $product->price * 100, // Adjust unit amount as needed
+                    ],
+                    'quantity' => $item->quantity, // Quantity from $checkout array
+                ];
+            }
+        }
+
+        $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
+        $checkout = $stripe->checkout->sessions->create([
+            'success_url' => 'https://example.com/success',
+            'cancel_url' => 'https://example.com/cancel',
+            'line_items' => $lineItems,
+            'mode' => 'payment',
+        ]);
+
+        return redirect($checkout->url);
     }
 }
