@@ -29,7 +29,9 @@ class ProductPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->type === 'Seller'
+            ? Response::allow()
+            : Response::deny('You are not a seller.');
     }
 
     /**
@@ -37,7 +39,16 @@ class ProductPolicy
      */
     public function update(User $user, Product $product): bool
     {
-        //
+        return $user->id === $product->seller_user_id
+            ? Response::allow()
+            : Response::deny('You do not own this product.');
+    }
+
+    public function edit(User $user, Product $product): bool
+    {
+        return $user->id === $product->seller_user_id
+            ? Response::allow()
+            : Response::deny('You do not own this product.');
     }
 
     /**
@@ -45,7 +56,9 @@ class ProductPolicy
      */
     public function delete(User $user, Product $product): bool
     {
-        //
+        return $user->id === $product->seller_user_id
+            ? Response::allow()
+            : Response::deny('You do not own this product.');
     }
 
     /**
@@ -61,6 +74,8 @@ class ProductPolicy
      */
     public function forceDelete(User $user, Product $product): bool
     {
-        //
+        return $user->id === $product->seller_user_id
+            ? Response::allow()
+            : Response::deny('You do not own this product.');
     }
 }

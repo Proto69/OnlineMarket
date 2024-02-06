@@ -32,6 +32,13 @@ class ProductController extends Controller
         return new ProductCollection($products->get());
     }
 
+    public function listAllAvailableProducts()
+    {
+        $products = Product::where('active', 1)->get();
+
+        return response()->json($products);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -45,16 +52,10 @@ class ProductController extends Controller
             'image' => 'image'
         ]);
 
-        $bought_quantity = 0;
-        $currency = "bgn";
-        $active = 1;
-        $seller_user_id = Auth::user()->id;
-
-        // Add additional fields to $validated array
-        $validated['bought_quantity'] = $bought_quantity;
-        $validated['currency'] = $currency;
-        $validated['active'] = $active;
-        $validated['seller_user_id'] = $seller_user_id;
+        $validated['bought_quantity'] = 0;
+        $validated['currency'] = "bgn";
+        $validated['active'] = 1;
+        $validated['seller_user_id'] = Auth::user()->id;
 
         if (request()->has('image')) {
             $imagePath = request()->file('image')->store('product', 'public');
@@ -63,7 +64,7 @@ class ProductController extends Controller
 
         Product::create($validated);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard')->with('success', 'Product created successfully.');
     }
 
     /**
@@ -87,23 +88,17 @@ class ProductController extends Controller
             'image' => 'image'
         ]);
 
-        $validated['id'] = $request->product_id;
-        $validated['quantity'] = $request->quantity;
-        $validated['name'] = $request->name;
-        $validated['description'] = $request->description;
-        $validated['price'] = $request->price;
-
-        $product = Product::where('id', $request->product_id)->first();
+        $product = Product::find($request->product_id);
 
         if ($product) {
+            $product->update($validated);
+
             if (request()->has('image')) {
                 $imagePath = request()->file('image')->store('product', 'public');
-                $validated['image'] = $imagePath;
-
                 Storage::disk('public')->delete($product->image);
+                $product->image = $imagePath;
+                $product->save();
             }
-
-            $product->update($validated);
 
             return redirect()->route('dashboard');
         }

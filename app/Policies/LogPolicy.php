@@ -13,7 +13,7 @@ class LogPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return Response::deny('You cannot view any logs.');
     }
 
     /**
@@ -21,7 +21,9 @@ class LogPolicy
      */
     public function view(User $user, Log $log): bool
     {
-        //
+        return $user->id === $log->user_id
+            ? Response::allow()
+            : Response::deny('You do not own this log.');
     }
 
     /**
@@ -29,7 +31,9 @@ class LogPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->type === 'Buyer'
+            ? Response::allow()
+            : Response::deny('You are not a buyer.');
     }
 
     /**
@@ -37,7 +41,7 @@ class LogPolicy
      */
     public function update(User $user, Log $log): bool
     {
-        //
+        return Response::deny('You cannot update a log.');
     }
 
     /**
@@ -45,7 +49,7 @@ class LogPolicy
      */
     public function delete(User $user, Log $log): bool
     {
-        //
+        return Response::deny('You cannot delete a log.');
     }
 
     /**
@@ -61,6 +65,6 @@ class LogPolicy
      */
     public function forceDelete(User $user, Log $log): bool
     {
-        //
+        return Response::deny('You cannot permanently delete a log.');
     }
 }

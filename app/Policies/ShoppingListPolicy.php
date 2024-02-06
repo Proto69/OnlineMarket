@@ -21,7 +21,9 @@ class ShoppingListPolicy
      */
     public function view(User $user, ShoppingList $shoppingList): bool
     {
-        //
+        return $user->id === $shoppingList->buyers_user_id
+            ? Response::allow()
+            : Response::deny('You do not own this shopping list.');
     }
 
     /**
@@ -29,7 +31,9 @@ class ShoppingListPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->type === 'Buyer'
+            ? Response::allow()
+            : Response::deny('You are not a buyer.');
     }
 
     /**
@@ -37,7 +41,9 @@ class ShoppingListPolicy
      */
     public function update(User $user, ShoppingList $shoppingList): bool
     {
-        //
+        return $user->id === $shoppingList->buyers_user_id
+            ? Response::allow()
+            : Response::deny('You do not own this shopping list.');
     }
 
     /**
@@ -45,7 +51,9 @@ class ShoppingListPolicy
      */
     public function delete(User $user, ShoppingList $shoppingList): bool
     {
-        //
+        return $user->id === $shoppingList->buyers_user_id
+            ? Response::allow()
+            : Response::deny('You do not own this shopping list.');
     }
 
     /**
@@ -61,6 +69,8 @@ class ShoppingListPolicy
      */
     public function forceDelete(User $user, ShoppingList $shoppingList): bool
     {
-        //
+        return $user->id === $shoppingList->buyers_user_id
+            ? Response::allow()
+            : Response::deny('You do not own this shopping list.');
     }
 }
