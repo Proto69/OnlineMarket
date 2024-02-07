@@ -123,4 +123,11 @@ class ProductController extends Controller
     {
         //
     }
+
+    public function changeStatus($product_id, $status)
+    {
+        $product = Product::where('id', $product_id)->first();
+        $product->active = $status;
+        $product->save();
+    }
 }
