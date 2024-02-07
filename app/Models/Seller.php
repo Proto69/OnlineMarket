@@ -15,7 +15,7 @@ class Seller extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id', 'account_id', 'balance'
+        'user_id', 'account_id', 'balance', 'is_test'
     ];
 
     
@@ -27,5 +27,6 @@ class Seller extends Model
     protected $casts = [
         'user_id' => 'integer',
         'balance' => 'float',
+        'is_test' => 'boolean',
     ];
 }

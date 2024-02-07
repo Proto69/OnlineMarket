@@ -111,7 +111,7 @@ class PageController extends Controller
 
         $products = Product::where('seller_user_id', $userId)->get();
 
-        return view('seller.index', ['products' => $products]);
+        return view('seller.index', ['products' => $products, 'seller' => Seller::where('user_id', $userId)->first()]);
     }
 
     public function sells()
@@ -202,7 +202,20 @@ class PageController extends Controller
 
     public function returnStripe()
     {
-        return PageController::sellerDashboard();
+        $seller = Seller::where('user_id', Auth::user()->id)->first();
+
+        $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
+        $account = $stripe->accounts->retrieve($seller->account_id, []);
+
+        if ($account->charges_enabled) {
+            $seller->is_test = false;
+            $seller->save();
+            return PageController::sellerDashboard();
+        } else {
+            $seller->is_test = true;
+            $seller->save();
+            return PageController::sellerDashboard();
+        }
     }
 
     public function refreshStripe()

@@ -3,6 +3,7 @@
         <div class="grid grid-cols-5 gap-4 text-gray-800 dark:text-gray-200">
             <h2 class="font-semibold text-xl leading-tight">
                 {{ __('Табло') }}
+                
             </h2>
             <form class="col-end-7 col-span-1" action="{{ route('new-product') }}" method="GET">
                 <x-success-button type="submit">
@@ -12,8 +13,21 @@
         </div>
     </x-slot>
 
+    @if ($seller->is_test)
+    <div id="alert-border-4" class="mt-1 max-w-7xl mx-auto sm:px-6 lg:px-8 flex items-center p-4 mb-4 text-yellow-800 border-t-4 border-yellow-300 bg-yellow-50 dark:text-yellow-300 dark:bg-gray-800 dark:border-yellow-800" role="alert">
+        <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+        </svg>
+        <div class="ms-3  font-medium">
+            Вие сте в тестов режим! <a href="/connect-stripe" class="font-semibold underline hover:no-underline">Свържете Stripe акаунт</a> ако искате да излезете.
+        </div>
+    </div>
+    @endif
+
+    
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
             <div class="bg-transparent dark:bg-transparent overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="bg-transparent bg-opacity-25 grid grid-cols-1 md:grid-cols-4 gap-4 p-3">
 
@@ -69,6 +83,7 @@
         </div>
     </div>
     <div id="toast-container" class="toast-container" />
+
 </x-app-layout>
 
 <script>

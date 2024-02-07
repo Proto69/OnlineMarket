@@ -7,6 +7,7 @@ use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Api\V1\ProductController;
 use App\Http\Controllers\Api\V1\BuyerController;
+use App\Http\Controllers\Api\V1\SellerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +54,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/edit-product', [ProductController::class, 'edit'])->name('edit-product-save');
     Route::post('/change-status/{product_id}/{status}', [ProductController::class, 'changeStatus'])->name('change-status');
     Route::post('/complete-order', [BuyerController::class, 'completeOrder'])->name('complete-order');
-
     Route::post('/test', [PageController::class, 'test'])->name('test');
 
     Route::get('/remove-product-from-cart', [ShoppingListController::class, 'removeProduct']);
