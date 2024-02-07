@@ -7,8 +7,10 @@ use App\Models\Product;
 use App\Models\Log;
 use App\Models\ShoppingList;
 use App\Models\Seller;
+use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PageController extends Controller
 {
@@ -221,5 +223,41 @@ class PageController extends Controller
     public function refreshStripe()
     {
         return PageController::connectStripe();
+    }
+
+    public function checkoutSuccess(Request $request)
+    {
+        $sessionId = $request->get('session_id');
+
+        $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
+
+
+        try {
+            $session = $stripe->checkout->sessions->retrieve($sessionId, []);
+
+            if (!$session) {
+                throw new NotFoundHttpException();
+            }
+
+            $order = Order::where('session_id', $session->id)->first();
+            if (!$order) {
+                throw new NotFoundHttpException();
+            }
+            if (!$order->is_paid) {
+                $order->is_paid = true;
+                $order->save();
+            }
+
+            ShoppingList::where('buyers_user_id', Auth::user()->id)->delete();
+
+            return view('buyer.checkout-success', ['session' => $session]);
+        } catch (\Exception $e) {
+            throw new NotFoundHttpException();
+        }
+    }
+
+    public function checkoutCancel()
+    {
+        return view('buyer.checkout-cancel');
     }
 }

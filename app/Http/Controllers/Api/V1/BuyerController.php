@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Requests\StoreBuyerRequest;
 use App\Http\Requests\UpdateBuyerRequest;
 use App\Models\Buyer;
+use App\Models\Order;
 use App\Http\Controllers\Controller;
 use App\Models\ShoppingList;
 use App\Models\Product;
@@ -93,11 +94,14 @@ class BuyerController extends Controller
         $shoppingCart = $shoppingCart = ShoppingList::where('buyers_user_id', Auth::user()->id)->get();
 
         $lineItems = [];
+        $totalPrice = 0;
 
         // Iterate through the $checkout array to create line items
         foreach ($shoppingCart as $item) {
 
             $product = Product::where('id', $item->products_id)->first();
+            
+            $totalPrice += $product->price * $product->quantity;
 
             if ($product)
             // Add each product as a line item
@@ -116,13 +120,20 @@ class BuyerController extends Controller
         }
 
         $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
-        $checkout = $stripe->checkout->sessions->create([
-            'success_url' => 'https://example.com/success',
-            'cancel_url' => 'https://example.com/cancel',
+        $session = $stripe->checkout->sessions->create([
+            'success_url' => route('checkout-success')."?session_id={CHECKOUT_SESSION_ID}",
+            'cancel_url' => route('checkout-cancel'),
             'line_items' => $lineItems,
             'mode' => 'payment',
         ]);
 
-        return redirect($checkout->url);
+        $order = new Order();
+        $order->session_id = $session->id;
+        $order->is_paid = false;
+        $order->total_price = $totalPrice;
+        $order->user_id = Auth::user()->id;
+        $order->save();
+
+        return redirect($session->url);
     }
 }

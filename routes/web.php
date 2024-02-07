@@ -7,7 +7,7 @@ use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Api\V1\ProductController;
 use App\Http\Controllers\Api\V1\BuyerController;
-use App\Http\Controllers\Api\V1\SellerController;
+use App\Http\Controllers\WebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +40,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/connect-stripe', [PageController::class, 'connectStripe'])->name('connect-stripe');
     Route::get('/refresh-stripe', [PageController::class, 'refreshStripe'])->name('refresh-stripe');
     Route::get('/return-stripe', [PageController::class, 'returnStripe'])->name('return-stripe');
+    Route::get('/checkout-success', [PageController::class, 'checkoutSuccess'])->name('checkout-success');
+    Route::get('/checkout-cancel', [PageController::class, 'checkoutCancel'])->name('checkout-cancel');
 
 
     Route::get('/get-session-message', function () {
@@ -59,4 +61,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/remove-product-from-cart', [ShoppingListController::class, 'removeProduct']);
     Route::get('/search', [PageController::class, 'shoppingKeyWord']);
 });
+Route::post('/webhook', [WebhookController::class, 'checkoutWebhook'])->name('webhook');
 
