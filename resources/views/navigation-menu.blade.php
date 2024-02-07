@@ -12,23 +12,6 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
 
 <nav id="navMenu" x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
 
-    <!-- Popup -->
-    <form method="POST" action="{{ route('switch.account') }}">
-        @csrf
-        <div id="popup" style="display: none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(17, 24, 39, 0.7); backdrop-filter: blur(10px);">
-            <div style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);background-color: rgba(17, 24, 39);;padding: 20px;border-radius: 5px;text-align: center;">
-                <h2 style="color: #fff">Въведи твоя Stripe Key</h2>
-               
-                <input type="hidden" name="newType" value="Seller">
-
-                <x-input type="text" name="stripe_key" placeholder="Enter your Stripe Key" style="width: 80%;padding: 10px;" class="mt-1 mb-4" />
-
-                <x-secondary-button type="submit" class="me-1">Запази</x-secondary-button>
-                <x-danger-button id="closePopup" type="button" class="ms-1">Отказ</x-danger-button>
-            </div>
-        </div>
-    </form>
-
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -76,13 +59,11 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                     </x-nav-link>
                 </div>
 
-                <!-- Future ideas -->
-                <!-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('previous-purchases') }}" :active="request()->routeIs('previous-purchases')">
                         {{ __('Минали покупки') }}
                     </x-nav-link>
-                </div> -->
-
+                </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('shopping-cart') }}" :active="request()->routeIs('shopping-cart')">
@@ -170,18 +151,14 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                                 @csrf
                                 @if ($typeOfAccount === "Buyer")
                                 <input type="hidden" name="newType" value="Seller">
-                                <input type="hidden" name="stripe_key" id="stripe_key">
-                                @if (!$existingSeller)
-                                <x-dropdown-link id="openPopup" href="{{ route('dashboard') }}" onclick="event.preventDefault();">
-                                    {{ __('Премини към продавач') }}
-                                </x-dropdown-link>
-                                @else
+
                                 <x-dropdown-link href="{{ route('dashboard') }}" onclick="event.preventDefault(); this.closest('form').submit();">
                                     {{ __('Премини към продавач') }}
                                 </x-dropdown-link>
-                                @endif
+
                                 @else ($typeOfAccount === "Seller")
                                 <input type="hidden" name="newType" value="Buyer">
+
                                 <x-dropdown-link href="{{ route('dashboard') }}" onclick="event.preventDefault(); this.closest('form').submit();">
                                     {{ __('Премини към купувач') }}
                                 </x-dropdown-link>
@@ -260,16 +237,9 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
-                @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                <x-responsive-nav-link href="{{ route('api-tokens.index') }}" :active="request()->routeIs('api-tokens.index')">
-                    {{ __('API Tokens') }}
-                </x-responsive-nav-link>
-                @endif
-
-                <!-- Authentication -->
+                
                 <form method="POST" action="{{ route('logout') }}" x-data>
                     @csrf
-
                     <x-responsive-nav-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
                         {{ __('Изход') }}
                     </x-responsive-nav-link>
@@ -280,32 +250,6 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
 </nav>
 
 <script>
-    // Get references to elements
-    const openButton = document.getElementById('openPopup');
-    const closeButton = document.getElementById('closePopup');
-    const popup = document.getElementById('popup');
-    const submitButton = document.getElementById('submitInput');
-    const inputField = document.getElementById('inputField');
-    const stripeField = document.getElementById('stripe_key');
-    const accForm = document.getElementById('switchAcc');
-
-    if (openButton != null && closeButton != null) {
-        // Event listeners
-        openButton.addEventListener('click', function() {
-            popup.style.display = 'block';
-        });
-        closeButton.addEventListener('click', function() {
-            popup.style.display = 'none';
-        });
-    }
-
-    // Handle submit button click
-    submitButton.addEventListener('click', function() {
-        const userInput = inputField.value;
-        closePopup();
-        stripeField.value = userInput;
-        accForm.submit();
-    });
 
     const modeButtonDark = document.getElementById('mode-toggle-dark');
     const modeButtonLight = document.getElementById('mode-toggle-light');

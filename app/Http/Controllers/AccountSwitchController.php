@@ -13,18 +13,28 @@ class AccountSwitchController extends Controller
     public function switchAccount(Request $request)
     {
         $newType = $request->input('newType');
-        $stripeKey = $request->input('stripe_key');
         $user = Auth::user();
 
         $existingSeller = Seller::where('user_id', $user->id)->first();
         $existingBuyer = Buyer::where('user_id', $user->id)->first();
 
         if ($newType === 'Seller' && !$existingSeller) {
-            // Insert new data for the seller in the 'sellers' table
+
+            $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
+            $account = $stripe->accounts->create([
+                'type' => 'standard'
+            ]);
+
             Seller::create([
                 'user_id' => $user->id,
-                'stripe_key' => $stripeKey, // Additional fields for sellers
+                'account_id' => $account->id
             ]);
+
+            $user->type = $newType;
+            $user->save();
+
+            return redirect('connect-stripe');
+            
         } elseif ($newType === 'Buyer' && !$existingBuyer) {
             // Insert new data for the buyer in the 'buyers' table
             Buyer::create([
