@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\ShoppingList;
+use App\Models\Product;
+use App\Models\Seller;
 
 
 class WebhookController extends Controller
@@ -49,11 +51,49 @@ class WebhookController extends Controller
                     $order->save();
                 }
 
-                ShoppingList::where('buyers_user_id', $order->user_id)->delete();
+                $shoppingItems = ShoppingList::where('buyers_user_id', $order->user_id)->get();
+
+                foreach ($shoppingItems as $item) {
+                    $productId = $item->products_id;
+
+                    $product = Product::where('id', $productId)->first();
+                    $product->bought_quantity += $item->quantity;
+                    $product->quantity -= $item->quantity;
+
+                    if ($product->quantity == 0) {
+                        $product->active = false;
+                    }
+
+                    $product->save();
+
+                    $seller = Seller::where('user_id', $product->seller_user_id)->first();
+
+                    $seller->balance += $product->price * $item->quantity;
+
+                    if ($seller->is_test) {
+                        $stripe->transfers->create([
+                            'amount' => $product->price * $item->quantity * 100,
+                            'currency' => 'bgn',
+                            'destination' => env('STRIPE_DEFAULT_ACCOUNT')
+                        ]);
+                    } else {
+                        $stripe->transfers->create([
+                            'amount' => $product->price * $item->quantity * 100,
+                            'currency' => 'bgn',
+                            'destination' => $seller->account_id
+                        ]);
+                    }
+
+                    // TODO: add logs to the database
+
+                    $item->delete();
+                }
+
+                // TODO: send email to the user
 
 
             default:
-                echo 'Received unknown event type ' . $event->type;
+                echo 'Непознат евент' . $event->type;
         }
 
         return response('', 200);
