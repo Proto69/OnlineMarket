@@ -231,67 +231,24 @@ class PageController extends Controller
 
         $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
 
+        $session = $stripe->checkout->sessions->retrieve($sessionId, []);
 
-        try {
-            $session = $stripe->checkout->sessions->retrieve($sessionId, []);
-
-            if (!$session) {
-                throw new NotFoundHttpException();
-            }
-
-            $order = Order::where('session_id', $session->id)->first();
-            if (!$order) {
-                throw new NotFoundHttpException();
-            }
-            if (!$order->is_paid) {
-                $order->is_paid = true;
-                $order->save();
-            }
-
-            $shoppingItems = ShoppingList::where('buyers_user_id', Auth::user()->id)->get();
-
-            foreach ($shoppingItems as $item) {
-                $productId = $item->products_id;
-
-                // FIXME: not changing product quantity
-                $product = Product::where('id', $productId)->first();
-                $product->bought_quantity += $item->quantity;
-                $product->quantity -= $item->quantity;
-
-                if ($product->quantity == 0) {
-                    $product->active = false;
-                }
-
-                $product->save();
-
-                $seller = Seller::where('user_id', $product->seller_user_id)->first();
-
-                // FIXME: not changing balance to seller
-                $seller->balance += $product->price * $item->quantity;
-
-                if ($seller->is_test) {
-                    $stripe->transfers->create([
-                        'amount' => $product->price * $item->quantity * 100,
-                        'currency' => 'bgn',
-                        'destination' => env('STRIPE_DEFAULT_ACCOUNT')
-                    ]);
-                } else {
-                    $stripe->transfers->create([
-                        'amount' => $product->price * $item->quantity * 100,
-                        'currency' => 'bgn',
-                        'destination' => $seller->account_id
-                    ]);
-                }
-
-                // TODO: add logs to the database
-
-                $item->delete();
-            }
-
-            return view('buyer.checkout-success', ['session' => $session]);
-        } catch (\Exception $e) {
+        if (!$session) {
             throw new NotFoundHttpException();
         }
+
+        $order = Order::where('session_id', $session->id)->first();
+
+        if (!$order) {
+            throw new NotFoundHttpException();
+        }
+
+        if (!$order->is_paid) {
+            $order->is_paid = true;
+            $order->save();
+        }
+
+        return view('buyer.checkout-success', ['session' => $session]);
     }
 
     public function checkoutCancel()

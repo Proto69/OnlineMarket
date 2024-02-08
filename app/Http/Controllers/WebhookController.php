@@ -13,10 +13,6 @@ class WebhookController extends Controller
 
     public function checkoutWebhook()
     {
-
-
-        // The library needs to be configured with your account's secret key.
-        // Ensure the key is kept out of any version control system you might be using.
         $stripe = new \Stripe\StripeClient('STRIPE_KEY');
 
         // This is your Stripe CLI webhook secret for testing your endpoint locally.
@@ -56,7 +52,9 @@ class WebhookController extends Controller
                 foreach ($shoppingItems as $item) {
                     $productId = $item->products_id;
 
-                    $product = Product::where('id', $productId)->first();
+                    // FIXME: not changing product quantity
+                    $product = Product::find($productId);
+
                     $product->bought_quantity += $item->quantity;
                     $product->quantity -= $item->quantity;
 
@@ -66,7 +64,7 @@ class WebhookController extends Controller
 
                     $product->save();
 
-                    $seller = Seller::where('user_id', $product->seller_user_id)->first();
+                    $seller = Seller::find($product->seller_user_id);
 
                     $seller->balance += $product->price * $item->quantity;
 
@@ -83,6 +81,8 @@ class WebhookController extends Controller
                             'destination' => $seller->account_id
                         ]);
                     }
+
+                    $seller->save();
 
                     // TODO: add logs to the database
 

@@ -91,7 +91,7 @@ class BuyerController extends Controller
 
     public function completeOrder()
     {
-        $shoppingCart = $shoppingCart = ShoppingList::where('buyers_user_id', Auth::user()->id)->get();
+        $shoppingCart = ShoppingList::where('buyers_user_id', Auth::user()->id)->get();
 
         $lineItems = [];
         $totalPrice = 0;
@@ -99,22 +99,22 @@ class BuyerController extends Controller
         // Iterate through the $checkout array to create line items
         foreach ($shoppingCart as $item) {
 
-            $product = Product::where('id', $item->products_id)->first();
+            $product = Product::find($item->products_id);
             
-            $totalPrice += $product->price * $product->quantity;
+            $totalPrice += ($product->price * $product->quantity);
 
             if ($product)
             // Add each product as a line item
             {
                 $lineItems[] = [
                     'price_data' => [
-                        'currency' => 'bgn', // Adjust currency as needed
+                        'currency' => 'bgn',
                         'product_data' => [
-                            'name' => $product->name, // Product name from $checkout array
+                            'name' => $product->name, 
                         ],
-                        'unit_amount' => $product->price * 100, // Adjust unit amount as needed
+                        'unit_amount' => $product->price * 100, 
                     ],
-                    'quantity' => $item->quantity, // Quantity from $checkout array
+                    'quantity' => $item->quantity, 
                 ];
             }
         }
