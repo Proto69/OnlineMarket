@@ -91,32 +91,40 @@ class BuyerController extends Controller
 
     public function completeOrder()
     {
-        $shoppingCart = ShoppingList::where('buyers_user_id', Auth::user()->id)->get();
+        $shoppingCart = $shoppingCart = ShoppingList::where('buyers_user_id', Auth::user()->id)->get();
 
         $lineItems = [];
-        $paymentIntentData = [];
         $totalPrice = 0;
 
         // Iterate through the $checkout array to create line items
         foreach ($shoppingCart as $item) {
 
-            $product = Product::find($item->products_id);
+            $product = Product::where('id', $item->products_id)->first();
             
-            $totalPrice += ($product->price * $product->quantity);
+            $totalPrice += $product->price * $product->quantity;
 
             if ($product)
             // Add each product as a line item
             {
                 $lineItems[] = [
-                    'price' => 'price_1OfdCYCSzZqinv6YltdPXzHI',
-                    'quantity' => $item->quantity, 
+                    'price_data' => [
+                        'currency' => 'bgn', // Adjust currency as needed
+                        'product_data' => [
+                            'name' => $product->name, // Product name from $checkout array
+                        ],
+                        'unit_amount' => $product->price * 100, // Adjust unit amount as needed
+                    ],
+                    'quantity' => $item->quantity, // Quantity from $checkout array
                 ];
             }
         }
 
         $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
-        $session = $stripe->paymentLinks->create([
+        $session = $stripe->checkout->sessions->create([
+            'success_url' => route('checkout-success')."?session_id={CHECKOUT_SESSION_ID}",
+            'cancel_url' => route('checkout-cancel'),
             'line_items' => $lineItems,
+            'mode' => 'payment',
         ]);
 
         $order = new Order();

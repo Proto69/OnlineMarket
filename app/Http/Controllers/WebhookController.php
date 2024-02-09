@@ -75,17 +75,19 @@ class WebhookController extends Controller
 
                     $seller = Seller::find($product->seller_user_id);
 
-                    $seller->balance += $product->price * $item->quantity;
+                    $amount_to_pay = ($product->price - (0.07 * $product->price)) * $item->quantity;
+
+                    $seller->balance += $amount_to_pay;
 
                     if ($seller->is_test) {
                         $stripe->transfers->create([
-                            'amount' => $product->price * $item->quantity * 100,
+                            'amount' => $amount_to_pay * 100,
                             'currency' => 'bgn',
                             'destination' => env('STRIPE_DEFAULT_ACCOUNT')
                         ]);
                     } else {
                         $stripe->transfers->create([
-                            'amount' => $product->price * $item->quantity * 100,
+                            'amount' => $amount_to_pay * 100,
                             'currency' => 'bgn',
                             'destination' => $seller->account_id
                         ]);
