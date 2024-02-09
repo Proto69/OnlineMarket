@@ -14,12 +14,18 @@ return new class extends Migration
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
 
-            $table->string('type'); // B or S
+            $table->foreignId('order_id')
+                ->references('id')
+                ->on('orders')
+                ->onDelete('cascade');
             $table->string('product');
             $table->integer('quantity');
-            $table->dateTime('date');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('sellers_user_id')
+                ->references('user_id')
+                ->on('sellers')
+                ->onDelete('cascade');
 
+            $table->timestamps();
         });
     }
 

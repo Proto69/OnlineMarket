@@ -101,7 +101,7 @@ class BuyerController extends Controller
 
             $product = Product::where('id', $item->products_id)->first();
             
-            $totalPrice += $product->price * $product->quantity;
+            $totalPrice += $product->price * $item->quantity;
 
             if ($product)
             // Add each product as a line item

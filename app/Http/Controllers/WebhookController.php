@@ -71,7 +71,7 @@ class WebhookController extends Controller
                     $log->quantity = $item->quantity;
                     $log->sellers_user_id = $product->seller_user_id;
 
-                    $log->store();
+                    $log->save();
 
                     $seller = Seller::find($product->seller_user_id);
 
