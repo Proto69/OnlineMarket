@@ -94,6 +94,7 @@ class BuyerController extends Controller
         $shoppingCart = ShoppingList::where('buyers_user_id', Auth::user()->id)->get();
 
         $lineItems = [];
+        $paymentIntentData = [];
         $totalPrice = 0;
 
         // Iterate through the $checkout array to create line items
@@ -107,24 +108,15 @@ class BuyerController extends Controller
             // Add each product as a line item
             {
                 $lineItems[] = [
-                    'price_data' => [
-                        'currency' => 'bgn',
-                        'product_data' => [
-                            'name' => $product->name, 
-                        ],
-                        'unit_amount' => $product->price * 100, 
-                    ],
+                    'price' => 'price_1OfdCYCSzZqinv6YltdPXzHI',
                     'quantity' => $item->quantity, 
                 ];
             }
         }
 
         $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
-        $session = $stripe->checkout->sessions->create([
-            'success_url' => route('checkout-success')."?session_id={CHECKOUT_SESSION_ID}",
-            'cancel_url' => route('checkout-cancel'),
+        $session = $stripe->paymentLinks->create([
             'line_items' => $lineItems,
-            'mode' => 'payment',
         ]);
 
         $order = new Order();

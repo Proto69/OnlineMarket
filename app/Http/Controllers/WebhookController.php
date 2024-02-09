@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\ShoppingList;
 use App\Models\Product;
 use App\Models\Seller;
+use App\Models\Log;
 
 
 class WebhookController extends Controller
@@ -13,10 +14,10 @@ class WebhookController extends Controller
 
     public function checkoutWebhook()
     {
-        $stripe = new \Stripe\StripeClient('STRIPE_KEY');
+        $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
 
         // This is your Stripe CLI webhook secret for testing your endpoint locally.
-        $endpoint_secret = env('STRIPE_WEBHOOK_ENDPOINT_SECCRET_CHECKOUT');
+        $endpoint_secret = env('STRIPE_WEBHOOK_ENDPOINT_SECRET_CHECKOUT');
 
         $payload = @file_get_contents('php://input');
         $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
@@ -52,7 +53,6 @@ class WebhookController extends Controller
                 foreach ($shoppingItems as $item) {
                     $productId = $item->products_id;
 
-                    // FIXME: not changing product quantity
                     $product = Product::find($productId);
 
                     $product->bought_quantity += $item->quantity;
@@ -63,6 +63,15 @@ class WebhookController extends Controller
                     }
 
                     $product->save();
+
+                    // Adding log
+                    $log = new Log();
+                    $log->order_id = $order->id;
+                    $log->product = $product->id;
+                    $log->quantity = $item->quantity;
+                    $log->sellers_user_id = $product->seller_user_id;
+
+                    $log->store();
 
                     $seller = Seller::find($product->seller_user_id);
 
@@ -84,18 +93,16 @@ class WebhookController extends Controller
 
                     $seller->save();
 
-                    // TODO: add logs to the database
-
                     $item->delete();
                 }
 
                 // TODO: send email to the user
-
+                return response('Потвърдена и завършена поръчка!', 200);
 
             default:
-                echo 'Непознат евент' . $event->type;
+                echo 'Непознат евент ' . $event->type;
         }
 
-        return response('', 200);
+        return response(' ');
     }
 }
