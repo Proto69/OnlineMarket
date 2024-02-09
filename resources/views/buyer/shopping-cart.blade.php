@@ -96,7 +96,7 @@
 
                 <div class="flex flex-col items-center justify-end px-4 mb-4">
                     <h1 class="total-sum ps-3 dark:text-lime-200 text-lime-600 font-bold text-2xl mt-2 mb-6">
-                        Обща сума: {{ $sum }}
+                        Обща сума: {{ $sum }}лв
                     </h1>
 
                     <form action="{{ route('complete-order') }}" method="POST">
@@ -167,7 +167,7 @@
                 $('.receipt-section').html(receiptHTML);
 
                 // Update the total sum
-                $('.total-sum').text(`Обща сума: ${response.sum}`);
+                $('.total-sum').text(`Обща сума: ${response.sum}лв`);
             },
             error: function(xhr, status, error) {
                 console.error('Error:', error);

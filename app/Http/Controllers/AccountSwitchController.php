@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Seller;
 use App\Models\Buyer;
-use Illuminate\Support\Facades\Hash;
 
 class AccountSwitchController extends Controller
 {

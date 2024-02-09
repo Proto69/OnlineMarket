@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Requests\StoreSellerRequest;
-use App\Http\Requests\UpdateSellerRequest;
 use App\Models\Seller;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 
 class SellerController extends Controller
@@ -22,7 +20,7 @@ class SellerController extends Controller
         $typeOfAccount = $user->type;
 
         if ($typeOfAccount !== 'Seller') {
-            return response()->json(['error' => 'You are not a seller'], 401);
+            return response()->json(['error' => 'Не си продавач'], 401);
         }
 
         $products = Product::where('seller_user_id', $userId)->get();
@@ -62,7 +60,7 @@ class SellerController extends Controller
         $typeOfAccount = Auth::user()->type;
 
         if ($typeOfAccount !== 'Seller') {
-            return response()->json(['error' => 'You are not a seller'], 401);
+            return response()->json(['error' => 'Не си продавач'], 401);
         }
 
         $product = Product::where('id', $product_id)->first();
@@ -104,7 +102,7 @@ class SellerController extends Controller
             return response()->json($product, 200);
         }
 
-        return response()->json(Response::HTTP_NOT_MODIFIED);
+        return response()->json(['message' => 'Продуктът не е намерен'], 404);
     }
 
     /**
@@ -115,7 +113,7 @@ class SellerController extends Controller
         $typeOfAccount = Auth::user()->type;
 
         if ($typeOfAccount !== 'Seller') {
-            return response()->json(['error' => 'You are not a seller'], 401);
+            return response()->json(['error' => 'Не си продавач'], 401);
         }
 
         $product = Product::where('id', $request->product_id)->first();
@@ -123,9 +121,9 @@ class SellerController extends Controller
         if ($product) {
             $product->delete();
 
-            return response()->json(['message' => 'Product deleted'], 200);
+            return response()->json(['message' => 'Продуктът е изтрит'], 200);
         }
 
-        return response()->json(['error' => 'Product not found'], 404);
+        return response()->json(['error' => 'Продуктът не е намерен'], 404);
     }
 }

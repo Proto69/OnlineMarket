@@ -126,7 +126,7 @@ class PageController extends Controller
             abort(404); // If type is not 'Seller', return a 404 not found error
         }
 
-        $logs = Log::where('user_id', $userId)->get();
+        $logs = Log::where('sellers_user_id', $userId)->orderBy('created_at', 'desc')->get();
 
         return view('seller.sells', ['logs' => $logs]);
     }

@@ -14,7 +14,7 @@ class ShoppingCartController extends Controller
         $user = Auth::user();
 
         if ($user->type !== 'Buyer') {
-            return response()->json(['error' => 'You are not a buyer'], 401);
+            return response()->json(['error' => 'Не си купувач'], 401);
         }
 
         $shoppingList = ShoppingList::where('buyers_user_id', $user->id)->get();

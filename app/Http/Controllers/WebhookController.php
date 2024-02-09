@@ -102,7 +102,7 @@ class WebhookController extends Controller
                 return response('Потвърдена и завършена поръчка!', 200);
 
             default:
-                echo 'Непознат евент ' . $event->type;
+                return response('Непознат евент ' + $event->type, 404);
         }
 
         return response(' ');

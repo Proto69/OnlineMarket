@@ -86,14 +86,17 @@ class ShoppingListController extends Controller
 
 
             if ($shoppingListItem) {
+                if ($shoppingListItem->quantity == $product->quantity) {
+                    return response()->json(['message' => 'Максимално количество достигнато.']);
+                } else {
+                    $newQuantity = $shoppingListItem->quantity + 1;
 
-                $newQuantity = $shoppingListItem->quantity + 1;
+                    $shoppingListItem->quantity = $newQuantity;
 
-                $shoppingListItem->quantity = $newQuantity;
+                    $shoppingListItem->save();
 
-                $shoppingListItem->save();
-
-                return response()->json(['message' => 'Quantity updated successfully']);
+                    return response()->json(['message' => 'Количеството е обновено.'], 200);
+                }
             } else {
 
                 ShoppingList::create([
@@ -103,12 +106,12 @@ class ShoppingListController extends Controller
                 ]);
 
                 // Return a success response
-                return response()->json(['message' => 'Продуктът беше добавен успешно към количката']);
+                return response()->json(['message' => 'Продуктът беше добавен успешно към количката'], 200);
             }
         }
 
         // Return an error response
-        return response()->json(['message' => 'Invalid product or inactive']);
+        return response()->json(['message' => 'Невалиден или неактивен продукт.']);
     }
 
     public function editShoppingQuantity(Request $request)
@@ -173,7 +176,6 @@ class ShoppingListController extends Controller
         }
 
         return response()->json(Response::HTTP_NOT_MODIFIED);
-
     }
 
     public function removeProduct(Request $request)

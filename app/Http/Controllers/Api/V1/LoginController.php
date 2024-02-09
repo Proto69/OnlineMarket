@@ -24,23 +24,23 @@ class LoginController extends Controller
             if ($token !== null) {
                 return response()->json(['token' => $token], 200);
             } else {
-                return response()->json(['error' => 'No tokens found for this user'], 404);
+                return response()->json(['error' => 'Не са намерени токени за този потребител'], 404);
             }
         } else {
-            return response()->json(['error' => 'Invalid credentials'], 401);
+            return response()->json(['error' => 'Невалидни данни'], 401);
         }
     }
 
     public function validateToken()
     {
-        return response()->json(['message' => 'Token is valid'], 200);
+        return response()->json(['message' => 'Невалиден токен'], 200);
     }
 
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json(['message' => 'Logged out'], 200);
+        return response()->json(['message' => 'Излезе успешно'], 200);
     }
 
     public function whatAmI()
@@ -55,7 +55,7 @@ class LoginController extends Controller
         $user = auth()->user();
 
         if ($user->type === $request->type) {
-            return response()->json(['error' => 'You are already a ' . $request->type], 400);
+            return response()->json(['error' => 'Вече си ' . $request->type], 400);
         }
         if ($request->type === 'Buyer' || $request->type === 'Seller') {
             $user->type = $request->type;
@@ -63,14 +63,14 @@ class LoginController extends Controller
                 $user->type = $request->type;
                 $user->save();
             } else {
-                return response()->json(['error' => 'Invalid type'], 400);
+                return response()->json(['error' => 'Невалиден тип'], 400);
             }
 
-            return response()->json(['message' => 'Type changed'], 200);
+            return response()->json(['message' => 'Типът на акаунта е променен'], 200);
         } else {
-            return response()->json(['error' => 'Invalid type'], 400);
+            return response()->json(['error' => 'Невалиден тип'], 400);
         }
 
-        return response()->json(['message' => 'Type changed'], 200);
+        return response()->json(['message' => 'Типът на акаунта е променен'], 200);
     }
 }

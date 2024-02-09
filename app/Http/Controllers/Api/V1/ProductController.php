@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use App\Filters\V1\ProductFilter;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -36,7 +35,7 @@ class ProductController extends Controller
     {
         $products = Product::where('active', 1)->get();
 
-        return response()->json($products);
+        return response()->json($products, 200);
     }
 
     /**
@@ -103,7 +102,7 @@ class ProductController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return response()->json(Response::HTTP_NOT_MODIFIED);
+        return response()->json(['error' => 'Продуктът не е намерен'], 404);
     }
 
     /**
