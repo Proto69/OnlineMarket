@@ -49,7 +49,7 @@
 </x-app-layout>
 
 <script>
-    function createToast() {
+    function createSuccessToast() {
         // Create a new toast element
         var toast = document.createElement('div');
         var toastId = 'toast-' + Date.now(); // Unique ID for each toast
@@ -96,7 +96,52 @@
         }, 3000);
     }
 
+    function createFailToast() {
+        // Create a new toast element
+        var toast = document.createElement('div');
+        var toastId = 'toast-' + Date.now(); // Unique ID for each toast
+        toast.setAttribute('id', toastId);
+        toast.classList.add('fixed', 'right-5', 'flex', 'items-center', 'w-full', 'max-w-xs', 'p-4', 'mb-4', 'text-gray-500', 'bg-white', 'rounded-lg', 'shadow', 'dark:text-gray-400', 'dark:bg-gray-800', 'toast');
+        toast.setAttribute('role', 'alert');
+        toast.style.transition = 'opacity 0.3s ease-in-out';
 
+        toast.style.position = 'fixed';
+        toast.style.bottom = '1rem'; // Adjust this value to set the distance between toasts
+        toast.style.right = '1rem'; // Adjust this value to set the distance between toasts
+        toast.style.transform = 'translateX(+0%) translateY(-' + (document.querySelectorAll('.toast').length * 35) + 'px)'; // Adjust this value to control the vertical stacking
+        toast.style.opacity = '0';
+        // Construct toast content
+        toast.innerHTML = `
+        <!-- Your toast content -->
+        <div class="toast inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-orange-500 bg-orange-100 rounded-lg dark:bg-orange-700 dark:text-orange-200">
+        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z"/>
+        </svg>
+        <span class="sr-only">Warning icon</span>
+    </div>
+        <div class="ms-3 text-sm font-normal">Максимално количество достигнато!</div>
+        <button type="button" class="close-toast-button" aria-label="Close">
+            <!-- Your close button content -->
+        </button>
+    `;
+
+        // Append the toast to the container
+        var toastContainer = document.getElementById('toast-container');
+        toastContainer.appendChild(toast);
+
+        // Animate the toast appearance
+        setTimeout(function() {
+            toast.style.opacity = '1';
+        }, 100); // Adding a slight delay for smoother animation
+
+        // Remove the toast after 3 seconds
+        setTimeout(function() {
+            toast.style.opacity = '0';
+            setTimeout(function() {
+                toast.remove();
+            }, 300); // Additional delay to ensure the fade-out transition completes
+        }, 3000);
+    }
 
 
     $('.add-to-cart').on('click', function() {
@@ -109,13 +154,20 @@
                 "_token": "{{ csrf_token() }}"
             },
             success: function(response) {
-                createToast();
+                createSuccessToast();
             },
             error: function(xhr, status, error) {
-                console.error('Error:', error);
-                console.error('Status:', status);
-                console.error('Response Text:', xhr.responseText);
+                if (xhr.status === 422) {
+                    // Display the error message from the response
+                    createFailToast();
+                } else {
+                    // Handle other errors
+                    console.error('Error:', error);
+                    console.error('Status:', status);
+                    console.error('Response Text:', xhr.responseText);
+                }
             }
+
 
         });
     });

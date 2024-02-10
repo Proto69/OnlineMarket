@@ -48,7 +48,7 @@ class WebhookController extends Controller
                     $order->save();
                 }
 
-                $shoppingItems = ShoppingList::where('buyers_user_id', $order->user_id)->get();
+                $shoppingItems = ShoppingList::where('buyers_user_id', $order->buyers_user_id)->get();
 
                 foreach ($shoppingItems as $item) {
                     $productId = $item->products_id;
@@ -64,14 +64,6 @@ class WebhookController extends Controller
 
                     $product->save();
 
-                    // Adding log
-                    $log = new Log();
-                    $log->order_id = $order->id;
-                    $log->product = $product->id;
-                    $log->quantity = $item->quantity;
-                    $log->sellers_user_id = $product->seller_user_id;
-
-                    $log->save();
 
                     $seller = Seller::find($product->seller_user_id);
 
@@ -96,6 +88,13 @@ class WebhookController extends Controller
                     $seller->save();
 
                     $item->delete();
+                }
+
+                $logs = Log::where('order_id', $order->id)->get();
+
+                foreach ($logs as $log){
+                    $log->is_paid = true;
+                    $log->save();
                 }
 
                 // TODO: send email to the user

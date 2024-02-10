@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ShoppingList;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Log;
 
 class BuyerController extends Controller
 {
@@ -131,8 +132,24 @@ class BuyerController extends Controller
         $order->session_id = $session->id;
         $order->is_paid = false;
         $order->total_price = $totalPrice;
-        $order->user_id = Auth::user()->id;
+        $order->buyers_user_id = Auth::user()->id;
         $order->save();
+
+        $order = Order::where('session_id', $session->id)->first();
+
+        foreach ($shoppingCart as $item){
+            $product = Product::where('id', $item->products_id)->first();
+
+            // Adding log
+            $log = new Log();
+            $log->order_id = $order->id;
+            $log->product = $product->id;
+            $log->quantity = $item->quantity;
+            $log->sellers_user_id = $product->seller_user_id;
+            $log->is_paid = false;
+
+            $log->save();
+        }
 
         return redirect($session->url);
     }

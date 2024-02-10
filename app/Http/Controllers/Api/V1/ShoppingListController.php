@@ -87,7 +87,7 @@ class ShoppingListController extends Controller
 
             if ($shoppingListItem) {
                 if ($shoppingListItem->quantity == $product->quantity) {
-                    return response()->json(['message' => 'Максимално количество достигнато.']);
+                    return response()->json(['message' => 'Максимално количество достигнато.'], 422);
                 } else {
                     $newQuantity = $shoppingListItem->quantity + 1;
 
