@@ -46,6 +46,10 @@ use App\Models\Product;
                         @endif
 
                         @endforeach
+
+                        @if(!$order->is_paid)
+                        <!-- TODO: add control buttons (delete, edit, pay) -->
+                        @endif
                     </div>
                 </div>
 
