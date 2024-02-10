@@ -12,32 +12,38 @@
 
                     @foreach($products as $product)
                     @if ($product->active)
-                    <div class="w-full max-w-sm bg-white border border-gray-300 rounded-lg shadow dark:bg-gray-800 p-4">
-                        <img class="mt-1 mb-2 ms-5" src="{{ $product->getImageURL() }}">
 
-                        <div class="px-5 pb-5">
-                            <a href="#">
-                                <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ $product->name }}</h5>
-                            </a>
-                            <div class="flex items-center mt-2.5 mb-5">
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    {{ $product->description }}
-                                    <br />
-                                    Налично количество: {{ $product->quantity }}
-                                </p>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-3xl font-bold text-gray-900 dark:text-white">${{ $product->price }}</span>
-                                @if ($product->quantity !== 0)
-                                <x-button class="add-to-cart mt-3" data-product-id="{{ $product->id }}">Добави в количка</x-button>
-                                @else
-                                <x-button class="mt-3" disabled>Изчерпан</x-button>
-                                @endif
 
-                                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            </div>
-                        </div>
-                    </div>
+                    <div class="card-form relative min-w-80 bg-white dark:bg-gray-800 border border-gray-300 p-4 rounded-lg flex flex-col h-full items-center">
+
+    <div class="mb-2 flex-grow">
+        <!-- Product Image -->
+        <img class="mt-1 mb-2 ms-5 productImage" src="{{ $product->getImageURL() }}">
+        <!-- Product Name -->
+        <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ $product->name }}</h5>
+        <!-- Product Description -->
+        <p class="mt-2 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
+            {{ $product->description }}
+            <br />
+            Налично количество: {{ $product->quantity }}
+        </p>
+    </div>
+
+    <div class="mt-auto mb-2 flex items-center justify-between">
+        <!-- Product Price -->
+        <span class="text-3xl font-bold mt-3 pr-2 text-gray-900 dark:text-white">${{ $product->price }}</span>
+        <!-- Add to Cart Button -->
+        <x-button class="mt-3" data-product-id="{{ $product->id }}">
+            {{ $product->quantity !== 0 ? 'Добави в количка' : 'Изчерпан' }}
+        </x-button>
+        <!-- Hidden Input for Product ID -->
+        <input type="hidden" name="product_id" value="{{ $product->id }}">
+    </div>
+</div>
+
+
+
+
                     @endif
                     @endforeach
 
