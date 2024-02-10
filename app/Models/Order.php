@@ -15,7 +15,7 @@ class Order extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id', 'id', 'is_paid', 'session_id', 'total_price'
+        'buyers_user_id', 'id', 'is_paid', 'session_id', 'total_price'
     ];
 
     /**
@@ -24,7 +24,7 @@ class Order extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'user_id' => 'integer',
+        'buyers_user_id' => 'integer',
         'total_price' => 'decimal',
         'is_paid' => 'boolean',
     ];

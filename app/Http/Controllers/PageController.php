@@ -92,13 +92,16 @@ class PageController extends Controller
 
     public function previousPurchases()
     {
-        $typeOfAccount = Auth::user()->type;
+        $user = Auth::user();
+        $typeOfAccount = $user->type;
 
         if ($typeOfAccount !== 'Buyer') {
             abort(404); // If type is not 'Buyer', return a 404 not found error
         }
 
-        return view('buyer.previous-purchases');
+        $orders = Order::where('buyers_user_id', $user->id)->orderBy('is_paid')->get();
+
+        return view('buyer.previous-purchases', ['orders' => $orders]);
     }
 
     public function sellerDashboard()

@@ -48,7 +48,7 @@ class WebhookController extends Controller
                     $order->save();
                 }
 
-                $shoppingItems = ShoppingList::where('buyers_user_id', $order->user_id)->get();
+                $shoppingItems = ShoppingList::where('buyers_user_id', $order->buyers_user_id)->get();
 
                 foreach ($shoppingItems as $item) {
                     $productId = $item->products_id;

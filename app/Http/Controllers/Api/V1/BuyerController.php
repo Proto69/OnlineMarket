@@ -131,7 +131,7 @@ class BuyerController extends Controller
         $order->session_id = $session->id;
         $order->is_paid = false;
         $order->total_price = $totalPrice;
-        $order->user_id = Auth::user()->id;
+        $order->buyers_user_id = Auth::user()->id;
         $order->save();
 
         return redirect($session->url);
