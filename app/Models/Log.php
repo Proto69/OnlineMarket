@@ -15,7 +15,7 @@ class Log extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'type', 'product', 'quantity', 'value', 'sellers_user_id', 'order_id'
+        'type', 'product', 'quantity', 'value', 'sellers_user_id', 'order_id', 'is_paid'
     ];
 
     /**
@@ -29,5 +29,6 @@ class Log extends Model
         'quantity' => 'integer',
         'order_id' => 'integer',
         'sellers_user_id' => 'integer',
+        'is_paid' => 'boolean', 
     ];
 }

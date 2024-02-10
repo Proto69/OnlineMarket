@@ -99,9 +99,14 @@ class PageController extends Controller
             abort(404); // If type is not 'Buyer', return a 404 not found error
         }
 
-        $orders = Order::where('buyers_user_id', $user->id)->orderBy('is_paid')->get();
+        $orders = Order::where('buyers_user_id', $user->id)->orderBy('is_paid')->pluck('id');
 
-        return view('buyer.previous-purchases', ['orders' => $orders]);
+        $logs = Log::whereIn('order_id', $orders)->get();
+
+        $ordersList = Order::where('buyers_user_id', $user->id)->orderBy('is_paid')->get();
+
+
+        return view('buyer.previous-purchases', ['orders' => $ordersList, 'logs' => $logs]);
     }
 
     public function sellerDashboard()
@@ -129,7 +134,7 @@ class PageController extends Controller
             abort(404); // If type is not 'Seller', return a 404 not found error
         }
 
-        $logs = Log::where('sellers_user_id', $userId)->orderBy('created_at', 'desc')->get();
+        $logs = Log::where('sellers_user_id', $userId)->where('is_paid', true)->orderBy('created_at', 'desc')->get();
 
         return view('seller.sells', ['logs' => $logs]);
     }
@@ -190,19 +195,6 @@ class PageController extends Controller
         $product = Product::where('id', $product_id)->first();
 
         return view('seller.edit-product', ['product' => $product]);
-    }
-
-    public function test()
-    {
-        $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
-
-        $stripe->transfers->create([
-            'amount' => 40000,
-            'currency' => 'bgn',
-            'destination' => Seller::where('user_id', Auth::user()->id)->first()->account_id
-        ]);
-
-        return redirect()->back();
     }
 
     public function returnStripe()
