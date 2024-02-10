@@ -3,7 +3,7 @@
         <div class="grid grid-cols-5 gap-4 text-gray-800 dark:text-gray-200">
             <h2 class="font-semibold text-xl leading-tight">
                 {{ __('Табло') }}
-                
+
             </h2>
             <form class="col-end-7 col-span-1" action="{{ route('new-product') }}" method="GET">
                 <x-success-button type="submit">
@@ -24,58 +24,63 @@
     </div>
     @endif
 
-    
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <div class="bg-transparent dark:bg-transparent overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="bg-transparent bg-opacity-25 grid grid-cols-1 md:grid-cols-4 gap-4 p-3">
+                <div class="bg-transparent bg-opacity-25 grid grid-cols-3 md:grid-cols-4 gap-4 p-3 ">
 
                     @foreach ($products as $product)
+
                     <form method="GET" action="{{ route('edit-product', $product->id) }}">
                         @csrf
-                        <div class="card-form bg-white dark:bg-gray-800 border border-gray-300 p-4 rounded-lg">
-                            <!-- Показване и качване на снимка  -->
-                            <img class="mt-1 mb-2 productImage" src="{{ $product->getImageURL() }}">
-                            <input type="hidden" class="productId" value="{{ $product->id }}"></input>
 
-                            <!-- Име на продукта -->
-                            <div class="flex items-center">
-                                <label class="block mb-2 text-xl font-medium text-gray-900 dark:text-white">{{ $product->name }}</label>
+                        <div class="card-form relative min-w-80 bg-white dark:bg-gray-800 border border-gray-300 p-4 rounded-lg flex flex-col h-full items-center">
+
+                            <div class="mb-2 flex-grow">
+                                <!-- Показване и качване на снимка  -->
+                                <img class="mt-1 mb-2 productImage" src="{{ $product->getImageURL() }}">
+                                <input type="hidden" class="productId" value="{{ $product->id }}">
+
+                                <!-- Име на продукта -->
+                                <div class="flex items-center">
+                                    <label class="block mb-2 text-xl font-medium text-gray-900 dark:text-white">{{ $product->name }}</label>
+                                </div>
+
+                                <!-- Описание -->
+                                <p class="text-gray-500 text-sm dark:text-gray-400 bg-transparent">
+                                    {{ $product->description }}
+                                </p>
                             </div>
 
-                            <!-- Описание -->
-                            <p class="text-gray-500 dark:text-gray-400 text-xl bg-white">
-                                {{ $product->description }}
-                            </p>
+                            <div class="mt-auto mb-2">
+                                <!-- Количество -->
+                                <label for="quantity-input" class="block mb-2 text-xl font-medium text-gray-900 dark:text-white">Количество: {{ $product->quantity }}</label>
+                                <!-- Цена -->
+                                <label class="text-xl block mt-3 font-medium text-gray-900 dark:text-white">Цена: {{ $product->price }}</label> <br />
 
-                            <!-- Количество -->
-                            <label for="quantity-input" class="block mb-2 text-xl font-medium text-gray-900 dark:text-white">Количество: {{ $product->quantity }}</label>
+                                <!-- Изчерпан продукт -->
+                                @if ($product->quantity === 0)
+                                <cr class="sold-product mt-2 text-red-800 dark:text-red-500 font-bold">Този продукт е изчерпан!</cr> <br />
+                                @endif
 
-                            <!-- Цена -->
-                            <label class="text-xl block mt-3 text-sm font-medium text-gray-900 dark:text-white ">Цена: {{ $product->price }}</label>
-                            <br />
+                                <!-- Активен/Неактивен switch -->
+                                <div class="flex items-center">
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" value="" class="sr-only peer activity-toggle" {{ $product->active ? 'checked' : '' }}>
+                                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    </label>
+                                    <span class="ml-3 activity-state state text-xxl font-medium text-gray-900 dark:text-gray-300">{{ $product->active ? 'Активен' : 'Неактивен'}}</span>
+                                </div>
 
-                            <!-- Изчерпан продукт -->
-                            @if ($product->quantity === 0)
-                            <cr class="sold-product mt-2 text-red-800 dark:text-red-500 font-bold">Този продукт е изчерпан!</cr>
-                            <br />
-                            @endif
-
-
-                            <!-- Активен/Неактивен switch -->
-                            <span class="activity-state state text-xxl font-medium text-gray-900 dark:text-gray-300">{{ $product->active ? 'Активен' : 'Неактивен'}}</span>
-                            <br />
-                            <label class="mt-3 relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" value="" class="sr-only peer activity-toggle" {{ $product->active ? 'checked' : '' }}>
-                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                            </label>
-                            <br />
-
-                            <x-success-button class="mt-3" type="submit" data-product-id="{{ $product->id }}">
-                                Промени продукт
-                            </x-success-button>
+                                <x-success-button class="mt-3 self-center" type="submit" data-product-id="{{ $product->id }}">
+                                    Промени продукт
+                                </x-success-button>
+                            </div>
                         </div>
+
+
                     </form>
                     @endforeach
                 </div>
