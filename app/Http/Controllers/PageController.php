@@ -217,7 +217,7 @@ class PageController extends Controller
 
     public function refreshStripe()
     {
-        return PageController::connectStripe();
+        return PageController::sellerDashboard();
     }
 
     public function checkoutSuccess(Request $request)
@@ -246,8 +246,26 @@ class PageController extends Controller
         return view('buyer.checkout-success', ['session' => $session]);
     }
 
-    public function checkoutCancel()
+    public function checkoutCancel(Request $request)
     {
-        return view('buyer.checkout-cancel');
+        $sessionId = $request->get('session_id');
+
+        $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
+
+        $session = $stripe->checkout->sessions->retrieve($sessionId, []);
+
+        if (!$session) {
+            throw new NotFoundHttpException();
+        }
+
+        $order = Order::where('session_id', $session->id)->first();
+
+        return view('buyer.checkout-cancel', ['orderId' => $order->id]);
+    }
+
+    public function editOrder($orderId)
+    {
+        $order = Order::find($orderId);
+        //TODO redirect to new page to edit page (like shopping cart)
     }
 }

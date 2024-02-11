@@ -123,7 +123,7 @@ class BuyerController extends Controller
         $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
         $session = $stripe->checkout->sessions->create([
             'success_url' => route('checkout-success') . "?session_id={CHECKOUT_SESSION_ID}",
-            'cancel_url' => route('checkout-cancel'),
+            'cancel_url' => route('checkout-cancel') . "?session_id={CHECKOUT_SESSION_ID}",
             'line_items' => $lineItems,
             'mode' => 'payment',
         ]);
@@ -157,14 +157,45 @@ class BuyerController extends Controller
     public function payOrder($orderId)
     {
         $order = Order::find($orderId);
-        //TODO create checkout session
+        $logs = Log::where('order_id', $orderId)->get();
+        $totalPrice = 0;
+
+        foreach ($logs as $item) {
+
+            $product = Product::where('id', $item->product)->first();
+
+            $totalPrice += $product->price * $item->quantity;
+
+            if ($product)
+            // Add each product as a line item
+            {
+                $lineItems[] = [
+                    'price_data' => [
+                        'currency' => 'bgn', // Adjust currency as needed
+                        'product_data' => [
+                            'name' => $product->name, // Product name from $checkout array
+                        ],
+                        'unit_amount' => $product->price * 100, // Adjust unit amount as needed
+                    ],
+                    'quantity' => $item->quantity, // Quantity from $checkout array
+                ];
+            }
+        }
+
+        $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
+        $session = $stripe->checkout->sessions->create([
+            'success_url' => route('checkout-success') . "?session_id={CHECKOUT_SESSION_ID}",
+            'cancel_url' => route('checkout-cancel') . "?session_id={CHECKOUT_SESSION_ID}",
+            'line_items' => $lineItems,
+            'mode' => 'payment',
+        ]);
+
+        $order->session_id = $session->id;
+        $order->save();
+
+        return redirect($session->url);
     }
 
-    public function editOrder($orderId)
-    {
-        $order = Order::find($orderId);
-        //TODO redirect to new page to edit page (like shopping cart)
-    }
 
     public function deleteOrder($orderId)
     {

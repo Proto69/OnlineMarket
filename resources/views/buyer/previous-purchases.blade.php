@@ -49,20 +49,23 @@ use App\Models\Product;
 
                         @if(!$order->is_paid)
 
-                        <form method="POST" action="{{ route('pay-order', $order->id) }}">
-                            <x-success-button class="mt-3 mx-1">
+                        <form method="POST" action="{{ route('pay-order', $order->id) }}" class="inline">
+                        @csrf
+                            <x-success-button type="submit" class="mt-3 mx-1">
                                 Плати Поръчка
                             </x-success-button>
                         </form>
 
-                        <form method="POST" action="{{ route('edit-order'. $order->id) }}">
-                            <x-basic-button class="mx-1">
+                        <form method="GET" action="{{ route('edit-order', $order->id) }}" class="inline">
+                        @csrf
+                            <x-basic-button type="submit" class="mx-1">
                                 Промени поръчка
                             </x-basic-button>
                         </form>
 
-                        <form method="POST" action="{{ route('delete-order', $order->id) }}">
-                            <x-danger-button class="mx-1">
+                        <form method="POST" action="{{ route('delete-order', $order->id) }}" class="inline">
+                        @csrf
+                            <x-danger-button type="submit" class="mx-1">
                                 Изтрий поръчка
                             </x-danger-button>
                         </form>

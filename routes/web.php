@@ -42,6 +42,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/return-stripe', [PageController::class, 'returnStripe'])->name('return-stripe');
     Route::get('/checkout-success', [PageController::class, 'checkoutSuccess'])->name('checkout-success');
     Route::get('/checkout-cancel', [PageController::class, 'checkoutCancel'])->name('checkout-cancel');
+    Route::get('/edit-order/{order_id}', [PageController::class, 'editOrder'])->name('edit-order');
 
 
     Route::get('/get-session-message', function () {
@@ -57,7 +58,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/change-status/{product_id}/{status}', [ProductController::class, 'changeStatus'])->name('change-status');
     Route::post('/complete-order', [BuyerController::class, 'completeOrder'])->name('complete-order');
     Route::post('/pay-order/{order_id}', [BuyerController::class, 'payOrder'])->name('pay-order');
-    Route::post('/edit-order/{order_id}', [BuyerController::class, 'editOrder'])->name('edit-order');
     Route::post('/delete-order/{order_id}', [BuyerController::class, 'deleteOrder'])->name('delete-order');
 
     Route::get('/remove-product-from-cart', [ShoppingListController::class, 'removeProduct']);

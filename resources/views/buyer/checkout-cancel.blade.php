@@ -17,7 +17,7 @@
             <div class="text-center text-3xl text-gray-700 dark:text-gray-200 mb-6">
                 Плащането е <strong class="text-red-600">неуспешно</strong>!
 
-                <form action="{{ route('complete-order') }}" method="POST">
+                <form action="{{ route('pay-order', $orderId) }}" method="POST">
                     @csrf
                     <x-success-button type="submit" class="mt-6">
                         <g class="text-xl">Завърши поръчка</g>
