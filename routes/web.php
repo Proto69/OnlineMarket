@@ -7,6 +7,7 @@ use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Api\V1\ProductController;
 use App\Http\Controllers\Api\V1\BuyerController;
+use App\Http\Controllers\Api\V1\LogController;
 use App\Http\Controllers\WebhookController;
 
 /*
@@ -58,7 +59,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/change-status/{product_id}/{status}', [ProductController::class, 'changeStatus'])->name('change-status');
     Route::post('/complete-order', [BuyerController::class, 'completeOrder'])->name('complete-order');
     Route::post('/pay-order/{order_id}', [BuyerController::class, 'payOrder'])->name('pay-order');
+    Route::get('/edit-log-save/{log_id}', [LogController::class, 'editLog'])->name('edit-log-save');
     Route::post('/delete-order/{order_id}', [BuyerController::class, 'deleteOrder'])->name('delete-order');
+    Route::post('/delete-log/{log_id}', [LogController::class, 'destroy'])->name('delete-log');
 
     Route::get('/remove-product-from-cart', [ShoppingListController::class, 'removeProduct']);
     Route::get('/search', [PageController::class, 'shoppingKeyWord']);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Requests\StoreLogRequest;
 use App\Http\Requests\UpdateLogRequest;
+use Illuminate\Http\Request;
 use App\Models\Log;
 use App\Http\Controllers\Controller;
 
@@ -60,8 +61,15 @@ class LogController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Log $log)
+    public function destroy($logId)
     {
-        //
+        Log::find($logId)->delete();
+    }
+
+    public function editLog(Request $request, $logId)
+    {
+        $log = Log::find($logId);
+
+        $quantity = $request->quantity;
     }
 }
