@@ -56,7 +56,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/edit-product', [ProductController::class, 'edit'])->name('edit-product-save');
     Route::post('/change-status/{product_id}/{status}', [ProductController::class, 'changeStatus'])->name('change-status');
     Route::post('/complete-order', [BuyerController::class, 'completeOrder'])->name('complete-order');
-    Route::post('/test', [PageController::class, 'test'])->name('test');
+    Route::post('/pay-order/{order_id}', [BuyerController::class, 'payOrder'])->name('pay-order');
+    Route::post('/edit-order/{order_id}', [BuyerController::class, 'editOrder'])->name('edit-order');
+    Route::post('/delete-order/{order_id}', [BuyerController::class, 'deleteOrder'])->name('delete-order');
 
     Route::get('/remove-product-from-cart', [ShoppingListController::class, 'removeProduct']);
     Route::get('/search', [PageController::class, 'shoppingKeyWord']);

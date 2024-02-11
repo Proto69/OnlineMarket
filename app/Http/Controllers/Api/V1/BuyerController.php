@@ -92,7 +92,7 @@ class BuyerController extends Controller
 
     public function completeOrder()
     {
-        $shoppingCart = $shoppingCart = ShoppingList::where('buyers_user_id', Auth::user()->id)->get();
+        $shoppingCart = ShoppingList::where('buyers_user_id', Auth::user()->id)->get();
 
         $lineItems = [];
         $totalPrice = 0;
@@ -101,7 +101,7 @@ class BuyerController extends Controller
         foreach ($shoppingCart as $item) {
 
             $product = Product::where('id', $item->products_id)->first();
-            
+
             $totalPrice += $product->price * $item->quantity;
 
             if ($product)
@@ -122,7 +122,7 @@ class BuyerController extends Controller
 
         $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
         $session = $stripe->checkout->sessions->create([
-            'success_url' => route('checkout-success')."?session_id={CHECKOUT_SESSION_ID}",
+            'success_url' => route('checkout-success') . "?session_id={CHECKOUT_SESSION_ID}",
             'cancel_url' => route('checkout-cancel'),
             'line_items' => $lineItems,
             'mode' => 'payment',
@@ -137,7 +137,7 @@ class BuyerController extends Controller
 
         $order = Order::where('session_id', $session->id)->first();
 
-        foreach ($shoppingCart as $item){
+        foreach ($shoppingCart as $item) {
             $product = Product::where('id', $item->products_id)->first();
 
             // Adding log
@@ -152,5 +152,23 @@ class BuyerController extends Controller
         }
 
         return redirect($session->url);
+    }
+
+    public function payOrder($orderId)
+    {
+        $order = Order::find($orderId);
+        //TODO create checkout session
+    }
+
+    public function editOrder($orderId)
+    {
+        $order = Order::find($orderId);
+        //TODO redirect to new page to edit page (like shopping cart)
+    }
+
+    public function deleteOrder($orderId)
+    {
+        $order = Order::find($orderId);
+        //TODO delete order (maybe be AJAX)
     }
 }

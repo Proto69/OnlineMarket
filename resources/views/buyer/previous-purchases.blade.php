@@ -48,7 +48,25 @@ use App\Models\Product;
                         @endforeach
 
                         @if(!$order->is_paid)
-                        <!-- TODO: add control buttons (delete, edit, pay) -->
+
+                        <form method="POST" action="{{ route('pay-order', $order->id) }}">
+                            <x-success-button class="mt-3 mx-1">
+                                Плати Поръчка
+                            </x-success-button>
+                        </form>
+
+                        <form method="POST" action="{{ route('edit-order'. $order->id) }}">
+                            <x-basic-button class="mx-1">
+                                Промени поръчка
+                            </x-basic-button>
+                        </form>
+
+                        <form method="POST" action="{{ route('delete-order', $order->id) }}">
+                            <x-danger-button class="mx-1">
+                                Изтрий поръчка
+                            </x-danger-button>
+                        </form>
+
                         @endif
                     </div>
                 </div>
