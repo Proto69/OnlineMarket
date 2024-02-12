@@ -28,6 +28,30 @@ class SellerController extends Controller
         return response()->json($products);
     }
 
+    public function createProduct()
+    {
+        $validated = request()->validate([
+            'name' => 'required|min:3|max:40',
+            'description' => 'required|min:5|max:255',
+            'quantity' => 'required|min:1',
+            'price' => 'required|min:0',
+            'image' => 'image'
+        ]);
+
+        $validated['bought_quantity'] = 0;
+        $validated['currency'] = "bgn";
+        $validated['active'] = 1;
+        $validated['seller_user_id'] = Auth::user()->id;
+
+        if (request()->has('image')) {
+            $imagePath = request()->file('image')->store('product', 'public');
+            $validated['image'] = $imagePath;
+        }
+
+        Product::create($validated);
+
+        return response()->json(['message' => 'Продуктът е създаден'], 201);
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -90,11 +114,19 @@ class SellerController extends Controller
         $product = Product::where('id', $request->product_id)->first();
 
         if ($product) {
+
+            if ($request->remove_existing_image == 'true') {
+                if ($product->image && Storage::disk('public')->exists($product->image)) {
+                    Storage::disk('public')->delete($product->image);
+                }
+                $validated['image'] = null;
+            }
             if (request()->has('image')) {
+                if ($product->image && Storage::disk('public')->exists($product->image)) {
+                    Storage::disk('public')->delete($product->image);
+                }
                 $imagePath = request()->file('image')->store('product', 'public');
                 $validated['image'] = $imagePath;
-
-                Storage::disk('public')->delete($product->image);
             }
 
             $product->update($validated);
