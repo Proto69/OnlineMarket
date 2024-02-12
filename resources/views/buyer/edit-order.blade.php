@@ -34,7 +34,7 @@ use App\Models\Product;
 
                     </div>
                     <div class="col-span-1 border-l border-lime-500 dark:border-lime-400 rounded-tr-lg rounded-br-lg flex items-center justify-center min-w-40">
-                        <form class="max-w-xs mx-auto" action="/remove-product-from-cart" method="GET">
+                        <form class="max-w-xs mx-auto" action="{{ route('delete-log', $log->id) }}" method="POST">
                             @csrf
                             <label for="quantity-input" class="block mb-2 pl-7 text-sm font-medium items-center justify-center text-gray-900 dark:text-white">
                                 <strong>Количество</strong></label>
@@ -57,53 +57,20 @@ use App\Models\Product;
                                 <button type="submit" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-10 py-2.5 text-center me-1 mb-1 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
                                     Премахни
                                 </button>
-
                             </div>
                         </form>
+
+
                     </div>
+
                 </div>
                 @endforeach
+                <form action="{{ route('shopping') }}" method="GET">
+                    <x-success-button type="submit">
+                        Запази промените
+                    </x-success-button>
+                </form>
             </div>
-            @if ($sum > 0)
-            <div class="fixed top-44 right-6 bottom-12 min-w-[300px] items-center mr-16 bg-white border border-lime-500 rounded-lg shadow-md dark:bg-gray-800 dark:border-lime-400 dark:hover:bg-gray-700 sm:rounded-lg pt-3 w-1/4">
-                <div class="px-4">
-                    <h2 class="dark:text-white text-black font-bold px-20 text-xl pb-3">
-                        Касова бележка
-                    </h2>
-                </div>
-
-                @php
-                $productCount = count($logs);
-                $scrollClass = $productCount >= 14 ? 'overflow-y-scroll' : '';
-                @endphp
-
-                <div class="{{ $scrollClass }} mx-0 max-h-80 border-y border-lime-500 dark:border-lime-400 py-3">
-                    <div class="receipt-section">
-                        @foreach ($logs as $log)
-                        <p class="ps-3 dark:text-gray-400 text-gray-900">
-                            <strong>{{ Product::find($log->product)->name }}</strong> x <strong>{{ $log->quantity }}</strong> = <strong>{{  Product::find($log->product)->price * $log->quantity}}</strong>
-                        </p>
-                        @endforeach
-                    </div>
-                </div>
-
-                <div class="flex flex-col items-center justify-end px-4 mb-4">
-                    <h1 class="total-sum ps-3 dark:text-lime-200 text-lime-600 font-bold text-2xl mt-2 mb-6">
-                        Обща сума: {{ $sum }}лв
-                    </h1>
-
-                    <form action="{{ route('pay-order', $orderId) }}" method="POST">
-                        @csrf
-                        <button type="submit" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
-                            Плащане на поръчката
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-
-
-            @endif
 
         </div>
     </div>
@@ -149,17 +116,6 @@ use App\Models\Product;
             },
             success: function(response) {
                 console.log('success');
-
-                let receiptHTML = '';
-                response.products.forEach(product => {
-                    receiptHTML += `<p class="ps-3 dark:text-gray-400 text-gray-900"><strong>${product.name}</strong> x <strong>${product.bought_quantity}</strong> = <strong>${product.price * product.bought_quantity}</strong></p>`;
-                });
-
-                // Replace the receipt section content
-                $('.receipt-section').html(receiptHTML);
-
-                // Update the total sum
-                $('.total-sum').text(`Обща сума: ${response.sum}лв`);
             },
             error: function(xhr, status, error) {
                 console.error('Error:', error);

@@ -62,7 +62,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/pay-order/{order_id}', [BuyerController::class, 'payOrder'])->name('pay-order');
     Route::post('/edit-order-save/{order_id}', [OrderController::class, 'editOrder'])->name('edit-order-save');
     Route::post('/edit-log/{log_id}/{new_quantity}', [LogController::class, 'editQuantity'])->name('edit-log');
-    Route::post('/delete-order/{order_id}', [BuyerController::class, 'deleteOrder'])->name('delete-order');
+    Route::post('/delete-order/{order_id}', [OrderController::class, 'destroy'])->name('delete-order');
     Route::post('/delete-log/{log_id}', [LogController::class, 'destroy'])->name('delete-log');
 
     Route::get('/remove-product-from-cart', [ShoppingListController::class, 'removeProduct']);

@@ -6,6 +6,7 @@ use App\Http\Requests\StoreLogRequest;
 use App\Http\Requests\UpdateLogRequest;
 use App\Models\Log;
 use App\Models\Product;
+use App\Models\Order;
 use App\Http\Controllers\Controller;
 
 class LogController extends Controller
@@ -63,8 +64,30 @@ class LogController extends Controller
      */
     public function destroy($logId)
     {
-        Log::find($logId)->delete();
+        try {
+            // Find the Log instance with the given ID and delete it
+            $log = Log::find($logId);
+
+            $orderId = $log->order_id;
+
+            $log->delete();
+
+            $logs = Log::where('order_id', $orderId)->get();
+
+            if (count($logs) == 0){
+                $order = Order::find($orderId);
+                $order->delete();
+
+                return redirect()->route('previous-purchases');
+            }
+
+            return redirect()->back()->with(['message', 'Логът е изтрит успешно']);
+        } catch (\Exception $e) {
+            // Handle any exceptions that occur during deletion
+            return redirect()->back()->with(['error', 'Логът не е намерен']);
+        }
     }
+
 
     public function editQuantity($logId, $newQuantity)
     {
@@ -78,11 +101,11 @@ class LogController extends Controller
 
         $products = [];
 
-        foreach($logs as $log){
+        foreach ($logs as $log) {
             $product = Product::find($log->product);
             $products[$product->id] = $product;
         }
 
-        return response()->json($products);
+        return response()->json(['products' => $products, 'logs' => $logs]);
     }
 }

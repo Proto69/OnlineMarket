@@ -195,11 +195,4 @@ class BuyerController extends Controller
 
         return redirect($session->url);
     }
-
-
-    public function deleteOrder($orderId)
-    {
-        $order = Order::find($orderId);
-        //TODO delete order (maybe be AJAX)
-    }
 }

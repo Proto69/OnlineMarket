@@ -258,6 +258,12 @@ class PageController extends Controller
             throw new NotFoundHttpException();
         }
 
+        $lists = ShoppingList::where('buyers_user_id', Auth::user()->id)->get();
+
+        foreach ($lists as $list){
+            $list->delete();
+        }
+
         $order = Order::where('session_id', $session->id)->first();
 
         return view('buyer.checkout-cancel', ['orderId' => $order->id]);
