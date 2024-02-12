@@ -33,7 +33,7 @@
                             <!-- Product Price -->
                             <span class="text-3xl font-bold mt-3 pr-2 text-gray-900 dark:text-white">${{ $product->price }}</span>
                             <!-- Add to Cart Button -->
-                            <x-basic-button class="mt-3" data-product-id="{{ $product->id }}">
+                            <x-basic-button class="mt-3 add-to-cart" data-product-id="{{ $product->id }}">
                                 Добави в количка
                             </x-basic-button>
                             <!-- Hidden Input for Product ID -->
