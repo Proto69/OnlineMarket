@@ -3,51 +3,169 @@ use App\Models\Product;
 
 @endphp
 <x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Промяна на поръчка') }} № {{ $orderId }}
+        </h2>
+    </x-slot>
+
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="card-form bg-white dark:bg-gray-800 border border-gray-300 p-4 rounded-lg">
-                    @foreach($logs as $log)
-                    <form action="{{ route('edit-log-save', $log->id) }}" method="POST">
-                        @csrf
-                        <!-- Име -->
-                        <div class="flex items-center">
-                            <h2 class="text-xxl font-semibold text-gray-900 dark:text-white">
-                                {{ Product::find($log->product)->name }}
-                            </h2>
+        <div class="max-w-7xl mx-auto min-w-[905px] sm:px-6 lg:px-8">
+            <div class="overflow-hidden shadow-xl sm:rounded-lg mr-96 mt-[-0.5rem] bg-transparent">
+                @foreach ($logs as $log)
+                <div class="border border-lime-500 mb-1 dark:border-lime-400 dark:bg-gray-800 h-96 rounded-lg grid grid-cols-3 min-w-[470px]">
+                    <div class="col-span-2 relative min-w-80">
+                        <div class="absolute top-2 left-1/2 transform -translate-x-1/2">
+                            <img class="rounded-lg mb-2 productImage" src="{{ Product::find($log->product)->getImageURL() }}" alt="{{ Product::find($log->product)->name }}">
                         </div>
 
-                        <!-- Количество -->
-                        <label for="quantity-input"
-                            class="block mb-1 text-xl font-medium text-gray-900 dark:text-white">Количество:</label>
-                        @error('quantity')
-                            <p class="text-red-500 text-sm mt-1 mb-1">{{ $message }}</p>
-                        @enderror
-                        <x-input type="text" name="quantity" id="quantity" class="h-11 text-center text-sm py-2.5"
-                            value="{{ $log->quantity }}" required></x-input>
+                        <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2">
 
-                        <!-- Добавяне на продукт -->
-                        <x-success-button class="mt-3 me-2" type="submit">
-                            Запази промените
-                        </x-success-button>
-                    </form>
+                            <div class="flex items-center">
+                                <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                    <a>{{ Product::find($log->product)->name}}</a>
+                                </h2>
+                            </div>
 
-                    <form action="{{ route('delete-log', $log->id) }}" method="POST" class="inline">
+                            <p class="mt-8 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
+                                {{ Product::find($log->product)->description }}
+                            </p>
+                        </div>
+
+                    </div>
+                    <div class="col-span-1 border-l border-lime-500 dark:border-lime-400 rounded-tr-lg rounded-br-lg flex items-center justify-center min-w-40">
+                        <form class="max-w-xs mx-auto" action="/remove-product-from-cart" method="GET">
+                            @csrf
+                            <label for="quantity-input" class="block mb-2 pl-7 text-sm font-medium items-center justify-center text-gray-900 dark:text-white">
+                                <strong>Количество</strong></label>
+                            <x-input name="log_id" id="default-search" class="hidden" value="{{ $log->id }}" />
+                            <div class="relative flex items-center max-w-[9rem]">
+                                <button type="button" id="decrement-button-{{ $log->id }}" data-log-id="{{ $log->id }}" data-input-counter-decrement="quantity-input-{{ $log->id }}" class="decrement-button bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                    <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
+                                    </svg>
+                                </button>
+                                <input type="text" id="quantity-input-{{ $log->id }}" data-log-id="{{ $log->id }}" data-input-counter data-input-counter-min="1" data-input-counter-max="{{ Product::find($log->product)->quantity }}" aria-describedby="helper-text-explanation" class="quantity-input bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $log->quantity }}" required>
+                                <button type="button" id="increment-button-{{ $log->id }}" data-log-id="{{ $log->id }}" data-input-counter-increment="quantity-input-{{ $log->id }}" class="increment-button bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                    <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div class="mt-7">
+                                <button type="submit" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-10 py-2.5 text-center me-1 mb-1 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
+                                    Премахни
+                                </button>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            @if ($sum > 0)
+            <div class="fixed top-44 right-6 bottom-12 min-w-[300px] items-center mr-16 bg-white border border-lime-500 rounded-lg shadow-md dark:bg-gray-800 dark:border-lime-400 dark:hover:bg-gray-700 sm:rounded-lg pt-3 w-1/4">
+                <div class="px-4">
+                    <h2 class="dark:text-white text-black font-bold px-20 text-xl pb-3">
+                        Касова бележка
+                    </h2>
+                </div>
+
+                @php
+                $productCount = count($logs);
+                $scrollClass = $productCount >= 14 ? 'overflow-y-scroll' : '';
+                @endphp
+
+                <div class="{{ $scrollClass }} mx-0 max-h-80 border-y border-lime-500 dark:border-lime-400 py-3">
+                    <div class="receipt-section">
+                        @foreach ($logs as $log)
+                        <p class="ps-3 dark:text-gray-400 text-gray-900">
+                            <strong>{{ Product::find($log->product)->name }}</strong> x <strong>{{ $log->quantity }}</strong> = <strong>{{  Product::find($log->product)->price * $log->quantity}}</strong>
+                        </p>
+                        @endforeach
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center justify-end px-4 mb-4">
+                    <h1 class="total-sum ps-3 dark:text-lime-200 text-lime-600 font-bold text-2xl mt-2 mb-6">
+                        Обща сума: {{ $sum }}лв
+                    </h1>
+
+                    <form action="{{ route('pay-order', $orderId) }}" method="POST">
                         @csrf
-                        <x-danger-button class="mt-3" type="submit">
-                            Изтрий продукта
-                        </x-danger-button>
+                        <button type="submit" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
+                            Плащане на поръчката
+                        </button>
                     </form>
-
-                    <form action="{{ route('shopping') }}" method="GET" class="inline">
-                        @csrf
-                        <x-danger-button class="mt-3" type="submit">
-                            Отказ
-                        </x-danger-button>
-                    </form>
-                    @endforeach
                 </div>
             </div>
+
+
+
+            @endif
+
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    let inputQuantityField = document.querySelector(".quantity-input");
+
+    inputQuantityField.addEventListener("keydown", function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            let logId = $(this).data('log-id');
+            let currentValue = parseInt($(this).val());
+
+            updateQuantity(logId, currentValue);
+        }
+    });
+
+    $('.decrement-button, .increment-button').on('click', function() {
+        let logId = $(this).data('log-id');
+        let currentValue = parseInt($(this).siblings('.quantity-input').val());
+        let minValue = $(this).siblings('.quantity-input').data('input-counter-min');
+        let maxValue = $(this).siblings('.quantity-input').data('input-counter-max');
+
+        // Decrement or increment based on the clicked button
+        if ($(this).hasClass('decrement-button')) {
+            currentValue = Math.max(currentValue - 1, minValue);
+        } else {
+            currentValue = Math.min(currentValue + 1, maxValue);
+        }
+
+        // Make the AJAX request
+        updateQuantity(logId, currentValue);
+    });
+
+    function updateQuantity(logId, newQuantity) {
+        $.ajax({
+            url: '/edit-log/' + logId + '/' + newQuantity,
+            method: 'POST',
+            data: {
+                new_bought_quantity: newQuantity,
+                "_token": "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                console.log('success');
+
+                let receiptHTML = '';
+                response.products.forEach(product => {
+                    receiptHTML += `<p class="ps-3 dark:text-gray-400 text-gray-900"><strong>${product.name}</strong> x <strong>${product.bought_quantity}</strong> = <strong>${product.price * product.bought_quantity}</strong></p>`;
+                });
+
+                // Replace the receipt section content
+                $('.receipt-section').html(receiptHTML);
+
+                // Update the total sum
+                $('.total-sum').text(`Обща сума: ${response.sum}лв`);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                console.error('Status:', status);
+                console.error('Response Text:', xhr.responseText);
+            }
+        });
+    }
+</script>

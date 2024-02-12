@@ -111,7 +111,7 @@ class ShoppingListController extends Controller
         }
 
         // Return an error response
-        return response()->json(['message' => 'Невалиден или неактивен продукт.']);
+        return response()->json(['message' => 'Невалиден или неактивен продукт.'], 404);
     }
 
     public function editShoppingQuantity(Request $request)
@@ -153,7 +153,7 @@ class ShoppingListController extends Controller
         ];
 
         // Return a JSON response with the updated data
-        return response()->json($data, Response::HTTP_OK);
+        return response()->json($data, 200);
     }
 
     public function editProduct(Request $request)
@@ -172,10 +172,10 @@ class ShoppingListController extends Controller
             $product->description = $newDescription;
             $product->price = $newPrice;
 
-            return response()->json(Response::HTTP_OK);
+            return response()->json(200);
         }
 
-        return response()->json(Response::HTTP_NOT_MODIFIED);
+        return response()->json(404);
     }
 
     public function removeProduct(Request $request)

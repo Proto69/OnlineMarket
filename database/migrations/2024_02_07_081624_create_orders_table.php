@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->boolean('is_paid')->default(false);
-            $table->decimal('total_price', 65, 2);
+            $table->decimal('total_price', 10, 2);
             $table->string('session_id');
             $table->unsignedBigInteger('user_id');
 

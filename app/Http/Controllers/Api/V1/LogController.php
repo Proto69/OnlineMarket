@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Requests\StoreLogRequest;
 use App\Http\Requests\UpdateLogRequest;
-use Illuminate\Http\Request;
 use App\Models\Log;
+use App\Models\Product;
 use App\Http\Controllers\Controller;
 
 class LogController extends Controller
@@ -66,10 +66,23 @@ class LogController extends Controller
         Log::find($logId)->delete();
     }
 
-    public function editLog(Request $request, $logId)
+    public function editQuantity($logId, $newQuantity)
     {
         $log = Log::find($logId);
 
-        $quantity = $request->quantity;
+        $log->quantity = $newQuantity;
+
+        $log->save();
+
+        $logs = Log::where('order_id', $log->order_id)->get();
+
+        $products = [];
+
+        foreach($logs as $log){
+            $product = Product::find($log->product);
+            $products[$product->id] = $product;
+        }
+
+        return response()->json($products);
     }
 }

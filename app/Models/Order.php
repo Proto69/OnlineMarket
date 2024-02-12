@@ -25,7 +25,7 @@ class Order extends Model
      */
     protected $casts = [
         'buyers_user_id' => 'integer',
-        'total_price' => 'decimal',
+        'total_price' => 'decimal:2',
         'is_paid' => 'boolean',
     ];
 }
