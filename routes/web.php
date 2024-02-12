@@ -26,7 +26,8 @@ use App\Http\Controllers\WebhookController;
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
-
+Route::get('/checkout-success', [PageController::class, 'checkoutSuccess'])->name('checkout-success');
+Route::get('/checkout-cancel', [PageController::class, 'checkoutCancel'])->name('checkout-cancel');
 // Routes with verification
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
@@ -42,8 +43,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/connect-stripe', [PageController::class, 'connectStripe'])->name('connect-stripe');
     Route::get('/refresh-stripe', [PageController::class, 'refreshStripe'])->name('refresh-stripe');
     Route::get('/return-stripe', [PageController::class, 'returnStripe'])->name('return-stripe');
-    Route::get('/checkout-success', [PageController::class, 'checkoutSuccess'])->name('checkout-success');
-    Route::get('/checkout-cancel', [PageController::class, 'checkoutCancel'])->name('checkout-cancel');
+    // Route::get('/checkout-success', [PageController::class, 'checkoutSuccess'])->name('checkout-success');
+    // Route::get('/checkout-cancel', [PageController::class, 'checkoutCancel'])->name('checkout-cancel');
     Route::get('/edit-order/{order_id}', [PageController::class, 'editOrder'])->name('edit-order');
     Route::get('/profile', [PageController::class, 'profile'])->name('profile');
 

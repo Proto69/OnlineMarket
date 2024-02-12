@@ -29,7 +29,8 @@ class PageController extends Controller
         return redirect($accountLink->url);
     }
 
-    public function profile(){
+    public function profile()
+    {
 
         return view('profile.show', ['title' => "Профил"]);
     }
@@ -249,11 +250,15 @@ class PageController extends Controller
         }
 
         if (!$order->is_paid) {
+            // Check if the session is actually paid
             if ($session->payment_status === 'paid') {
                 $order->is_paid = true;
                 $order->save();
 
-                $lists = ShoppingList::where('buyers_user_id', optional(Auth::user())->id)->delete();
+                // Empty the cart
+                ShoppingList::where('buyers_user_id', optional(Auth::user())->id)->delete();
+            } elseif ($session->payment_status === 'unpaid') {
+                return redirect()->route('checkout-cancel', ['session_id' => $session->id]);
             }
         }
 
@@ -272,10 +277,13 @@ class PageController extends Controller
             throw new NotFoundHttpException();
         }
 
-        $lists = ShoppingList::where('buyers_user_id', Auth::user()->id)->delete();
+        $lists = ShoppingList::where('buyers_user_id', optional(Auth::user())->id)->get();
+
+        foreach ($lists as $list) {
+            $list->delete();
+        }
 
         $order = Order::where('session_id', $session->id)->first();
-
 
         return view('buyer.checkout-cancel', ['orderId' => optional($order)->id, 'title' => "Неуспешна покупка"]);
     }

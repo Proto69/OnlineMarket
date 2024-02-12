@@ -103,38 +103,38 @@ class ShoppingCartController extends Controller
         return response()->json(['payment_url' => $session->url], 200);
     }
 
-    public function checkoutSuccess(Request $request)
-    {
-        $sessionId = $request->get('session_id');
+    // public function checkoutSuccess(Request $request)
+    // {
+    //     $sessionId = $request->get('session_id');
 
-        $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
+    //     $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
 
-        try {
-            $session = $stripe->checkout->sessions->retrieve($sessionId, []);
+    //     try {
+    //         $session = $stripe->checkout->sessions->retrieve($sessionId, []);
 
-            if (!$session) {
-                return response()->json(['message' => 'Плащането не е намерено'], 400);
-            }
+    //         if (!$session) {
+    //             return response()->json(['message' => 'Плащането не е намерено'], 400);
+    //         }
 
-            $order = Order::where('session_id', $session->id)->first();
-            if (!$order) {
-                return response()->json(['message' => 'Плащането не е намерено'], 400);
-            }
-            if (!$order->is_paid) {
-                $order->is_paid = true;
-                $order->save();
-            }
+    //         $order = Order::where('session_id', $session->id)->first();
+    //         if (!$order) {
+    //             return response()->json(['message' => 'Плащането не е намерено'], 400);
+    //         }
+    //         if (!$order->is_paid) {
+    //             $order->is_paid = true;
+    //             $order->save();
+    //         }
 
-            return response()->json(['message' => 'Плащането е успешно'], 200);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Получена е грешка при плащането.'], 400);
-        }
-    }
+    //         return response()->json(['message' => 'Плащането е успешно'], 200);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['message' => 'Получена е грешка при плащането.'], 400);
+    //     }
+    // }
 
-    public function checkoutCancel()
-    {
-        return response()->json(['message' => 'Плащането е отказано'], 200);
-    }
+    // public function checkoutCancel()
+    // {
+    //     return response()->json(['message' => 'Плащането е отказано'], 200);
+    // }
 
     public function removeFromCart(Request $request)
     {
@@ -150,5 +150,22 @@ class ShoppingCartController extends Controller
         }
 
         return response()->json(['error' => 'Продуктът не е намерен в количката'], 404);
+    }
+
+    public function purchaseHistory()
+    {
+        $user = Auth::user();
+
+        if ($user->type !== 'Buyer') {
+            return response()->json(['error' => 'Не си купувач'], 401);
+        }
+
+        $orders = Order::where('buyers_user_id', $user->id)->orderBy('is_paid')->pluck('id');
+
+        $logs = Log::whereIn('order_id', $orders)->get();
+
+        $ordersList = Order::where('buyers_user_id', $user->id)->orderBy('is_paid')->get();
+
+        return response()->json(['logs' => $logs, 'orders' => $ordersList], 200);
     }
 }

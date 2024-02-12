@@ -20,8 +20,8 @@ use App\Http\Controllers\Api\V1\ProfileController;
 */
 Route::prefix('app/v1')->group(function () {
     Route::post('login', [LoginController::class, 'login'])->name('app.login');
-    Route::get('checkout-success', [ShoppingCartController::class, 'checkoutSuccess'])->name('app.checkout-success');
-    Route::get('checkout-cancel', [ShoppingCartController::class, 'checkoutCancel'])->name('app.checkout-cancel');
+    // Route::get('checkout-success', [ShoppingCartController::class, 'checkoutSuccess'])->name('app.checkout-success');
+    // Route::get('checkout-cancel', [ShoppingCartController::class, 'checkoutCancel'])->name('app.checkout-cancel');
 });
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -50,6 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('dashboard', [SellerController::class, 'dash'])->name('app.seller-dash');
             Route::get('type', [LoginController::class, 'whatAmI'])->name('app.wtfAmI');
             Route::get('profile', [ProfileController::class, 'show'])->name('app.profile');
+            Route::get('purchase-history', [ShoppingCartController::class, 'purchaseHistory'])->name('app.purchase-history');
         });
     });
 
