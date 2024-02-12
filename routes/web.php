@@ -45,6 +45,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/checkout-success', [PageController::class, 'checkoutSuccess'])->name('checkout-success');
     Route::get('/checkout-cancel', [PageController::class, 'checkoutCancel'])->name('checkout-cancel');
     Route::get('/edit-order/{order_id}', [PageController::class, 'editOrder'])->name('edit-order');
+    Route::get('/profile', [PageController::class, 'profile'])->name('profile');
 
 
     Route::get('/get-session-message', function () {

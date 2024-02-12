@@ -130,7 +130,7 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                                 {{ __('Управляване на акаунт') }}
                             </div>
 
-                            <x-dropdown-link href="{{ route('profile.show') }}">
+                            <x-dropdown-link href="{{ route('profile') }}">
                                 {{ __('Профил') }}
                             </x-dropdown-link>
 

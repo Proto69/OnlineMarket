@@ -1,4 +1,5 @@
 <x-app-layout>
+    @section('title', $title)
     <div class="container mx-auto px-4 py-8">
         <div class="shadow-md rounded-lg p-6">
             <div class="flex items-center justify-center mb-6">

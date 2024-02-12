@@ -1,4 +1,5 @@
 <x-app-layout>
+    @section('title', $title)
     <x-slot name="header">
         <div class="grid grid-cols-5 gap-4 text-gray-800 dark:text-gray-200">
             <h2 class="font-semibold text-xl leading-tight">

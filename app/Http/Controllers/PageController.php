@@ -29,6 +29,11 @@ class PageController extends Controller
         return redirect($accountLink->url);
     }
 
+    public function profile(){
+
+        return view('profile.show', ['title' => "Профил"]);
+    }
+
     public function shopping()
     {
         $typeOfAccount = Auth::user()->type;
@@ -39,7 +44,7 @@ class PageController extends Controller
 
         $products = Product::all();
 
-        return view('buyer.index', ['products' => $products]);
+        return view('buyer.index', ['products' => $products, 'title' => "Пазаруване"]);
     }
 
     public function shoppingKeyWord(Request $request)
@@ -56,7 +61,7 @@ class PageController extends Controller
             $query->where('name', 'like', "%$keyWord%");
         })->get();
 
-        return view('buyer.index', ['products' => $products]);
+        return view('buyer.index', ['products' => $products, 'title' => "Пазаруване"]);
     }
 
     public function shoppingCart()
@@ -86,7 +91,8 @@ class PageController extends Controller
 
         return view('buyer.shopping-cart', [
             'products' => $products,
-            'sum' => $sum
+            'sum' => $sum,
+            'title' => "Количка"
         ]);
     }
 
@@ -106,7 +112,7 @@ class PageController extends Controller
         $ordersList = Order::where('buyers_user_id', $user->id)->orderBy('is_paid')->get();
 
 
-        return view('buyer.previous-purchases', ['orders' => $ordersList, 'logs' => $logs]);
+        return view('buyer.previous-purchases', ['orders' => $ordersList, 'logs' => $logs, 'title' => "Минали покупки"]);
     }
 
     public function sellerDashboard()
@@ -121,7 +127,11 @@ class PageController extends Controller
 
         $products = Product::where('seller_user_id', $userId)->get();
 
-        return view('seller.index', ['products' => $products, 'seller' => Seller::where('user_id', $userId)->first()]);
+        return view('seller.index', [
+            'products' => $products,
+            'seller' => Seller::where('user_id', $userId)->first(),
+            'title' => "Продукти"
+        ]);
     }
 
     public function sells()
@@ -136,7 +146,7 @@ class PageController extends Controller
 
         $logs = Log::where('sellers_user_id', $userId)->where('is_paid', true)->orderBy('created_at', 'desc')->get();
 
-        return view('seller.sells', ['logs' => $logs]);
+        return view('seller.sells', ['logs' => $logs, 'title' => "Продажби"]);
     }
 
     public function stats()
@@ -149,7 +159,7 @@ class PageController extends Controller
             abort(404); // If type is not 'Seller', return a 404 not found error
         }
 
-        $dateLogs = Log::where('user_id', $userId)->get();
+        $dateLogs = Log::where('sellers_user_id', $userId)->get();
 
         // Initialize an empty array to store summed prices for each date
         $summedPrices = [];
@@ -170,7 +180,7 @@ class PageController extends Controller
 
         $totalIncome = 0;
 
-        return view('seller.stats', ['dateLogs' => $dateLogs, 'totalIncome' => $totalIncome]);
+        return view('seller.stats', ['dateLogs' => $dateLogs, 'totalIncome' => $totalIncome, 'title' => "Статистики"]);
     }
 
     public function newProduct()
@@ -181,7 +191,7 @@ class PageController extends Controller
             abort(404); // If type is not 'Seller', return a 404 not found error
         }
 
-        return view('seller.new-product');
+        return view('seller.new-product', ['title' => "Нов продукт"]);
     }
 
     public function editProduct($product_id)
@@ -194,7 +204,7 @@ class PageController extends Controller
 
         $product = Product::where('id', $product_id)->first();
 
-        return view('seller.edit-product', ['product' => $product]);
+        return view('seller.edit-product', ['product' => $product, 'title' => "Поправи продукт"]);
     }
 
     public function returnStripe()
@@ -239,11 +249,19 @@ class PageController extends Controller
         }
 
         if (!$order->is_paid) {
-            $order->is_paid = true;
-            $order->save();
+            if ($session->payment_status === 'paid') {
+                $order->is_paid = true;
+                $order->save();
+
+                $lists = ShoppingList::where('buyers_user_id', optional(Auth::user())->id)->get();
+
+                foreach ($lists as $list) {
+                    $list->delete();
+                }
+            }
         }
 
-        return view('buyer.checkout-success', ['session' => $session]);
+        return view('buyer.checkout-success', ['session' => $session, 'title' => "Успешна покупка"]);
     }
 
     public function checkoutCancel(Request $request)
@@ -260,13 +278,14 @@ class PageController extends Controller
 
         $lists = ShoppingList::where('buyers_user_id', Auth::user()->id)->get();
 
-        foreach ($lists as $list){
+        foreach ($lists as $list) {
             $list->delete();
         }
 
         $order = Order::where('session_id', $session->id)->first();
 
-        return view('buyer.checkout-cancel', ['orderId' => $order->id]);
+
+        return view('buyer.checkout-cancel', ['orderId' => optional($order)->id, 'title' => "Неуспешна покупка"]);
     }
 
     public function editOrder($orderId)
@@ -275,7 +294,7 @@ class PageController extends Controller
         $logs = Log::where('order_id', $orderId)->get();
 
         $sum = Order::where('id', $orderId)->get()->first()->total_price;
-        
-        return view('buyer.edit-order', ['logs' => $logs, 'orderId' => $orderId, 'sum' => $sum]);
+
+        return view('buyer.edit-order', ['logs' => $logs, 'orderId' => $orderId, 'sum' => $sum, 'title' => "Поправи поръчка"]);
     }
 }

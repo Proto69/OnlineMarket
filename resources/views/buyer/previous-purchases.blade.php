@@ -3,6 +3,7 @@ use App\Models\Product;
 @endphp
 
 <x-app-layout>
+    @section('title', $title)
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Минали покупки') }}
@@ -50,21 +51,21 @@ use App\Models\Product;
                         @if(!$order->is_paid)
 
                         <form method="POST" action="{{ route('pay-order', $order->id) }}" class="inline">
-                        @csrf
+                            @csrf
                             <x-success-button type="submit" class="mt-3 mx-1">
                                 Плати Поръчка
                             </x-success-button>
                         </form>
 
                         <form method="GET" action="{{ route('edit-order', $order->id) }}" class="inline">
-                        @csrf
+                            @csrf
                             <x-basic-button type="submit" class="mx-1">
                                 Промени поръчка
                             </x-basic-button>
                         </form>
 
                         <form method="POST" action="{{ route('delete-order', $order->id) }}" class="inline">
-                        @csrf
+                            @csrf
                             <x-danger-button type="submit" class="mx-1">
                                 Изтрий поръчка
                             </x-danger-button>
