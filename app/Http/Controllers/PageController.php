@@ -253,11 +253,7 @@ class PageController extends Controller
                 $order->is_paid = true;
                 $order->save();
 
-                $lists = ShoppingList::where('buyers_user_id', optional(Auth::user())->id)->get();
-
-                foreach ($lists as $list) {
-                    $list->delete();
-                }
+                $lists = ShoppingList::where('buyers_user_id', optional(Auth::user())->id)->delete();
             }
         }
 
@@ -276,11 +272,7 @@ class PageController extends Controller
             throw new NotFoundHttpException();
         }
 
-        $lists = ShoppingList::where('buyers_user_id', Auth::user()->id)->get();
-
-        foreach ($lists as $list) {
-            $list->delete();
-        }
+        $lists = ShoppingList::where('buyers_user_id', Auth::user()->id)->delete();
 
         $order = Order::where('session_id', $session->id)->first();
 
