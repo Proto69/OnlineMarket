@@ -66,9 +66,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/edit-log/{log_id}/{new_quantity}', [LogController::class, 'editQuantity'])->name('edit-log');
     Route::post('/delete-order/{order_id}', [OrderController::class, 'destroy'])->name('delete-order');
     Route::post('/delete-log/{log_id}', [LogController::class, 'destroy'])->name('delete-log');
+    Route::post('/update-full-name/{order_id}/{new_quantity}', [OrderController::class, 'updateFullName'])->name('update-full-name');
+    Route::post('/update-phone/{order_id}/{new_quantity}', [OrderController::class, 'updatePhone'])->name('update-phone');
+    Route::post('/update-address/{order_id}/{new_quantity}', [OrderController::class, 'updateAddress'])->name('update-address');
 
     Route::get('/remove-product-from-cart', [ShoppingListController::class, 'removeProduct']);
     Route::get('/search', [PageController::class, 'shoppingKeyWord']);
 });
 Route::post('/webhook', [WebhookController::class, 'checkoutWebhook'])->name('webhook');
-

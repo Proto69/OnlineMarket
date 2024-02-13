@@ -293,8 +293,11 @@ class PageController extends Controller
         //TODO redirect to new page to edit page (like shopping cart)
         $logs = Log::where('order_id', $orderId)->get();
 
-        $sum = Order::where('id', $orderId)->get()->first()->total_price;
+        $order = Order::find($orderId);
 
-        return view('buyer.edit-order', ['logs' => $logs, 'orderId' => $orderId, 'sum' => $sum, 'title' => "Поправи поръчка"]);
+        $sum = $order->total_price;
+
+
+        return view('buyer.edit-order', ['logs' => $logs, 'order' => $order, 'sum' => $sum, 'title' => "Поправи поръчка"]);
     }
 }

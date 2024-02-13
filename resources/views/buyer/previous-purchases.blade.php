@@ -48,6 +48,18 @@ use App\Models\Product;
 
                         @endforeach
 
+                        <h1 class="text-xl text-gray-800 dark:text-gray-300">
+                            Информация за доставка:
+                            <br />
+                            Получател: <strong class="text-sky-600 dark:text-sky-300">{{ $order->full_name }}</strong>
+                            <br />
+                            Телефонен номер: <strong class="text-sky-600 dark:text-sky-300">{{ $order->phone }}</strong>
+                            <br />
+                            Адрес за доставка: <strong class="text-sky-600 dark:text-sky-300">{{ $order->address}}</strong>
+                            <br />
+                            Обща сума: <strong class="text-sky-600 dark:text-sky-300">{{ $order->total_price }}лв</strong>
+                        </h1>
+
                         @if(!$order->is_paid)
 
                         <form method="POST" action="{{ route('pay-order', $order->id) }}" class="inline">

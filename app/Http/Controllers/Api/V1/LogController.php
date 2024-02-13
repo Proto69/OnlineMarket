@@ -93,7 +93,19 @@ class LogController extends Controller
     {
         $log = Log::find($logId);
 
+        $oldQuantity = $log->quantity;
+        $price = Product::find($log->product)->price;
+        $oldPrice = $oldQuantity * $price;
+
         $log->quantity = $newQuantity;
+
+        $newPrice = $newQuantity * $price;
+
+        $change = $newPrice - $oldPrice;
+
+        $order = Order::find($log->order_id);
+        $order->total_price += $change;
+        $order->save();
 
         $log->save();
 

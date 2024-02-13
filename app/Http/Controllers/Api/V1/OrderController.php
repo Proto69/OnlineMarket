@@ -70,28 +70,48 @@ class OrderController extends Controller
         return redirect()->back();
     }
 
+    public function updateFullName($orderId, $fullName)
+    {
+        $order = Order::find($orderId);
+        $order->full_name = $fullName;
+        $order->save();
+    }
+
+    public function updatePhone($orderId, $phone)
+    {
+        $order = Order::find($orderId);
+        $order->phone = $phone;
+        $order->save();
+    }
+
+    public function updateAddress($orderId, $address)
+    {
+        $order = Order::find($orderId);
+        $order->address = $address;
+        $order->save();
+    }
+
     public function editOrder($orderId, Request $request)
     {
         // Validate incoming request data
         $request->validate([
             'quantity.*' => 'required|numeric|min:0', // Assuming the quantity is an array
         ]);
-    
+
         // Retrieve the logs associated with the order
         $logs = Log::where('order_id', $orderId)->get();
-    
+
         // Loop through each log and update its quantity
         foreach ($logs as $log) {
             // Get the updated quantity from the request data
             $updatedQuantity = $request->input('quantity.' . $log->id);
-    
+
             // Update the log's quantity
             $log->quantity = $updatedQuantity;
             $log->save();
         }
-    
+
         // Redirect back to the edit order page with a success message
         return redirect()->route('previous-purchases');
     }
-    
 }

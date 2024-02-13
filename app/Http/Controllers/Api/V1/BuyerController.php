@@ -11,6 +11,8 @@ use App\Models\ShoppingList;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Log;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class BuyerController extends Controller
 {
@@ -90,8 +92,23 @@ class BuyerController extends Controller
         return $products;
     }
 
-    public function completeOrder()
+    public function completeOrder(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'full_name' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
+            'address' => 'required|string|max:255',
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        
+        $fullName = $request->input('full_name');
+        $phone = $request->input('phone');
+        $address = $request->input('address');
+
         $shoppingCart = ShoppingList::where('buyers_user_id', Auth::user()->id)->get();
 
         $lineItems = [];
@@ -116,6 +133,7 @@ class BuyerController extends Controller
                         'unit_amount' => $product->price * 100, // Adjust unit amount as needed
                     ],
                     'quantity' => $item->quantity, // Quantity from $checkout array
+                    'image' => $product->getImageUrl(),
                 ];
             }
         }
@@ -133,6 +151,9 @@ class BuyerController extends Controller
         $order->is_paid = false;
         $order->total_price = $totalPrice;
         $order->buyers_user_id = Auth::user()->id;
+        $order->full_name = $fullName;
+        $order->phone = $phone;
+        $order->address = $address;
         $order->save();
 
         $order = Order::where('session_id', $session->id)->first();
