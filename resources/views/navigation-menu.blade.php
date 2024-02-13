@@ -198,9 +198,35 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
 
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+            @if ($typeOfAccount == "Buyer")
+
+            <x-responsive-nav-link href="{{ route('shopping') }}" :active="request()->routeIs('shopping')">
+                {{ __('Пазаруване') }}
             </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('previous-purchases') }}" :active="request()->routeIs('previous-purchases')">
+                {{ __('Минали покупки') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('shopping-cart') }}" :active="request()->routeIs('shopping-cart')">
+                {{ __('Количка') }}
+            </x-responsive-nav-link>
+
+            @else
+
+            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                {{ __('Управляване на продукти') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('sells') }}" :active="request()->routeIs('sells')">
+                {{ __('Продажби') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('stats') }}" :active="request()->routeIs('stats')">
+                {{ __('Статистики') }}
+            </x-responsive-nav-link>
+
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
@@ -220,10 +246,27 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
 
             <div class="mt-3 space-y-1">
                 <!-- Account Management -->
-                <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
-                    {{ __('Profile') }}
+                <x-responsive-nav-link href="{{ route('profile') }}" :active="request()->routeIs('profile')">
+                    {{ __('Профил') }}
                 </x-responsive-nav-link>
 
+                <form id="switchAcc" method="POST" action="{{ route('switch.account') }}">
+                    @csrf
+                    @if ($typeOfAccount === "Buyer")
+                    <input type="hidden" name="newType" value="Seller">
+
+                    <x-responsive-nav-link href="{{ route('dashboard') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+                        {{ __('Премини към продавач') }}
+                    </x-responsive-nav-link>
+
+                    @else ($typeOfAccount === "Seller")
+                    <input type="hidden" name="newType" value="Buyer">
+
+                    <x-responsive-nav-link href="{{ route('dashboard') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+                        {{ __('Премини към купувач') }}
+                    </x-responsive-nav-link>
+                    @endif
+                </form>
 
                 <form method="POST" action="{{ route('logout') }}" x-data>
                     @csrf

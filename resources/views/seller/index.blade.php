@@ -30,7 +30,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <div class="bg-transparent dark:bg-transparent overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="bg-transparent bg-opacity-25 grid grid-cols-3 md:grid-cols-4 gap-4 p-3 ">
+                <div class="bg-transparent bg-opacity-25 grid grid-cols-1 md:grid-cols-4 gap-4 p-3 ">
 
                     @foreach ($products as $product)
 

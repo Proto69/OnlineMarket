@@ -31,8 +31,7 @@ class PageController extends Controller
 
     public function profile()
     {
-
-        return view('profile.show', ['title' => "Профил"]);
+        return view('profile.show');
     }
 
     public function shopping()
