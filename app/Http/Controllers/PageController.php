@@ -290,7 +290,6 @@ class PageController extends Controller
 
     public function editOrder($orderId)
     {
-        //TODO redirect to new page to edit page (like shopping cart)
         $logs = Log::where('order_id', $orderId)->get();
 
         $order = Order::find($orderId);

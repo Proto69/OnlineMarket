@@ -1,4 +1,5 @@
 <x-guest-layout>
+@section('title', "Двуфакторно удостоверяване")
     <x-authentication-card>
         <x-slot name="logo">
             <x-authentication-card-logo />
