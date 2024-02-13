@@ -71,7 +71,7 @@ class ShoppingCartController extends Controller
 
         $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
         $session = $stripe->checkout->sessions->create([
-            'success_url' => route('app.checkout-success') . "?session_id={CHECKOUT_SESSION_ID}",
+            'success_url' => route('checkout-success') . "?session_id={CHECKOUT_SESSION_ID}",
             'cancel_url' => route('checkout-cancel') . "?session_id={CHECKOUT_SESSION_ID}",
             'line_items' => $lineItems,
             'mode' => 'payment',
@@ -81,7 +81,7 @@ class ShoppingCartController extends Controller
         $order->session_id = $session->id;
         $order->is_paid = false;
         $order->total_price = $totalPrice;
-        $order->user_id = Auth::user()->id;
+        $order->buyers_user_id = Auth::user()->id;
         $order->save();
 
         $order = Order::where('session_id', $session->id)->first();
