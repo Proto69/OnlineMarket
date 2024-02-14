@@ -178,34 +178,12 @@ class ShoppingListController extends Controller
         return response()->json(404);
     }
 
-    public function removeProduct(Request $request)
+    public function removeProduct($productId)
     {
         $user = Auth::user();
 
-        $productId = $request->product_id;
+        ShoppingList::where('buyers_user_id', $user->id)->where('products_id', $productId)->delete();
 
-        $shoppingList = ShoppingList::where('buyers_user_id', $user->id)->where('products_id', $productId)->delete();
-
-        $shoppingList = ShoppingList::where('buyers_user_id', $user->id)->get();
-
-        $products = [];
-
-        $sum = 0.00;
-
-        foreach ($shoppingList as $item) {
-            $product = Product::find($item->products_id);
-
-            if ($product) {
-                $product->bought_quantity = $item->quantity;
-                $price = $product->price * $item->quantity;
-                $sum += $price;
-                $products[] = $product;
-            }
-        }
-
-        return view('buyer.shopping-cart', [
-            'products' => $products,
-            'sum' => $sum
-        ]);
+        return redirect()->route('shopping-cart');
     }
 }
