@@ -5,8 +5,9 @@
             <x-authentication-card-logo />
         </x-slot>
 
+        <!-- FIXME: not sending anything (not working) -->
         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+            {{ __('Забравил си си паролата? Няма проблем. Дай ни имейла си и ще ти пратим линк, от който да си смениш паролата.') }}
         </div>
 
         @if (session('status'))
@@ -27,7 +28,7 @@
 
             <div class="flex items-center justify-end mt-4">
                 <x-button>
-                    {{ __('Email Password Reset Link') }}
+                    {{ __('Прати линк за сменяне на паролата') }}
                 </x-button>
             </div>
         </form>

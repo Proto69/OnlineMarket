@@ -6,12 +6,12 @@
         </x-slot>
 
         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Before continuing, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
+            {{ __('Преди да продължите, потвърдете вашия имейл адрес, като щракнете върху връзката, която току-що ви изпратихме? Ако не сте получили имейла, с удоволствие ще ви изпратим друг.') }}
         </div>
 
         @if (session('status') == 'verification-link-sent')
             <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
-                {{ __('A new verification link has been sent to the email address you provided in your profile settings.') }}
+                {{ __('Нова връзка за потвърждение е изпратена на имейл адреса, който сте предоставили в настройките на вашия профил.') }}
             </div>
         @endif
 
@@ -21,7 +21,7 @@
 
                 <div>
                     <x-button type="submit">
-                        {{ __('Resend Verification Email') }}
+                        {{ __('Изпрати имейл за потвърждение отново') }}
                     </x-button>
                 </div>
             </form>
@@ -31,13 +31,13 @@
                     href="{{ route('profile.show') }}"
                     class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                 >
-                    {{ __('Edit Profile') }}</a>
+                    {{ __('Промени профил') }}</a>
 
                 <form method="POST" action="{{ route('logout') }}" class="inline">
                     @csrf
 
                     <button type="submit" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 ml-2">
-                        {{ __('Log Out') }}
+                        {{ __('Излез') }}
                     </button>
                 </form>
             </div>
