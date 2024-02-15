@@ -6,6 +6,8 @@ namespace App\Providers;
 
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -26,5 +28,11 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
+            return (new MailMessage)
+                ->subject('Потвърждаване на имейл адрес')
+                ->line('Натисни бутона отдолу, за да потвърдиш имейла адреса си.')
+                ->action('Потвърди имейл адрес', $url);
+        });
     }
 }

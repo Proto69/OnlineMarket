@@ -8,13 +8,52 @@ use App\Models\Log;
 use App\Models\ShoppingList;
 use App\Models\Seller;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PageController extends Controller
 {
+    // Admin routes functions
 
+    public function products(){
+
+        if (!Auth::user()->is_admin){
+            abort(404);
+        }
+
+        $products = Product::all();
+        return view('administrator.index', ['products' => $products]);
+    }
+
+    public function users(){
+
+        if (!Auth::user()->is_admin){
+            abort(404);
+        }
+
+        $users = User::all()->where('is_admin', false);
+
+        return view('administrator.users', ['users' => $users]);
+    }
+
+    public function searchAccount(Request $request)
+    {
+        if (!Auth::user()->is_admin) {
+            abort(404); // If type is not 'Buyer', return a 404 not found error
+        }
+
+        $keyWord = $request->keyWord;
+
+        $products = Product::where(function ($query) use ($keyWord) {
+            $query->where('name', 'like', "%$keyWord%");
+        })->get();
+
+        return view('buyer.index', ['products' => $products, 'title' => "Пазаруване"]);
+    }
+
+    // 
     public function connectStripe()
     {
         $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
@@ -42,7 +81,7 @@ class PageController extends Controller
             abort(404); // If type is not 'Buyer', return a 404 not found error
         }
 
-        $products = Product::all();
+        $products = Product::all()->where('is_deleted', false);
 
         return view('buyer.index', ['products' => $products, 'title' => "Пазаруване"]);
     }
@@ -121,9 +160,13 @@ class PageController extends Controller
         $userId = $user->id;
         $typeOfAccount = $user->type;
 
-        if ($typeOfAccount !== 'Seller') {
+        if ($typeOfAccount == 'Buyer') {
             return redirect()->route('shopping');
         }
+        else if ($typeOfAccount == 'Admin'){
+            return redirect()->route('products');
+        }
+
 
         $products = Product::where('seller_user_id', $userId)->get();
 

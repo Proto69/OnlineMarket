@@ -10,6 +10,9 @@ use App\Http\Controllers\Api\V1\BuyerController;
 use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\V1\LogController;
 use App\Http\Controllers\WebhookController;
+use App\Http\Controllers\AdminController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,12 +25,16 @@ use App\Http\Controllers\WebhookController;
 |
 */
 
+// Email verification:
+//
 
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
+
 Route::get('/checkout-success', [PageController::class, 'checkoutSuccess'])->name('checkout-success');
 Route::get('/checkout-cancel', [PageController::class, 'checkoutCancel'])->name('checkout-cancel');
+
 // Routes with verification
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
@@ -47,6 +54,16 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // Route::get('/checkout-cancel', [PageController::class, 'checkoutCancel'])->name('checkout-cancel');
     Route::get('/edit-order/{order_id}', [PageController::class, 'editOrder'])->name('edit-order');
     Route::get('/profile', [PageController::class, 'profile'])->name('profile');
+
+    // Admin routes
+    Route::get('/products', [PageController::class, 'products'])->name('products');
+    Route::get('/users', [PageController::class, 'users'])->name('users');
+    Route::get('/search-account', [PageController::class, 'searchAccount'])->name('search-account');
+    Route::post('/deactivate-product-admin/{product_id}', [AdminController::class, 'deactivateProduct'])->name('deactivate-product-admin');
+    Route::post('/deactivate-account-admin/{user_id}', [AdminController::class, 'deactivateAccount'])->name('deactivate-account-admin');
+    Route::post('/activate-product-admin/{product_id}', [AdminController::class, 'activateProduct'])->name('activate-product-admin');
+    Route::post('/activate-account-admin/{user_id}', [AdminController::class, 'activateAccount'])->name('activate-account-admin');
+
 
 
     Route::get('/get-session-message', function () {
@@ -73,4 +90,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('/search', [PageController::class, 'shoppingKeyWord']);
 });
+
 Route::post('/webhook', [WebhookController::class, 'checkoutWebhook'])->name('webhook');

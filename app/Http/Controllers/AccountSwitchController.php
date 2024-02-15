@@ -11,6 +11,10 @@ class AccountSwitchController extends Controller
 {
     public function switchAccount(Request $request)
     {
+        if (Auth::user()->is_admin){
+            abort(404);
+        }
+        
         $newType = $request->input('newType');
         $user = Auth::user();
 

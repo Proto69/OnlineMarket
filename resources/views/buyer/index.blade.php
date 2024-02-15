@@ -32,7 +32,7 @@
 
                         <div class="mt-auto mb-2 flex items-center justify-between">
                             <!-- Product Price -->
-                            <span class="text-3xl font-bold mt-3 pr-2 text-gray-900 dark:text-white">${{ $product->price }}</span>
+                            <span class="text-3xl font-bold mt-3 pr-2 text-gray-900 dark:text-white">{{ $product->price }}лв</span>
                             <!-- Add to Cart Button -->
                             <x-basic-button class="mt-3 add-to-cart" data-product-id="{{ $product->id }}">
                                 Добави в количка

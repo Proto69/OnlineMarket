@@ -18,15 +18,36 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
             <div class="flex">
                 <!-- Logo -->
                 @if ($typeOfAccount == "Seller")
-                <div class="shrink-0 flex items-center">
+                <div class="shrink-0 flex items-center hidden dark:block dark:mt-2.5">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-mark class="block h-9 w-auto" />
+                        <x-application-mark-dark class="block h-9 w-auto" />
                     </a>
                 </div>
-                @else
-                <div class="shrink-0 flex items-center">
+                <div class="shrink-0 flex items-center dark:hidden">
+                    <a href="{{ route('dashboard') }}">
+                        <x-application-mark-light class="block h-9 w-auto" />
+                    </a>
+                </div>
+                @elseif ($typeOfAccount == "Buyer")
+                <div class="shrink-0 flex items-center hidden dark:block dark:mt-2.5">
                     <a href="{{ route('shopping') }}">
-                        <x-application-mark class="block h-9 w-auto" />
+                        <x-application-mark-dark class="block h-9 w-auto" />
+                    </a>
+                </div>
+                <div class="shrink-0 flex items-center dark:hidden">
+                    <a href="{{ route('shopping') }}">
+                        <x-application-mark-light class="block h-9 w-auto" />
+                    </a>
+                </div>
+                @elseif ($typeOfAccount == "Admin")
+                <div class="shrink-0 flex items-center hidden dark:block dark:mt-2.5">
+                    <a href="{{ route('products') }}">
+                        <x-application-mark-dark class="block h-9 w-auto" />
+                    </a>
+                </div>
+                <div class="shrink-0 flex items-center dark:hidden">
+                    <a href="{{ route('products') }}">
+                        <x-application-mark-light class="block h-9 w-auto" />
                     </a>
                 </div>
                 @endif
@@ -51,7 +72,7 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                     </x-nav-link>
                 </div>
 
-                @else
+                @elseif ($typeOfAccount == "Buyer")
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('shopping') }}" :active="request()->routeIs('shopping')">
@@ -73,6 +94,21 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                         </svg>
                     </x-nav-link>
                 </div>
+
+                @elseif ($typeOfAccount == "Admin")
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link href="{{ route('products') }}" :active="request()->routeIs('products')">
+                        {{ __('Всички продукти') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')">
+                        {{ __('Всички акаунти') }}
+                    </x-nav-link>
+                </div>
+
                 @endif
             </div>
 
@@ -143,7 +179,7 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                                     {{ __('Премини към продавач') }}
                                 </x-dropdown-link>
 
-                                @else ($typeOfAccount === "Seller")
+                                @elseif ($typeOfAccount === "Seller")
                                 <input type="hidden" name="newType" value="Buyer">
 
                                 <x-dropdown-link href="{{ route('dashboard') }}" onclick="event.preventDefault(); this.closest('form').submit();">
@@ -166,21 +202,6 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                     </x-dropdown>
                 </div>
             </div>
-
-            @if ($typeOfAccount === "Buyer")
-            <!-- Search input -->
-            <form action="/search" method="GET" class="me-3 sm:hidden">
-                @csrf
-                <x-label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Търси</x-label>
-                <div class="relative">
-                    <x-button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        <svg class="w-4 h-4 text-gray-100 dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                        </svg>
-                    </x-button>
-                </div>
-            </form>
-            @endif
 
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
@@ -212,7 +233,7 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                 {{ __('Количка') }}
             </x-responsive-nav-link>
 
-            @else
+            @elseif ($typeOfAccount == "Seller")
 
             <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Управляване на продукти') }}
@@ -224,6 +245,17 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
 
             <x-responsive-nav-link href="{{ route('stats') }}" :active="request()->routeIs('stats')">
                 {{ __('Статистики') }}
+            </x-responsive-nav-link>
+
+
+            @else
+
+            <x-responsive-nav-link href="{{ route('products') }}" :active="request()->routeIs('products')">
+                {{ __('Всички продукти') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')">
+                {{ __('Всички акаунти') }}
             </x-responsive-nav-link>
 
             @endif
@@ -259,7 +291,7 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                         {{ __('Премини към продавач') }}
                     </x-responsive-nav-link>
 
-                    @else ($typeOfAccount === "Seller")
+                    @elseif ($typeOfAccount === "Seller")
                     <input type="hidden" name="newType" value="Buyer">
 
                     <x-responsive-nav-link href="{{ route('dashboard') }}" onclick="event.preventDefault(); this.closest('form').submit();">

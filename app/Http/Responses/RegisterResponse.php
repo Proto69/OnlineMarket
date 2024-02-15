@@ -11,7 +11,7 @@ class RegisterResponse implements RegisterResponseContract
 
     public function toResponse($request)
     {
-        // FIXME: event(new Registered(Auth::user()));
+        event(new Registered(Auth::user()));
         return $request->wantsJson()
                     ? response()->json(['two_factor' => false])
                     : redirect()->intended(
