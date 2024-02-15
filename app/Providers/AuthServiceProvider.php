@@ -30,9 +30,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
             return (new MailMessage)
+				->greeting('Здравей!')
                 ->subject('Потвърждаване на имейл адрес')
-                ->line('Натисни бутона отдолу, за да потвърдиш имейла адреса си.')
-                ->action('Потвърди имейл адрес', $url);
+                ->line('Наскоро в нашият сайт се регистрира потребител с този имейл адрес. Ако това си ти, натисни бутона долу, за да потвърдиш имейл-а си.')
+                ->action('Потвърди имейл адрес', $url)
+				->salutation('Благодарим за доверието!');
         });
     }
 }

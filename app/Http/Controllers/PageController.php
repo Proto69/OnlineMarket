@@ -9,6 +9,7 @@ use App\Models\ShoppingList;
 use App\Models\Seller;
 use App\Models\Order;
 use App\Models\User;
+use App\Models\Appeal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -17,9 +18,10 @@ class PageController extends Controller
 {
     // Admin routes functions
 
-    public function products(){
+    public function products()
+    {
 
-        if (!Auth::user()->is_admin){
+        if (!Auth::user()->is_admin) {
             abort(404);
         }
 
@@ -27,15 +29,42 @@ class PageController extends Controller
         return view('administrator.index', ['products' => $products]);
     }
 
-    public function users(){
+    public function users()
+    {
 
-        if (!Auth::user()->is_admin){
+        if (!Auth::user()->is_admin) {
             abort(404);
         }
 
         $users = User::all()->where('is_admin', false);
 
         return view('administrator.users', ['users' => $users]);
+    }
+
+    public function appeals()
+    {
+        if (!Auth::user()->is_admin) {
+            abort(404); // If type is not 'Buyer', return a 404 not found error
+        }
+
+        $appeals = Appeal::all();
+
+        return view('administrator.appeals', ['appeals' => $appeals]);
+    }
+
+    public function searchAppeals(Request $request)
+    {
+        if (!Auth::user()->is_admin) {
+            abort(404); // If type is not 'Buyer', return a 404 not found error
+        }
+
+        $keyWord = $request->keyWord;
+
+        $users = Appeal::where(function ($query) use ($keyWord) {
+            $query->where('name', 'like', "%$keyWord%");
+        })->get();
+
+        return view('administrator.appeals', ['appeals' => $users]);
     }
 
     public function searchAccount(Request $request)
@@ -46,14 +75,35 @@ class PageController extends Controller
 
         $keyWord = $request->keyWord;
 
-        $products = Product::where(function ($query) use ($keyWord) {
+        $users = User::where(function ($query) use ($keyWord) {
             $query->where('name', 'like', "%$keyWord%");
         })->get();
 
-        return view('buyer.index', ['products' => $products, 'title' => "Пазаруване"]);
+        return view('administrator.users', ['users' => $users]);
+    }
+    // 
+
+    public function accountDeleted($userId)
+    {
+        $appeal = Appeal::where('user_id', $userId)->get();
+        $firstAppeal = count($appeal) == 0;
+        return view('account-deleted', ['firstAppeal' => $firstAppeal]);
     }
 
-    // 
+    public function appealing(Request $request, $userId)
+    {
+
+        $text = $request->text;
+
+        $appeal = new Appeal();
+        $appeal->user_id = $userId;
+        $appeal->text = $text;
+        $appeal->name = User::find($userId)->name;
+        $appeal->save();
+
+        return redirect()->route('account-deleted', $userId);
+    }
+
     public function connectStripe()
     {
         $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
@@ -70,12 +120,18 @@ class PageController extends Controller
 
     public function profile()
     {
+        if (Auth::user()->is_deleted) {
+            return redirect()->route('account-deleted', Auth::user()->id);
+        }
         return view('profile.show');
     }
 
     public function shopping()
     {
         $typeOfAccount = Auth::user()->type;
+        if (Auth::user()->is_deleted) {
+            return redirect()->route('account-deleted', Auth::user()->id);
+        }
 
         if ($typeOfAccount !== 'Buyer') {
             abort(404); // If type is not 'Buyer', return a 404 not found error
@@ -89,6 +145,9 @@ class PageController extends Controller
     public function shoppingKeyWord(Request $request)
     {
         $typeOfAccount = Auth::user()->type;
+        if (Auth::user()->is_deleted) {
+            return redirect()->route('account-deleted', Auth::user()->id);
+        }
 
         if ($typeOfAccount !== 'Buyer') {
             abort(404); // If type is not 'Buyer', return a 404 not found error
@@ -106,6 +165,9 @@ class PageController extends Controller
     public function shoppingCart()
     {
         $user = Auth::user();
+        if ($user->is_deleted) {
+            return redirect()->route('account-deleted', $user->id);
+        }
 
         if ($user->type !== 'Buyer') {
             abort(404); // If type is not 'Buyer', return a 404 not found error
@@ -138,6 +200,9 @@ class PageController extends Controller
     public function previousPurchases()
     {
         $user = Auth::user();
+        if ($user->is_deleted) {
+            return redirect()->route('account-deleted', $user->id);
+        }
         $typeOfAccount = $user->type;
 
         if ($typeOfAccount !== 'Buyer') {
@@ -158,12 +223,16 @@ class PageController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
+
+        if ($user->is_deleted) {
+            return redirect()->route('account-deleted', $userId);
+        }
+
         $typeOfAccount = $user->type;
 
         if ($typeOfAccount == 'Buyer') {
             return redirect()->route('shopping');
-        }
-        else if ($typeOfAccount == 'Admin'){
+        } else if ($typeOfAccount == 'Admin') {
             return redirect()->route('products');
         }
 
@@ -181,6 +250,9 @@ class PageController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
+        if ($user->is_deleted){
+            return redirect()->route('account-deleted', $userId);
+        }
         $typeOfAccount = $user->type;
 
         if ($typeOfAccount !== 'Seller') {
@@ -196,6 +268,9 @@ class PageController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
+        if ($user->is_deleted){
+            return redirect()->route('account-deleted', $userId);
+        }
         $typeOfAccount = $user->type;
 
         if ($typeOfAccount !== 'Seller') {
@@ -228,6 +303,9 @@ class PageController extends Controller
 
     public function newProduct()
     {
+        if (Auth::user()->is_deleted){
+            return redirect()->route('account-deleted', Auth::user()->id);
+        }
         $typeOfAccount = Auth::user()->type;
 
         if ($typeOfAccount !== 'Seller') {
@@ -239,6 +317,9 @@ class PageController extends Controller
 
     public function editProduct($product_id)
     {
+        if (Auth::user()->is_deleted){
+            return redirect()->route('account-deleted', Auth::user()->id);
+        }
         $typeOfAccount = Auth::user()->type;
 
         if ($typeOfAccount !== 'Seller') {
@@ -332,6 +413,9 @@ class PageController extends Controller
 
     public function editOrder($orderId)
     {
+        if (Auth::user()->is_deleted){
+            return redirect()->route('account-deleted', Auth::user()->id);
+        }
         $logs = Log::where('order_id', $orderId)->get();
 
         $order = Order::find($orderId);

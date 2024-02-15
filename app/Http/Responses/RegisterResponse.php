@@ -3,7 +3,6 @@
 namespace App\Http\Responses;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Auth\Events\Registered;
 use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
 
 class RegisterResponse implements RegisterResponseContract
@@ -11,7 +10,6 @@ class RegisterResponse implements RegisterResponseContract
 
     public function toResponse($request)
     {
-        event(new Registered(Auth::user()));
         return $request->wantsJson()
                     ? response()->json(['two_factor' => false])
                     : redirect()->intended(

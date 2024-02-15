@@ -109,6 +109,11 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                     </x-nav-link>
                 </div>
 
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link href="{{ route('appeals') }}" :active="request()->routeIs('appeals')">
+                        {{ __('Обжалвания') }}
+                    </x-nav-link>
+                </div>
                 @endif
             </div>
 
@@ -248,7 +253,7 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
             </x-responsive-nav-link>
 
 
-            @else
+            @elseif ($typeOfAccount == "Admin")
 
             <x-responsive-nav-link href="{{ route('products') }}" :active="request()->routeIs('products')">
                 {{ __('Всички продукти') }}
@@ -258,6 +263,9 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                 {{ __('Всички акаунти') }}
             </x-responsive-nav-link>
 
+            <x-responsive-nav-link href="{{ route('appeals') }}" :active="request()->routeIs('appeals')">
+                {{ __('Обжалвания') }}
+            </x-responsive-nav-link>
             @endif
         </div>
 

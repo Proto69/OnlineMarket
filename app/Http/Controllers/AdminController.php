@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use App\Models\Punishment;
 use App\Models\User;
+use App\Models\Appeal;
 
 class AdminController extends Controller
 {
@@ -64,6 +65,9 @@ class AdminController extends Controller
         if (Auth::user()->type !== "Admin"){
             abort(404);
         }
+        
+        $appeal = Appeal::where('user_id', $userId)->first();
+        $appeal->delete();
 
         $user = User::find($userId);
         $user->is_deleted = false;

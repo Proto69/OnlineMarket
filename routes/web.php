@@ -51,11 +51,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // Route::get('/checkout-cancel', [PageController::class, 'checkoutCancel'])->name('checkout-cancel');
     Route::get('/edit-order/{order_id}', [PageController::class, 'editOrder'])->name('edit-order');
     Route::get('/profile', [PageController::class, 'profile'])->name('profile');
+    Route::get('/account-deleted/{user_id}', [PageController::class, 'accountDeleted'])->name('account-deleted');
 
     // Admin routes
     Route::get('/products', [PageController::class, 'products'])->name('products');
     Route::get('/users', [PageController::class, 'users'])->name('users');
     Route::get('/search-account', [PageController::class, 'searchAccount'])->name('search-account');
+    Route::get('/appeals', [PageController::class, 'appeals'])->name('appeals');
+    Route::get('/search-appeals', [PageController::class, 'searchAppeals'])->name('search-appeals');
     Route::post('/deactivate-product-admin/{product_id}', [AdminController::class, 'deactivateProduct'])->name('deactivate-product-admin');
     Route::post('/deactivate-account-admin/{user_id}', [AdminController::class, 'deactivateAccount'])->name('deactivate-account-admin');
     Route::post('/activate-product-admin/{product_id}', [AdminController::class, 'activateProduct'])->name('activate-product-admin');
@@ -84,6 +87,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/update-phone/{order_id}/{new_quantity}', [OrderController::class, 'updatePhone'])->name('update-phone');
     Route::post('/update-address/{order_id}/{new_quantity}', [OrderController::class, 'updateAddress'])->name('update-address');
     Route::post('/remove-product-from-cart/{product_id}', [ShoppingListController::class, 'removeProduct'])->name('remove-product-from-cart');
+    Route::post('/appealing/{user_id}', [PageController::class, 'appealing'])->name('appealing');
 
     Route::get('/search', [PageController::class, 'shoppingKeyWord']);
 });
