@@ -25,9 +25,6 @@ use Illuminate\Http\Request;
 |
 */
 
-// Email verification:
-//
-
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
