@@ -5,7 +5,6 @@
             <x-authentication-card-logo />
         </x-slot>
 
-        <!-- FIXME: not sending anything (not working) -->
         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
             {{ __('Забравил си си паролата? Няма проблем. Дай ни имейла си и ще ти пратим линк, от който да си смениш паролата.') }}
         </div>
