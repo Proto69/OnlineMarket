@@ -9,9 +9,18 @@ use App\Models\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\PurchaseReceipt;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
+    public function test($orderId)
+    {
+        $order = Order::find($orderId);
+        $logs = Log::where('order_id', $orderId)->get();
+        Mail::to(Auth::user())->send(new PurchaseReceipt($order, $logs));
+        return redirect()->route('stats');
+    }
     /**
      * Display a listing of the resource.
      */

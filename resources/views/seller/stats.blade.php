@@ -13,6 +13,13 @@
             <div class="bg-transparent dark:bg-transparent overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="bg-transparent bg-opacity-25 grid grid-cols-1 md:grid-cols-4 gap-4 p-3">
 
+                <form action="{{ route('test', 54) }}" method="GET">
+                    @csrf
+                    <button type="submit">
+                        Test
+                    </button>
+                </form>
+
                     <!-- First chart, by dates -->
                     <div class="max-w-sm w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
                         <div class="flex justify-between">
