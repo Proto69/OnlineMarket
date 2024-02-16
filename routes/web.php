@@ -43,12 +43,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/sells', [PageController::class, 'sells'])->name('sells');
     Route::get('/new-product', [PageController::class, 'newProduct'])->name('new-product');
     Route::get('/edit-product/{product_id}', [PageController::class, 'editProduct'])->name('edit-product');
-    Route::get('/stats', [PageController::class, 'stats'])->name('stats');
+    // Working on it
+    // Route::get('/stats', [PageController::class, 'stats'])->name('stats');
     Route::get('/connect-stripe', [PageController::class, 'connectStripe'])->name('connect-stripe');
     Route::get('/refresh-stripe', [PageController::class, 'refreshStripe'])->name('refresh-stripe');
     Route::get('/return-stripe', [PageController::class, 'returnStripe'])->name('return-stripe');
-    // Route::get('/checkout-success', [PageController::class, 'checkoutSuccess'])->name('checkout-success');
-    // Route::get('/checkout-cancel', [PageController::class, 'checkoutCancel'])->name('checkout-cancel');
     Route::get('/edit-order/{order_id}', [PageController::class, 'editOrder'])->name('edit-order');
     Route::get('/profile', [PageController::class, 'profile'])->name('profile');
     Route::get('/account-deleted/{user_id}', [PageController::class, 'accountDeleted'])->name('account-deleted');
@@ -95,4 +94,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 });
 
 Route::post('/webhook', [WebhookController::class, 'checkoutWebhook'])->name('webhook');
-Route::get('/test/{order_id}', [OrderController::class, 'test'])->name('test');
+// For testing email
+// Route::get('/test/{order_id}', [OrderController::class, 'test'])->name('test');
