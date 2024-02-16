@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -112,6 +113,68 @@ class OrderController extends Controller
         }
 
         // Redirect back to the edit order page with a success message
+        return redirect()->route('previous-purchases');
+    }
+
+    public function orderSent($orderId)
+    {
+        $logs = Log::where('order_id', $orderId)->where('sellers_user_id', Auth::user()->id)->get();
+        foreach ($logs as $log) {
+            $log->is_sent = true;
+            $log->save();
+        }
+
+        $logs = Log::where('order_id', $orderId)->get();
+        $is_sent = true;
+        $is_delivered = true;
+        foreach ($logs as $log) {
+            if (!$log->is_sent) {
+                $is_sent = false;
+            }
+            if (!$log->is_delivered) {
+                $is_delivered = false;
+            }
+        }
+
+        if ($is_sent || $is_delivered) {
+            $order = Order::find($orderId);
+            $order->is_sent = $is_sent;
+            $order->is_delivered = $is_delivered;
+            $order->save();
+        }
+
+        // TODO: send email to customer for sent products
+
+        return redirect()->route('sells');
+    }
+
+    public function logDelivered($logId)
+    {
+        $log = Log::find($logId);
+        $log->is_delivered = true;
+        $log->save();
+
+        $logs = Log::where('order_id', $log->order_id)->get();
+        $is_sent = true;
+        $is_delivered = true;
+        foreach ($logs as $log) {
+            if (!$log->is_sent) {
+                $is_sent = false;
+            }
+            if (!$log->is_delivered) {
+                $is_delivered = false;
+            }
+        }
+
+        if ($is_sent || $is_delivered) {
+            $order = Order::find($log->order_id);
+            $order->is_sent = $is_sent;
+            $order->is_delivered = $is_delivered;
+            $order->save();
+        }
+
+        // TODO: send email to customer
+
         return redirect()->route('previous-purchases');
     }
 }

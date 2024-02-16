@@ -15,7 +15,7 @@ class Order extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'buyers_user_id', 'id', 'is_paid', 'session_id', 'total_price', 'full_name', 'phone', 'address'
+        'buyers_user_id', 'id', 'is_paid', 'session_id', 'total_price', 'full_name', 'phone', 'address', 'is_delivered', 'is_sent'
     ];
 
     /**
@@ -27,5 +27,7 @@ class Order extends Model
         'buyers_user_id' => 'integer',
         'total_price' => 'decimal:2',
         'is_paid' => 'boolean',
+        'is_sent' => 'boolean',
+        'is_delivered' => 'boolean',
     ];
 }

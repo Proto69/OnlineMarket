@@ -133,7 +133,6 @@ class BuyerController extends Controller
                         'unit_amount' => $product->price * 100, // Adjust unit amount as needed
                     ],
                     'quantity' => $item->quantity, // Quantity from $checkout array
-                    'image' => $product->getImageUrl(),
                 ];
             }
         }

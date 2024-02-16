@@ -20,7 +20,17 @@ use App\Models\Product;
                     <button type="button" aria-expanded="false" class="mt-3 flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 rounded-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-collapse-body-{{ $order->id }}" aria-expanded="true" aria-controls="accordion-collapse-body-{{ $order->id }}">
                         <span>
                             Поръчка № {{ $order->id }}
+
                         </span>
+                        @if ($order->is_sent && !$order->is_delivered)
+                        <p class="tracking-tighter text-gray-500 md:text-lg dark:text-gray-400">
+                            <x-paid-log class="text-green-600 dark:text-green-400 ">Поръчката е изпратена успешно!</x-paid-log>
+                        </p>
+                        @elseif ($order->is_sent && $order->is_delivered)
+                        <p class="tracking-tighter text-gray-500 md:text-lg dark:text-gray-400">
+                            <x-paid-log class="text-green-600 dark:text-green-400">Поръчката е получена успешно!</x-paid-log>
+                        </p>
+                        @endif
                         @if($order->is_paid)
                         <strong class="text-green-600 dark:text-green-400 me-10">Платена</strong>
                         @else
@@ -37,12 +47,24 @@ use App\Models\Product;
                         @foreach($logs as $log)
 
                         @if($order->is_paid && $log->order_id == $order->id)
-                        <p class="tracking-tighter text-gray-500 md:text-lg dark:text-gray-400 mb-1">
-                            <x-paid-log class="text-green-600 dark:text-green-400">{{ Product::where('id', $log->product)->first()->name }}</x-paid-log> x <x-paid-log class="text-green-600 dark:text-green-400">{{ $log->quantity }}</x-paid-log> броя. Закупено на <x-paid-log class="text-green-600 dark:text-green-400">{{ $log->created_at }}</x-paid-log> за <x-paid-log class="text-green-600 dark:text-green-400">{{ Product::where('id', $log->product)->first()->price * $log->quantity }}</x-paid-log>лв.
-                        </p>
+                        <form method="POST" action="{{ route('mark-log-as-delivered', $log->id) }}" class="inline">
+                            <p class="tracking-tighter text-gray-500 md:text-lg dark:text-gray-400 mb-1">
+                                <x-paid-log>{{ Product::where('id', $log->product)->first()->name }}</x-paid-log> x <x-paid-log >{{ $log->quantity }}</x-paid-log> броя. Закупено на <x-paid-log >{{ $log->created_at }}</x-paid-log> за <x-paid-log >{{ Product::where('id', $log->product)->first()->price * $log->quantity }}</x-paid-log>лв.
+                                @if ($log->is_sent && !$log->is_delivered)
+
+                                @csrf
+                                <a href="#" class="mx-1 my-2 text text-green-600 dark:text-green-400 border rounded-lg py-1 px-2 border-green-600 dark:border-green-400" onclick="event.preventDefault(); this.closest('form').submit();">
+                                    Маркирай като получен
+                                </a>
+                                @endif
+                            </p>
+
+                        </form>
+
+
                         @elseif ($log->order_id == $order->id)
                         <p class="tracking-tighter text-gray-500 md:text-lg dark:text-gray-400 mb-1">
-                            <x-unpaid-log class="text-green-600 dark:text-green-400">{{ Product::where('id', $log->product)->first()->name }}</x-unpaid-log> x <x-unpaid-log class="text-green-600 dark:text-green-400">{{ $log->quantity }}</x-unpaid-log> броя. Закупено на <x-unpaid-log class="text-green-600 dark:text-green-400">{{ $log->created_at }}</x-unpaid-log> за <x-unpaid-log class="text-green-600 dark:text-green-400">{{ Product::where('id', $log->product)->first()->price * $log->quantity }}</x-unpaid-log>лв.
+                            <x-unpaid-log >{{ Product::where('id', $log->product)->first()->name }}</x-unpaid-log> x <x-unpaid-log>{{ $log->quantity }}</x-unpaid-log> броя. Закупено на <x-unpaid-log >{{ $log->created_at }}</x-unpaid-log> за <x-unpaid-log >{{ Product::where('id', $log->product)->first()->price * $log->quantity }}</x-unpaid-log>лв.
                         </p>
                         @endif
 
@@ -84,6 +106,8 @@ use App\Models\Product;
                         </form>
 
                         @endif
+
+
                     </div>
                 </div>
 

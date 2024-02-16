@@ -250,25 +250,61 @@ class PageController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
-        if ($user->is_deleted){
+
+        if ($user->is_deleted) {
             return redirect()->route('account-deleted', $userId);
         }
+
         $typeOfAccount = $user->type;
 
         if ($typeOfAccount !== 'Seller') {
-            abort(404); // If type is not 'Seller', return a 404 not found error
+            abort(404);
         }
 
-        $logs = Log::where('sellers_user_id', $userId)->where('is_paid', true)->orderBy('created_at', 'desc')->get();
+        // Step 1: Retrieve logs for the seller
+        $logs = Log::where('sellers_user_id', $userId)->where('is_paid', true)->orderBy('created_at')->get();
 
-        return view('seller.sells', ['logs' => $logs, 'title' => "Продажби"]);
+        // Step 2: Group logs by order_id
+        $groupedLogs = $logs->groupBy('order_id');
+
+        // Step 3 & 4: Process each order
+        $formattedOrders = [];
+        foreach ($groupedLogs as $orderId => $logsForOrder) {
+            $order = Order::find($orderId);
+            // Retrieve buyer information
+            $buyer = User::find($order->buyers_user_id);
+
+            // Calculate total amount per order
+            $totalAmount = 0;
+            $products = [];
+
+            foreach ($logsForOrder as $log) {
+                $product = Product::find($log->product);
+                $totalAmount += $product->price * $log->quantity;
+                $products[] = [
+                    'product_id' => $product->id,
+                    'quantity' => $log->quantity,
+                    'total_price' => $product->price * $log->quantity,
+                ];
+            }
+
+            // Format order information
+            $formattedOrders[] = [
+                'order' => $order,
+                'buyer' => $buyer,
+                'total_amount' => $totalAmount,
+                'products' => $products,
+            ];
+        }
+
+        return view('seller.sells', ['formattedOrders' => $formattedOrders, 'title' => "Продажби"]);
     }
 
     public function stats()
     {
         $user = Auth::user();
         $userId = $user->id;
-        if ($user->is_deleted){
+        if ($user->is_deleted) {
             return redirect()->route('account-deleted', $userId);
         }
         $typeOfAccount = $user->type;
@@ -303,7 +339,7 @@ class PageController extends Controller
 
     public function newProduct()
     {
-        if (Auth::user()->is_deleted){
+        if (Auth::user()->is_deleted) {
             return redirect()->route('account-deleted', Auth::user()->id);
         }
         $typeOfAccount = Auth::user()->type;
@@ -317,7 +353,7 @@ class PageController extends Controller
 
     public function editProduct($product_id)
     {
-        if (Auth::user()->is_deleted){
+        if (Auth::user()->is_deleted) {
             return redirect()->route('account-deleted', Auth::user()->id);
         }
         $typeOfAccount = Auth::user()->type;
@@ -413,7 +449,7 @@ class PageController extends Controller
 
     public function editOrder($orderId)
     {
-        if (Auth::user()->is_deleted){
+        if (Auth::user()->is_deleted) {
             return redirect()->route('account-deleted', Auth::user()->id);
         }
         $logs = Log::where('order_id', $orderId)->get();
