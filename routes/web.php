@@ -44,7 +44,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/new-product', [PageController::class, 'newProduct'])->name('new-product');
     Route::get('/edit-product/{product_id}', [PageController::class, 'editProduct'])->name('edit-product');
     // Working on it
-    // Route::get('/stats', [PageController::class, 'stats'])->name('stats');
+    Route::get('/stats', [PageController::class, 'stats'])->name('stats');
+    //
     Route::get('/connect-stripe', [PageController::class, 'connectStripe'])->name('connect-stripe');
     Route::get('/refresh-stripe', [PageController::class, 'refreshStripe'])->name('refresh-stripe');
     Route::get('/return-stripe', [PageController::class, 'returnStripe'])->name('return-stripe');
