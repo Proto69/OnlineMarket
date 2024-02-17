@@ -2,7 +2,7 @@
     @section('title', "Профил")
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Profile') }}
+            {{ __('Профил') }}
         </h2>
     </x-slot>
 

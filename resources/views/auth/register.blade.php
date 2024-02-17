@@ -11,33 +11,33 @@
             @csrf
 
             <div>
-                <x-label for="name" value="{{ __('Name') }}" />
+                <x-label for="name" value="{{ __('Име') }}" />
                 <x-input id="name" class="block mt-1 w-full p-1" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             </div>
 
             <div class="mt-4">
-                <x-label for="email" value="{{ __('Email') }}" />
+                <x-label for="email" value="{{ __('Имейл') }}" />
                 <x-input id="email" class="block mt-1 w-full p-1" type="email" name="email" :value="old('email')" required autocomplete="username" />
             </div>
 
             <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
+                <x-label for="password" value="{{ __('Парола') }}" />
                 <x-input id="password" class="block mt-1 w-full p-1" type="password" name="password" required autocomplete="new-password" />
             </div>
 
             <div class="mt-4">
-                <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
+                <x-label for="password_confirmation" value="{{ __('Потвърди парола') }}" />
                 <x-input id="password_confirmation" class="block mt-1 w-full p-1" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
 
             <x-label for="accountTypeBuyer" class="flex items-center mt-3">
                 <input id="accountTypeBuyer" class="form-radio h-5 w-5" type="radio" name="accountTypeBuyer" value="Seller" />
-                <span class="ml-2 text-gray-700 dark:text-gray-300">Buyer</span>
+                <span class="ml-2 text-gray-700 dark:text-gray-300">Купувач</span>
             </x-label>
 
             <x-label for="accountTypeSeller" class="flex items-center mt-3">
                 <input id="accountTypeSeller" class="form-radio h-5 w-5 text-indigo-600" type="radio" name="accountTypeBuyer" value="Buyer" />
-                <span class="ml-2 text-gray-700 dark:text-gray-300">Seller</span>
+                <span class="ml-2 text-gray-700 dark:text-gray-300">Продавач</span>
             </x-label>
 
             <div class="mt-4" style="display: block">
