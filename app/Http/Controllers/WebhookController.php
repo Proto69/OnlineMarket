@@ -70,7 +70,7 @@ class WebhookController extends Controller
                     $amount_to_pay = ($product->price - (0.07 * $product->price)) * $item->quantity;
                     $amount_in_cents =  (int) ($amount_to_pay * 100);
 
-                    $seller->balance += round($amount_to_pay, 2);
+                    $seller->balance += $amount_to_pay;
 
                     if ($seller->is_test) {
                         $stripe->transfers->create([
