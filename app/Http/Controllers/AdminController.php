@@ -7,10 +7,11 @@ use App\Models\Product;
 use App\Models\Punishment;
 use App\Models\User;
 use App\Models\Appeal;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function deactivateProduct($productId){
+    public function deactivateProduct(Request $request, $productId){
         
         if (Auth::user()->type !== "Admin"){
             abort(404);
@@ -21,7 +22,7 @@ class AdminController extends Controller
 
         $punishment->user_id = $product->seller_user_id; 
         $punishment->product_id = $productId;
-        $punishment->reason = "Неподходяща обява!";
+        $punishment->reason = $request->reason;
 
         $punishment->save();
 
