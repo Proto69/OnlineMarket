@@ -15,7 +15,7 @@
                 <div class="border border-lime-500 mb-1 dark:border-lime-400 dark:bg-gray-800 h-96 rounded-lg grid grid-cols-3 min-w-[470px]">
                     <div class="col-span-2 relative min-w-80">
                         <div class="absolute top-2 left-1/2 transform -translate-x-1/2">
-                            <img class="rounded-lg mb-2 productImage" src="{{ $product->getImageURL() }}" alt="{{ $product->name }}">
+                            <img class="rounded-lg mb-2 productImage max-h-60" src="{{ $product->getImageURL() }}" alt="{{ $product->name }}">
                         </div>
 
                         <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2">
@@ -82,10 +82,10 @@
 
                 @php
                 $productCount = count($products);
-                $scrollClass = $productCount >= 14 ? 'overflow-y-scroll' : '';
+                $scrollClass = $productCount >= 4 ? 'overflow-y-scroll' : '';
                 @endphp
 
-                <div class="{{ $scrollClass }} mx-0 max-h-80 border-y border-lime-500 dark:border-lime-400 py-3">
+                <div class="{{ $scrollClass }} mx-0 max-h-28 border-y border-lime-500 dark:border-lime-400 py-3">
                     <div class="receipt-section">
                         @foreach ($products as $product)
                         <p class="ps-3 dark:text-gray-400 text-gray-900">
