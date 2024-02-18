@@ -4,12 +4,12 @@
         @if (Route::has('login'))
         <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
             @auth
-            <a href="{{ url('/dashboard') }}" class="font-semibold text-gray-300 hover:text-gray-100 ">Табло</a>
+            <a href="{{ url('/dashboard') }}" class="border rounded-2xl px-3 pb-2 p-1 font-semibold bg-transparent font-semibold text-gray-300 hover:text-gray-100 ">Табло</a>
             @else
-            <a href="{{ route('login') }}" class="font-semibold text-gray-300 hover:text-gray-100 ">Вход</a>
+            <a href="{{ route('login') }}" class="border rounded-2xl px-3 pb-2 p-1 font-semibold bg-transparent text-gray-300 hover:text-gray-100 ">Вход</a>
 
             @if (Route::has('register'))
-            <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-300 hover:text-gray-100 ">Регистрация</a>
+            <a href="{{ route('register') }}" class="border rounded-2xl px-3 pb-2 p-1 font-semibold bg-transparent ml-4 font-semibold text-gray-300 hover:text-gray-100 ">Регистрация</a>
             @endif
             @endauth
         </div>
