@@ -19,7 +19,11 @@
 
                         <div class="mb-2 flex-grow">
                             <!-- Product Image -->
-                            <img class="mt-1 mb-2 ms-5 productImage" src="{{ $product->getImageURL() }}">
+                            @if ($product->getImageURL())
+                            <img class="rounded-lg mb-2 productImage max-h-60" src="{{ $product->getImageURL() }}">
+                            @else
+                            <img class="rounded-lg mb-2 productImage max-h-60" src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg">
+                            @endif
                             <!-- Product Name -->
                             <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ $product->name }}</h5>
                             <!-- Product Description -->

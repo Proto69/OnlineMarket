@@ -41,7 +41,7 @@
 
                             <div class="mb-2 flex-grow">
                                 <!-- Показване и качване на снимка  -->
-                                <img class="mt-1 mb-2 productImage" src="{{ $product->getImageURL() }}">
+                                <img class="mt-1 mb-2 productImage" src="{{ $product->getImageURL() }}" alt="NO IMAGE UPLOADED">
                                 <input type="hidden" class="productId" value="{{ $product->id }}">
 
                                 <!-- Име на продукта -->
