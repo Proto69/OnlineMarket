@@ -89,6 +89,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/remove-product-from-cart/{product_id}', [ShoppingListController::class, 'removeProduct'])->name('remove-product-from-cart');
     Route::post('/appealing/{user_id}', [PageController::class, 'appealing'])->name('appealing');
     Route::post('/mark-order-as-sent/{order_id}', [OrderController::class, 'orderSent'])->name('mark-order-as-sent');
+    Route::post('/mark-order-as-delivered/{order_id}', [OrderController::class, 'orderDelivered'])->name('mark-order-as-delivered');
     Route::post('/mark-log-as-delivered/{log_id}', [OrderController::class, 'logDelivered'])->name('mark-log-as-delivered');
 
     Route::get('/search', [PageController::class, 'shoppingKeyWord']);

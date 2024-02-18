@@ -112,6 +112,14 @@ use App\Models\Product;
 
                         @endif
 
+                        @if ($order->is_paid)
+                        <form action="{{ route('mark-order-as-delivered', $order->id) }}" method="POST">
+                            @csrf
+                            <x-success-button class="mt-1">
+                                Маркирай поръчката като доставена
+                            </x-success-button>
+                        </form>
+                        @endif
 
                     </div>
                 </div>

@@ -187,4 +187,21 @@ class OrderController extends Controller
 
         return redirect()->route('previous-purchases');
     }
+
+    public function orderDelivered($orderId)
+    {
+        $logs = Log::where('order_id', $orderId)->where('sellers_user_id', Auth::user()->id)->get();
+        foreach ($logs as $log) {
+            $log->is_delivered = true;
+            $log->save();
+        }
+
+        $order = Order::find($orderId);
+        $order->is_sent = true;
+        $order->is_delivered = true;
+        $order->save();
+        
+        return redirect()->route('previous-purchases');
+
+    }
 }
