@@ -133,8 +133,11 @@ class PageController extends Controller
             return redirect()->route('account-deleted', Auth::user()->id);
         }
 
-        if ($typeOfAccount !== 'Buyer') {
-            abort(404); // If type is not 'Buyer', return a 404 not found error
+        if ($typeOfAccount == 'Seller') {
+            return redirect()->route('dashboard');
+        }
+        else if ($typeOfAccount == 'Admin'){
+            abort(404); // If type is 'Admin', return a 404 not found error
         }
 
         $products = Product::all()->where('is_deleted', false);
