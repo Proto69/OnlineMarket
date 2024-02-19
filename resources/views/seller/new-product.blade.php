@@ -40,10 +40,11 @@
 
                         <!-- Качване на снимка -->
                         <label class="text-xl block mb-1 mt-3 text-sm font-medium text-gray-900 dark:text-white">Снимка </label>
+                        <img class="mt-1 mb-2 productImage" id="file-preview">
                         @error('image')
                         <p class="text-red-500 text-sm mt-1 mb-1">{{ $message }}</p>
                         @enderror
-                        <x-input name="image" type="file"></x-input> <br />
+                        <x-input name="image" type="file" id="file-input"></x-input> <br />
 
                         <!-- Добавяне на продукт -->
                         <x-success-button class="mt-3 me-2" type="submit">
@@ -61,3 +62,19 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    const input = document.getElementById('file-input');
+    const previewPhoto = () => {
+        const file = input.files;
+        if (file) {
+            const fileReader = new FileReader();
+            const preview = document.getElementById('file-preview');
+            fileReader.onload = function(event) {
+                preview.setAttribute('src', event.target.result);
+            }
+            fileReader.readAsDataURL(file[0]);
+        }
+    }
+    input.addEventListener("change", previewPhoto);
+</script>
