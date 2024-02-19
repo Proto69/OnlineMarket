@@ -18,40 +18,16 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                @if ($typeOfAccount == "Seller")
                 <div class="shrink-0 flex items-center hidden dark:block dark:mt-2.5">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('welcome') }}">
                         <x-application-mark-dark class="block h-9 w-auto" />
                     </a>
                 </div>
                 <div class="shrink-0 flex items-center dark:hidden">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('welcome') }}">
                         <x-application-mark-light class="block h-9 w-auto" />
                     </a>
                 </div>
-                @elseif ($typeOfAccount == "Buyer")
-                <div class="shrink-0 flex items-center hidden dark:block dark:mt-2.5">
-                    <a href="{{ route('shopping') }}">
-                        <x-application-mark-dark class="block h-9 w-auto" />
-                    </a>
-                </div>
-                <div class="shrink-0 flex items-center dark:hidden">
-                    <a href="{{ route('shopping') }}">
-                        <x-application-mark-light class="block h-9 w-auto" />
-                    </a>
-                </div>
-                @elseif ($typeOfAccount == "Admin")
-                <div class="shrink-0 flex items-center hidden dark:block dark:mt-2.5">
-                    <a href="{{ route('products') }}">
-                        <x-application-mark-dark class="block h-9 w-auto" />
-                    </a>
-                </div>
-                <div class="shrink-0 flex items-center dark:hidden">
-                    <a href="{{ route('products') }}">
-                        <x-application-mark-light class="block h-9 w-auto" />
-                    </a>
-                </div>
-                @endif
 
                 @if ($typeOfAccount == "Seller")
                 <!-- Navigation Links -->
