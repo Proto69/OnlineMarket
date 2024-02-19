@@ -56,7 +56,7 @@ use App\Models\Product;
                             <p class="tracking-tighter text-gray-500 md:text-lg dark:text-gray-400 mb-1">
                                 <x-paid-log>{{ Product::where('id', $log->product)->first()->name }}</x-paid-log> x <x-paid-log>{{ $log->quantity }}</x-paid-log> броя. Закупено на <x-paid-log>{{ $log->created_at }}</x-paid-log> за <x-paid-log>{{ Product::where('id', $log->product)->first()->price * $log->quantity }}</x-paid-log>лв.
                                 @if ($log->is_sent && !$log->is_delivered)
-                                <a href="#" class="mx-1 my-2 text text-green-600 dark:text-green-400 border rounded-lg py-1 px-2 border-green-600 dark:border-green-400" onclick="event.preventDefault(); this.closest('form').submit();">
+                                <a href="#" class="right-2 mx-1 my-2 text text-green-600 dark:text-green-400 border rounded-lg py-1 px-2 border-green-600 dark:border-green-400" onclick="event.preventDefault(); this.closest('form').submit();">
                                     Маркирай като получен
                                 </a>
                                 @elseif ($log->is_sent && $log->is_delivered)
