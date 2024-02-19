@@ -139,7 +139,7 @@
             </div>
 
             <div class="flex justify-center mt-16">
-                <div class="text-sm text-center text-gray-500 dark:text-gray-400 sm:text-right">
+                <div class="text-sm text-center text-gray-300 sm:text-right">
                     © 2024 <strong class="text-red-400">Both Sides of the Coin</strong>. Всички права запазени
                 </div>
             </div>
