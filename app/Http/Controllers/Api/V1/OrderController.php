@@ -107,6 +107,10 @@ class OrderController extends Controller
         // Validate incoming request data
         $request->validate([
             'quantity.*' => 'required|numeric|min:0', // Assuming the quantity is an array
+        ], [
+            'quantity.*.required' => __('Полетата за количество са задължителни.'),
+            'quantity.*.numeric' => __('Количеството трябва да бъде числово.'),
+            'quantity.*.min' => __('Количеството трябва да бъде поне 0.'),
         ]);
 
         // Retrieve the logs associated with the order

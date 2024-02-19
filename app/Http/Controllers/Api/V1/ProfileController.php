@@ -53,6 +53,13 @@ class ProfileController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
+        ], [
+            'name.required' => __('Полето за име е задължително.'),
+            'name.string' => __('Името трябва да бъде текст.'),
+            'name.max' => __('Името трябва да бъде най-много 255 символа.'),
+            'email.required' => __('Полето за имейл адрес е задължително.'),
+            'email.email' => __('Моля, въведете валиден имейл адрес.'),
+            'email.unique' => __('Този имейл адрес вече е зает.'),
         ]);
 
         if ($validator->fails()) {

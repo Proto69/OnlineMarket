@@ -49,6 +49,18 @@ class ProductController extends Controller
             'quantity' => 'required|min:1',
             'price' => 'required|min:0',
             'image' => 'image'
+        ], [
+            'name.required' => __('Полето за име е задължително.'),
+            'name.min' => __('Името трябва да съдържа поне 3 символа.'),
+            'name.max' => __('Името трябва да съдържа най-много 40 символа.'),
+            'description.required' => __('Полето за описание е задължително.'),
+            'description.min' => __('Описанието трябва да съдържа поне 5 символа.'),
+            'description.max' => __('Описанието трябва да съдържа най-много 255 символа.'),
+            'quantity.required' => __('Полето за количество е задължително.'),
+            'quantity.min' => __('Количеството трябва да бъде поне 1.'),
+            'price.required' => __('Полето за цена е задължително.'),
+            'price.min' => __('Цената не може да бъде отрицателно число.'),
+            'image.image' => __('Файлът трябва да бъде изображение.'),
         ]);
 
         $validated['bought_quantity'] = 0;
@@ -85,6 +97,20 @@ class ProductController extends Controller
             'quantity' => 'required|min:1',
             'price' => 'required|min:0',
             'image' => 'image'
+        ], [
+            'name.required' => __('Полето за име е задължително.'),
+            'name.min' => __('Името трябва да бъде поне 3 символа.'),
+            'name.max' => __('Името трябва да бъде най-много 40 символа.'),
+            'description.required' => __('Полето за описание е задължително.'),
+            'description.min' => __('Описанието трябва да бъде поне 5 символа.'),
+            'description.max' => __('Описанието трябва да бъде най-много 255 символа.'),
+            'quantity.required' => __('Полето за количество е задължително.'),
+            'quantity.numeric' => __('Количеството трябва да бъде число.'),
+            'quantity.min' => __('Количеството трябва да бъде поне 1.'),
+            'price.required' => __('Полето за цена е задължително.'),
+            'price.numeric' => __('Цената трябва да бъде число.'),
+            'price.min' => __('Цената не може да бъде по-малка от 0.'),
+            'image.image' => __('Файлът трябва да бъде изображение.'),
         ]);
 
         $product = Product::find($request->product_id);

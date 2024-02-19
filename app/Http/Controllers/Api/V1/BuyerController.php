@@ -98,6 +98,16 @@ class BuyerController extends Controller
             'full_name' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
             'address' => 'required|string|max:255',
+        ], [
+            'full_name.required' => __('Полето за пълно име е задължително.'),
+            'full_name.string' => __('Пълното име трябва да бъде текст.'),
+            'full_name.max' => __('Пълното име трябва да е максимум :max знака.'),
+            'phone.required' => __('Полето за телефон е задължително.'),
+            'phone.string' => __('Телефонният номер трябва да бъде текст.'),
+            'phone.max' => __('Телефонният номер трябва да е максимум :max знака.'),
+            'address.required' => __('Полето за адрес е задължително.'),
+            'address.string' => __('Адресът трябва да бъде текст.'),
+            'address.max' => __('Адресът трябва да е максимум :max знака.'),
         ]);
     
         if ($validator->fails()) {
