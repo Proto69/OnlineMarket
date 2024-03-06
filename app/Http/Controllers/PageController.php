@@ -340,20 +340,6 @@ class PageController extends Controller
         return view('seller.stats', ['dateLogs' => $dateLogs, 'totalIncome' => $totalIncome, 'title' => "Статистики"]);
     }
 
-    public function newProduct()
-    {
-        if (Auth::user()->is_deleted) {
-            return redirect()->route('account-deleted', Auth::user()->id);
-        }
-        $typeOfAccount = Auth::user()->type;
-
-        if ($typeOfAccount !== 'Seller') {
-            abort(404); // If type is not 'Seller', return a 404 not found error
-        }
-
-        return view('seller.new-product', ['title' => "Нов продукт"]);
-    }
-
     public function editProduct($product_id)
     {
         if (Auth::user()->is_deleted) {
