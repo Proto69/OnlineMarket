@@ -46,8 +46,8 @@ class ProductController extends Controller
         $validated = request()->validate([
             'name' => 'required|min:3|max:40',
             'description' => 'required|min:5|max:255',
-            'quantity' => 'required|min:1',
-            'price' => 'required|min:0',
+            'quantity' => 'required|numeric|min:1',
+            'price' => 'required|numeric|gt:0',
             'image' => 'image'
         ], [
             'name.required' => __('Полето за име е задължително.'),
@@ -58,8 +58,10 @@ class ProductController extends Controller
             'description.max' => __('Описанието трябва да съдържа най-много 255 символа.'),
             'quantity.required' => __('Полето за количество е задължително.'),
             'quantity.min' => __('Количеството трябва да бъде поне 1.'),
+            'quantity.numeric' => __('Цената трябва да бъде число.'),
             'price.required' => __('Полето за цена е задължително.'),
-            'price.min' => __('Цената не може да бъде отрицателно число.'),
+            'price.numeric' => __('Цената трябва да бъде число.'),
+            'price.gt' => __('Цената трябва да бъде по-голяма от 0.'),
             'image.image' => __('Файлът трябва да бъде изображение.'),
         ]);
 
