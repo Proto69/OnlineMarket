@@ -13,6 +13,8 @@ use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use App\Http\Controllers\LocalizationController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,8 +27,11 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::post('/lang-switch', [LocalizationController::class, 'switch'])->name('lang.switch');
+
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('test');
 })->name('welcome');
 
 Route::get('/checkout-success', [PageController::class, 'checkoutSuccess'])->name('checkout-success');

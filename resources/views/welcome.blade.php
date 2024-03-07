@@ -25,6 +25,7 @@
                 <div class="grid grid-cols-1 gap-6 lg:gap-8">
 
                     <section class="">
+                        <h1>welcome</h1>
                         <div class="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
                             <img class="w-full hidden sm:block" src="{{ asset('shopping-mockup.png') }}" alt="dashboard image">
                             <div class="mt-4 md:mt-0">
