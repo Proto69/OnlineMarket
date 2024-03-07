@@ -91,13 +91,13 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request)
+    public function edit($productId)
     {
         $validated = request()->validate([
             'name' => 'required|min:3|max:40',
             'description' => 'required|min:5|max:255',
-            'quantity' => 'required|min:1',
-            'price' => 'required|min:0',
+            'quantity' => 'required|numeric|min:1',
+            'price' => 'required|numeric|min:0',
             'image' => 'image'
         ], [
             'name.required' => __('Полето за име е задължително.'),
@@ -115,7 +115,7 @@ class ProductController extends Controller
             'image.image' => __('Файлът трябва да бъде изображение.'),
         ]);
 
-        $product = Product::find($request->product_id);
+        $product = Product::find($productId);
 
         if ($product) {
             $product->update($validated);

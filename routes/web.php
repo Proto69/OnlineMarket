@@ -41,7 +41,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/previous-purchases', [PageController::class, 'previousPurchases'])->name('previous-purchases');
     Route::get('/dashboard', [PageController::class, 'sellerDashboard'])->name('dashboard');
     Route::get('/sells', [PageController::class, 'sells'])->name('sells');
-    Route::get('/edit-product/{product_id}', [PageController::class, 'editProduct'])->name('edit-product');
     // Working on it
     Route::get('/stats', [PageController::class, 'stats'])->name('stats');
     //
@@ -74,7 +73,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/switch-account', [AccountSwitchController::class, 'switchAccount'])->name('switch.account');
     Route::post('/add-to-cart', [ShoppingListController::class, 'addToShoppingList'])->name('add-to-cart');
     Route::post('/edit-shopping-quantity', [ShoppingListController::class, 'editShoppingQuantity'])->name('edit-shopping-quantity');
-    Route::post('/edit-product', [ProductController::class, 'edit'])->name('edit-product-save');
+    Route::post('/edit-product/{product_id}', [ProductController::class, 'edit'])->name('edit-product-save');
     Route::post('/change-status/{product_id}/{status}', [ProductController::class, 'changeStatus'])->name('change-status');
     Route::post('/complete-order', [BuyerController::class, 'completeOrder'])->name('complete-order');
     Route::post('/pay-order/{order_id}', [BuyerController::class, 'payOrder'])->name('pay-order');
