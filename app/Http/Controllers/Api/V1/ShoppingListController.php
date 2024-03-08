@@ -69,12 +69,53 @@ class ShoppingListController extends Controller
         //
     }
 
+    public function addToShoppingListQuantity(Request $request, $productId)
+    {
+        $quantity = $request->quantity;
+        $userId = Auth::user()->id;
+
+        // Retrieve the product based on the provided ID
+        $product = Product::find($productId);
+
+        // Check if the product exists and is active
+        if ($product && $product->active) {
+
+            $shoppingListItem = ShoppingList::where('buyers_user_id', $userId)->where('products_id', $productId)->first();
+
+
+            if ($shoppingListItem) {
+                if ($shoppingListItem->quantity == $product->quantity) {
+                    return redirect()->route('dashboard');
+                } else {
+                    $newQuantity = $shoppingListItem->quantity + $quantity;
+
+                    $shoppingListItem->quantity = $newQuantity;
+
+                    $shoppingListItem->save();
+
+                    return redirect()->route('dashboard');
+                }
+            } else {
+
+                ShoppingList::create([
+                    'buyers_user_id' => $userId,
+                    'products_id' => $productId,
+                    'quantity' => $quantity,
+                ]);
+
+                // Return a success response
+                return redirect()->route('dashboard');
+            }
+        }
+
+        // Return an error response
+        return redirect()->route('dashboard');
+    }
+
     public function addToShoppingList(Request $request)
     {
         $productId = $request->product_id;
         $userId = Auth::user()->id;
-
-
 
         // Retrieve the product based on the provided ID
         $product = Product::find($productId);

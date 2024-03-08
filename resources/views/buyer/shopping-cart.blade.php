@@ -12,29 +12,20 @@
             <div class="overflow-hidden shadow-xl sm:rounded-lg mr-96 mt-[-0.5rem] bg-transparent">
                 @if (count($products) > 0)
                 @foreach ($products as $product)
-                <div class="border border-lime-500 mb-1 dark:border-lime-400 dark:bg-gray-800 h-96 rounded-lg grid grid-cols-3 min-w-[470px]">
+                <div class="border border-lime-500 mb-1 dark:border-lime-400 dark:bg-gray-800 h-68 rounded-lg grid grid-cols-3 min-w-[470px]">
                     <div class="col-span-2 relative min-w-80">
-                        <div class="absolute top-2 left-1/2 transform -translate-x-1/2">
+                        <div class="mb-2 flex flex-col items-center">
+                            <h5 class="mt-3 mb-3 text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ $product->name }}</h5>
+                            <!-- Product Image -->
                             @if ($product->getImageURL())
-                            <img class="rounded-lg mb-2 productImage max-h-60" src="{{ $product->getImageURL() }}">
+                            <div class="h-52 w-full bg-contain bg-no-repeat bg-center rounded-md" style="background-image: url('{{ $product->getImageURL() }}')"></div>
                             @else
                             <img class="rounded-lg mb-2 productImage max-h-60" src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg">
                             @endif
                         </div>
 
-                        <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2">
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
 
-                            <div class="flex items-center">
-                                <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                    <a>{{ $product->name}}</a>
-                                </h2>
-                            </div>
-
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <p class="mt-8 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                {{ $product->description }}
-                            </p>
-                        </div>
 
                     </div>
                     <div class="col-span-1 border-l border-lime-500 dark:border-lime-400 rounded-tr-lg rounded-br-lg flex items-center justify-center min-w-40">

@@ -72,6 +72,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/new-product', [ProductController::class, 'store'])->name('new-product-add');
     Route::post('/switch-account', [AccountSwitchController::class, 'switchAccount'])->name('switch.account');
     Route::post('/add-to-cart', [ShoppingListController::class, 'addToShoppingList'])->name('add-to-cart');
+    Route::post('/add-to-cart-quantity/{product_id}', [ShoppingListController::class, 'addToShoppingListQuantity'])->name('add-to-cart-quantity');
     Route::post('/edit-shopping-quantity', [ShoppingListController::class, 'editShoppingQuantity'])->name('edit-shopping-quantity');
     Route::post('/edit-product/{product_id}', [ProductController::class, 'edit'])->name('edit-product-save');
     Route::post('/change-status/{product_id}/{status}', [ProductController::class, 'changeStatus'])->name('change-status');

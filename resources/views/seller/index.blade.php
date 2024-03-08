@@ -145,14 +145,12 @@
 
                         <input type="hidden" class="productId" value="{{ $product->id }}">
 
-                        <div class="mb-2 ">
+                        <div class="mb-2 flex flex-col items-center">
                             <!-- Показване на снимка  -->
-                            <div class="h-[200px] w-[200px] bg-contain bg-no-repeat bg-center rounded-md" style="background-image: url('{{ $product->getImageURL() }}')">
-                            </div>
-
+                            <div class="h-52 w-full bg-contain bg-no-repeat bg-center rounded-md" style="background-image: url('{{ $product->getImageURL() }}')"></div>
 
                             <!-- Име на продукта -->
-                            <div class="flex items-center">
+                            <div>
                                 <label class="block mb-2 text-xl font-medium text-gray-900 dark:text-white">{{ $product->name }}</label>
                             </div>
 
