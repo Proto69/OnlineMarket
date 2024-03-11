@@ -182,7 +182,7 @@
                     </div>
 
 
-                    <!-- Update product modal -->
+                    <!-- Edit product modal -->
                     <div id="updateProductModal-{{ $product->id }}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
                         <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
                             <!-- Modal content -->
@@ -224,16 +224,107 @@
                                             @enderror
                                             <input required type="text" name="quantity" id="quantity" value="{{ $product->quantity }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="1000">
                                         </div>
-                                        <!-- <div>
+                                        <div>
                                             <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                                            <select id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                                <option selected="">Electronics</option>
-                                                <option value="TV">TV/Monitors</option>
-                                                <option value="PC">PC</option>
-                                                <option value="GA">Gaming/Console</option>
-                                                <option value="PH">Phones</option>
+                                            <select id="category" name="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                                <option value="">Мобилни телефони и аксесоари</option>
+                                                <option value="">Таблети и аксесоари</option>
+                                                <option value="">Лаптопи и аксесоари</option>
+                                                <option value="">Джаджи и смарт технологии</option>
+                                                <option value="">Настолни компютри и монитри</option>
+                                                <option value="">PC компоненти</option>
+                                                <option value="">Софтуер</option>
+                                                <option value="">Периферия</option>
+                                                <option value="">Принтери и скенери</option>
+                                                <option value="">Безжични системи</option>
+                                                <option value="">Телевизори и аксесоари</option>
+                                                <option value="">Системи за домашно кино</option>
+                                                <option value="">Електроника</option>
+                                                <option value="">Дронове</option>
+                                                <option value="">Видеокамери</option>
+                                                <option value="">Фотоапарати и аксесоари</option>
+                                                <option value="">Гейминг конзоли</option>
+                                                <option value="">Гейминг аксесоари</option>
+                                                <option value="">Игри за конзоли и компютри</option>
+                                                <option value="">PC компоненти</option>
+                                                <option value="">Гейминг лаптопи</option>
+                                                <option value="">Хладилна техника</option>
+                                                <option value="">Перални</option>
+                                                <option value="">Съдомиялни машини</option>
+                                                <option value="">Уреди за вграждане</option>
+                                                <option value="">Готварски печки и микровълнови</option>
+                                                <option value="">Бойлери</option>
+                                                <option value="">Климатици и уреди за отопление</option>
+                                                <option value="">Прахосмукачки и ютии</option>
+                                                <option value="">Приготвяне на напитки</option>
+                                                <option value="">Кухненски уреди</option>
+                                                <option value="">Кафемашини</option>
+                                                <option value="">Дамски чанти и аксесоари</option>
+                                                <option value="">Дамски обувки</option>
+                                                <option value="">Дамски дрехи</option>
+                                                <option value="">Мъжки аксесоари</option>
+                                                <option value="">Мъжки обувки</option>
+                                                <option value="">Мъжки дрехи</option>
+                                                <option value="">Детски аксесоари</option>
+                                                <option value="">Детски обувки</option>
+                                                <option value="">Детски дрехи</option>
+                                                <option value="">Часовници</option>
+                                                <option value="">Куфари и чанти</option>
+                                                <option value="">Уреди и Аксесоари за лична грижа</option>
+                                                <option value="">Устна хигиена</option>
+                                                <option value="">Здраве</option>
+                                                <option value="">Парфюми и комплекти</option>
+                                                <option value="">Дермокозметика</option>
+                                                <option value="">Козметика и Продукти за лична грижа</option>
+                                                <option value="">Градиснки мебели</option>
+                                                <option value="">Мебели и матраци</option>
+                                                <option value="">Домашен текстил</option>
+                                                <option value="">Готвене и сервиране</option>
+                                                <option value="">Почистване и поддръжка</option>
+                                                <option value="">Декорации</option>
+                                                <option value="">За домашните любимци</option>
+                                                <option value="">Храни и награди за доимашните любимци</option>
+                                                <option value="">Пелени и мокри кърпички</option>
+                                                <option value="">Бебешки храни</option>
+                                                <option value="">Транспортни артикули</option>
+                                                <option value="">За детската стая</option>
+                                                <option value="">Столчета и хранене</option>
+                                                <option value="">Грижа и хигиена</option>
+                                                <option value="">Майчинство и бременност</option>
+                                                <option value="">Игри и играчки</option>
+                                                <option value="">Фитнес и хранителни добавки</option>
+                                                <option value="">Спорт и Свободно време</option>
+                                                <option value="">Куфари и пътни чанти</option>
+                                                <option value="">Спортни аксесоари</option>
+                                                <option value="">Велосипеди, екипировка и аксесоари</option>
+                                                <option value="">Автомобилни гуми</option>
+                                                <option value="">Авто електроника</option>
+                                                <option value="">Крушки и акумулатори</option>
+                                                <option value="">Авто аксесоари</option>
+                                                <option value="">Масла и консумативи</option>
+                                                <option value="">Електрически превозни средства</option>
+                                                <option value="">Електрическо оборудване</option>
+                                                <option value="">Санитария</option>
+                                                <option value="">Строителни материали</option>
+                                                <option value="">Градинска техника</option>
+                                                <option value="">Осветление</option>
+                                                <option value="">Всичко за офиса</option>
+                                                <option value="">Ученически пособия</option>
+                                                <option value="">Идеи за подаръци</option>
+                                                <option value="">Книги</option>
+                                                <option value="">Музика</option>
+                                                <option value="">Кафе и чай</option>
+                                                <option value="">Напитки</option>
+                                                <option value="">Алкохолни напитки</option>
+                                                <option value="">Храни</option>
+
+
+
+
+
+                                                
                                             </select>
-                                        </div> -->
+                                        </div>
                                         <br />
                                         <div>
                                             <img class="mt-1 mb-2 filePreview max-h-[150px] rounded-md" src="{{ $product->getImageURL() }}">
@@ -268,35 +359,35 @@
                             <!-- Modal content -->
                             <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                                 <!-- Modal header -->
-                                    <div class="flex justify-between mb-4 rounded-t sm:mb-5">
-                                        <div class="text-lg text-gray-900 md:text-xl dark:text-white">
-                                            <h3 class="font-semibold ">
-                                                {{ $product->name }}
-                                            </h3>
-                                            <p class="font-bold">
-                                                {{ $product->price }}лв
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="readProductModal-{{ $product->id }}">
-                                                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                                </svg>
-                                                <span class="sr-only">Close modal</span>
-                                            </button>
-                                        </div>
+                                <div class="flex justify-between mb-4 rounded-t sm:mb-5">
+                                    <div class="text-lg text-gray-900 md:text-xl dark:text-white">
+                                        <h3 class="font-semibold ">
+                                            {{ $product->name }}
+                                        </h3>
+                                        <p class="font-bold">
+                                            {{ $product->price }}лв
+                                        </p>
                                     </div>
-                                    <dl>
-                                        <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Детайли</dt>
-                                        <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">{{ $product->description }}</dd>
-                                        <!-- <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Категория</dt>
-                                    <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">Electronics/PC</dd> -->
-                                        @if ($product->getImageURL())
-                                        <div class="h-52 w-full bg-contain bg-no-repeat bg-center rounded-md" style="background-image: url('{{ $product->getImageURL() }}')"></div>
-                                        @else
-                                        <div class="h-52 w-full bg-contain bg-no-repeat bg-center rounded-md" style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg)"></div>
-                                        @endif
-                                    </dl>
+                                    <div>
+                                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="readProductModal-{{ $product->id }}">
+                                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            <span class="sr-only">Close modal</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <dl>
+                                    <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Детайли</dt>
+                                    <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">{{ $product->description }}</dd>
+                                    <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Категория</dt>
+                                    <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">{{ $product->category }}</dd>
+                                    @if ($product->getImageURL())
+                                    <div class="h-52 w-full bg-contain bg-no-repeat bg-center rounded-md" style="background-image: url('{{ $product->getImageURL() }}')"></div>
+                                    @else
+                                    <div class="h-52 w-full bg-contain bg-no-repeat bg-center rounded-md" style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg)"></div>
+                                    @endif
+                                </dl>
                             </div>
                         </div>
                     </div>
