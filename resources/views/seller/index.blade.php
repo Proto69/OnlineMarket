@@ -63,12 +63,12 @@
                                 <br />
 
                                 <div>
-                                    <img class="mt-1 mb-2 productImage" id="file-preview">
+                                    <img class="mt-1 mb-2 filePreview">
                                     <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Снимка</label>
                                     @error('image')
                                     <p class="text-red-500 text-sm mt-1 mb-1">{{ $message }}</p>
                                     @enderror
-                                    <x-input type="file" name="image" id="file-input" accept=".jpg, .jpeg, .png"></x-input>
+                                    <x-input type="file" name="image" class="fileInput" accept=".jpg, .jpeg, .png"></x-input>
                                 </div>
                                 <!-- Future project -->
                                 <!-- <div>
@@ -109,7 +109,7 @@
             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
         </svg>
         <div class="ms-3 font-medium">
-            Неуспешно създаване на продукт! Подадени са невалидни данни! <button class="font-semibold underline hover:no-underline" type="submit" data-modal-target="createProductModal" data-modal-toggle="createProductModal">Кликнете тук за повече информация</button>
+            Неуспешно действие! Подадени са невалидни данни!
         </div>
         <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700" data-dismiss-target="#alert-border-2" aria-label="Close">
             <span class="sr-only">Dismiss</span>
@@ -141,7 +141,7 @@
                     @foreach ($products as $product)
 
 
-                    <div class="card-form relative min-w-80 bg-white dark:bg-gray-800 border border-gray-300 p-4 rounded-lg flex flex-col h-full items-center">
+                    <div data-modal-target="readProductModal-{{ $product->id }}" data-modal-toggle="readProductModal-{{ $product->id }}" class="hover:cursor-pointer card-form relative min-w-80 bg-white dark:bg-gray-800 border border-gray-300 p-4 rounded-lg flex flex-col h-full items-center">
 
                         <input type="hidden" class="productId" value="{{ $product->id }}">
 
@@ -153,11 +153,6 @@
                             <div>
                                 <label class="block mb-2 text-xl font-medium text-gray-900 dark:text-white">{{ $product->name }}</label>
                             </div>
-
-                            <!-- Описание -->
-                            <p class="text-gray-500 text-sm dark:text-gray-400 bg-transparent">
-                                {{ $product->description }}
-                            </p>
                         </div>
 
                         <div class="mt-auto mb-2">
@@ -180,14 +175,14 @@
                                 <span class="ml-3 activity-state state text-xxl font-medium text-gray-900 dark:text-gray-300">{{ $product->active ? 'Активен' : 'Неактивен'}}</span>
                             </div>
 
-                            <x-success-button id="updateProductButton-{{ $product->id }}" data-modal-target="updateProductModal-{{ $product->id }}" data-modal-toggle="updateProductModal-{{ $product->id }}" class="mt-3 self-center">
+                            <x-success-button id="updateProductButton-{{ $product->id }}" onclick="event.stopPropagation()" data-modal-target="updateProductModal-{{ $product->id }}" data-modal-toggle="updateProductModal-{{ $product->id }}" class="mt-3 self-center">
                                 Промени продукт
                             </x-success-button>
                         </div>
                     </div>
 
 
-                    <!-- Update modal -->
+                    <!-- Update product modal -->
                     <div id="updateProductModal-{{ $product->id }}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
                         <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
                             <!-- Modal content -->
@@ -241,12 +236,12 @@
                                         </div> -->
                                         <br />
                                         <div>
-                                            <img class="mt-1 mb-2 productImage max-h-[150px] rounded-md" src="{{ $product->getImageURL() }}">
+                                            <img class="mt-1 mb-2 filePreview max-h-[150px] rounded-md" src="{{ $product->getImageURL() }}">
                                             <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Снимка</label>
                                             @error('image')
                                             <p class="text-red-500 text-sm mt-1 mb-1">{{ $message }}</p>
                                             @enderror
-                                            <x-input type="file" name="image" class="file-input" accept=".jpg, .jpeg, .png"></x-input>
+                                            <x-input type="file" name="image" class="fileInput" accept=".jpg, .jpeg, .png"></x-input>
                                         </div>
                                         <br />
                                         <div class="sm:col-span-2">
@@ -258,11 +253,50 @@
                                         </div>
                                     </div>
                                     <div class="flex items-center space-x-4">
-                                        <x-success-button type="submit">
+                                        <x-success-button type="button" onclick="submitForm('{{ $product->id }}')">
                                             Запази промените
                                         </x-success-button>
                                     </div>
                                 </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Read modal -->
+                    <div id="readProductModal-{{ $product->id }}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
+                        <div class="relative p-4 w-full max-w-xl h-full md:h-auto">
+                            <!-- Modal content -->
+                            <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+                                <!-- Modal header -->
+                                    <div class="flex justify-between mb-4 rounded-t sm:mb-5">
+                                        <div class="text-lg text-gray-900 md:text-xl dark:text-white">
+                                            <h3 class="font-semibold ">
+                                                {{ $product->name }}
+                                            </h3>
+                                            <p class="font-bold">
+                                                {{ $product->price }}лв
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="readProductModal-{{ $product->id }}">
+                                                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                                </svg>
+                                                <span class="sr-only">Close modal</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <dl>
+                                        <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Детайли</dt>
+                                        <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">{{ $product->description }}</dd>
+                                        <!-- <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Категория</dt>
+                                    <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">Electronics/PC</dd> -->
+                                        @if ($product->getImageURL())
+                                        <div class="h-52 w-full bg-contain bg-no-repeat bg-center rounded-md" style="background-image: url('{{ $product->getImageURL() }}')"></div>
+                                        @else
+                                        <div class="h-52 w-full bg-contain bg-no-repeat bg-center rounded-md" style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg)"></div>
+                                        @endif
+                                    </dl>
                             </div>
                         </div>
                     </div>
@@ -279,6 +313,14 @@
 
 
 <script>
+    function submitForm(productId) {
+        // Get the form element by ID
+        var form = document.getElementById('updateForm-' + productId);
+
+        // Submit the form
+        form.submit();
+    }
+
     function createToast(state) {
         // Create a new toast element
         var toast = document.createElement('div');
@@ -364,17 +406,20 @@
         });
     }
 
-    const input = document.getElementById('file-input');
-    const previewPhoto = () => {
-        const file = input.files;
-        if (file) {
+    $(".fileInput").change(function() {
+        previewPhoto($(this));
+    });
+
+    function previewPhoto(input) {
+        const files = input.prop('files');
+        const preview = input.closest('div').find('.filePreview'); // Modify the selector here
+
+        if (files && files[0]) {
             const fileReader = new FileReader();
-            const preview = document.getElementById('file-preview');
             fileReader.onload = function(event) {
-                preview.setAttribute('src', event.target.result);
+                preview.attr('src', event.target.result);
             }
-            fileReader.readAsDataURL(file[0]);
+            fileReader.readAsDataURL(files[0]);
         }
     }
-    input.addEventListener("change", previewPhoto);
 </script>
