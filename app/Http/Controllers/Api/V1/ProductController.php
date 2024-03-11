@@ -48,7 +48,8 @@ class ProductController extends Controller
             'description' => 'required|min:5|max:255',
             'quantity' => 'required|numeric|min:1',
             'price' => 'required|numeric|gt:0',
-            'image' => 'image'
+            'image' => 'image',
+            'category' => 'required'
         ], [
             'name.required' => __('Полето за име е задължително.'),
             'name.min' => __('Името трябва да съдържа поне 3 символа.'),
@@ -63,6 +64,7 @@ class ProductController extends Controller
             'price.numeric' => __('Цената трябва да бъде число.'),
             'price.gt' => __('Цената трябва да бъде по-голяма от 0.'),
             'image.image' => __('Файлът трябва да бъде изображение.'),
+            'category.required' => __('Категорията е задължителна.')
         ]);
 
         $validated['bought_quantity'] = 0;

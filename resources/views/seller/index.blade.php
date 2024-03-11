@@ -227,8 +227,8 @@
                                         <div>
                                             <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
                                             <select id="category" name="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                                <option value="">Мобилни телефони и аксесоари</option>
-                                                <option value="">Таблети и аксесоари</option>
+                                                <option name="category" value="Мобилни телефони и аксесоари">Мобилни телефони и аксесоари</option>
+                                                <option name="category" value="Таблети и аксесоари">Таблети и аксесоари</option>
                                                 <option value="">Лаптопи и аксесоари</option>
                                                 <option value="">Джаджи и смарт технологии</option>
                                                 <option value="">Настолни компютри и монитри</option>
@@ -317,12 +317,6 @@
                                                 <option value="">Напитки</option>
                                                 <option value="">Алкохолни напитки</option>
                                                 <option value="">Храни</option>
-
-
-
-
-
-                                                
                                             </select>
                                         </div>
                                         <br />
