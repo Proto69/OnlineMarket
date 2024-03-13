@@ -45,21 +45,28 @@
 
 
                                     <div id="example-categories">
-                                        @for ($i = 0; $i <= 5; $i++) 
-                                        <div class="flex items-center mb-2">
-                                            <input name="tv" type="checkbox" value="tv" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                            <label for="tv" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        @for ($i = 0; $i <= 5; $i++) <div class="flex items-center mb-2">
+                                            @if(isset($categoriesFilter[$categories[$i]->name]))
+                                            <input checked name="categories[]" type="checkbox" value="{{ $categories[$i]->name }}" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            @else
+                                            <input name="categories[]" type="checkbox" value="{{ $categories[$i]->name }}" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            @endif
+                                            <label for="{{ $categories[$i]->name }}" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                                 {{ $categories[$i]->name }}
                                             </label>
-                                        </div>
+                                    </div>
                                     @endfor
                                 </div>
 
                                 <div id="all-categories" class="flex items-center" style="display: none;">
                                     @foreach($categories as $category)
                                     <div class="flex items-center mb-2">
-                                        <input name="tv" type="checkbox" value="tv" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                        <label for="tv" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        @if(isset($categoriesFilter[$category->name]))
+                                        <input checked name="categories[]" type="checkbox" value="{{ $category->name }}" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                        @else
+                                        <input name="categories[]" type="checkbox" value="{{ $category->name }}" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                        @endif
+                                        <label for="{{ $categories[$i]->name }}" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                             {{ $category->name }}
                                         </label>
                                     </div>
@@ -83,7 +90,7 @@
                                             From
                                         </label>
 
-                                        <input type="number" name="price-from" id="price-from" value="300" min="1" max="100000000" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required>
+                                        <input type="number" name="price-from" id="price-from" value="{{ $priceFrom ?? 300 }}" min="0" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required>
                                     </div>
 
                                     <div class="w-full">
@@ -91,7 +98,7 @@
                                             To
                                         </label>
 
-                                        <input type="number" name="price-to" id="price-to" value="3500" min="1" max="100000000" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required>
+                                        <input type="number" name="price-to" id="price-to" value="{{ $priceTo ?? 3500 }}" min="0" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required>
                                     </div>
                                 </div>
                             </div>
