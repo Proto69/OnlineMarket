@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
+use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Filters\V1\ProductFilter;
@@ -122,6 +123,9 @@ class ProductController extends Controller
         $product = Product::find($productId);
 
         if ($product) {
+
+            $categoryCountUpdate = $product->category == request()->category;
+
             $product->update($validated);
 
             if (request()->has('image')) {
@@ -129,6 +133,12 @@ class ProductController extends Controller
                 Storage::disk('public')->delete($product->image);
                 $product->image = $imagePath;
                 $product->save();
+            }
+
+            if (!$categoryCountUpdate) {
+                $category = Category::where('name', request()->category)->first();
+                $category->products_count += 1;
+                $category->save();
             }
 
             return redirect()->route('dashboard');

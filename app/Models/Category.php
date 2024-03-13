@@ -15,7 +15,7 @@ class Category extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name','products_count'
+        'name','products_count', 'is_accepted'
     ];
 
     /**
@@ -25,5 +25,6 @@ class Category extends Model
      */
     protected $casts = [
         'products_count' => 'integer',
+        'is_accepted' => 'boolean'
     ];
 }

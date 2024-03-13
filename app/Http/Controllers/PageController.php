@@ -10,6 +10,7 @@ use App\Models\Seller;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\Appeal;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -141,8 +142,33 @@ class PageController extends Controller
         }
 
         $products = Product::all()->where('is_deleted', false);
+        $categories = Category::all()->where('is_accepted', true);
 
-        return view('buyer.index', ['products' => $products, 'title' => "Пазаруване"]);
+        return view('buyer.index', ['products' => $products, 'title' => "Пазаруване", 'categories' => $categories]);
+    }
+
+    public function shoppingFilters(Request $request)
+    {
+        $typeOfAccount = Auth::user()->type;
+        if (Auth::user()->is_deleted) {
+            return redirect()->route('account-deleted', Auth::user()->id);
+        }
+
+        if ($typeOfAccount == 'Seller') {
+            return redirect()->route('dashboard');
+        }
+        else if ($typeOfAccount == 'Admin'){
+            abort(404); // If type is 'Admin', return a 404 not found error
+        }
+
+        dd($request->all());
+
+        // TODO: apply filters
+        $products = Product::all()->where('is_deleted', false);
+
+        $categories = Category::all()->where('is_accepted', true);
+
+        return view('buyer.index', ['products' => $products, 'title' => "Пазаруване", 'categories' => $categories]);
     }
 
     public function shoppingKeyWord(Request $request)
@@ -241,11 +267,14 @@ class PageController extends Controller
 
 
         $products = Product::where('seller_user_id', $userId)->get();
+        $categories = Category::all()->where('is_accepted', true)->sortBy('name');
+
 
         return view('seller.index', [
             'products' => $products,
             'seller' => Seller::where('user_id', $userId)->first(),
-            'title' => "Продукти"
+            'title' => "Продукти",
+            'categories' => $categories
         ]);
     }
 

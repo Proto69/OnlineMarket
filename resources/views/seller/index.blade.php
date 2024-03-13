@@ -60,7 +60,14 @@
                                     @enderror
                                     <input value="{{ old('quantity') }}" type="number" name="quantity" id="quantity" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="1000" required>
                                 </div>
-                                <br />
+                                <div>
+                                    <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Категория</label>
+                                    <select id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                        @foreach ($categories as $category)
+                                        <option name="category" value="{{ $category->name }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
                                 <div>
                                     <img class="mt-1 mb-2 filePreview">
@@ -70,17 +77,7 @@
                                     @enderror
                                     <x-input type="file" name="image" class="fileInput" accept=".jpg, .jpeg, .png"></x-input>
                                 </div>
-                                <!-- Future project -->
-                                <!-- <div>
-                                    <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                                    <select id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                        <option selected="">Select category</option>
-                                        <option value="TV">TV/Monitors</option>
-                                        <option value="PC">PC</option>
-                                        <option value="GA">Gaming/Console</option>
-                                        <option value="PH">Phones</option>
-                                    </select>
-                                </div> -->
+                                
                                 <br />
                                 <div class="sm:col-span-2">
                                     <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Описание</label>
@@ -225,101 +222,18 @@
                                             <input required type="text" name="quantity" id="quantity" value="{{ $product->quantity }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="1000">
                                         </div>
                                         <div>
-                                            <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
+                                            <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Категория</label>
                                             <select id="category" name="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                                <option name="category" value="Мобилни телефони и аксесоари">Мобилни телефони и аксесоари</option>
-                                                <option name="category" value="Таблети и аксесоари">Таблети и аксесоари</option>
-                                                <option value="">Лаптопи и аксесоари</option>
-                                                <option value="">Джаджи и смарт технологии</option>
-                                                <option value="">Настолни компютри и монитри</option>
-                                                <option value="">PC компоненти</option>
-                                                <option value="">Софтуер</option>
-                                                <option value="">Периферия</option>
-                                                <option value="">Принтери и скенери</option>
-                                                <option value="">Безжични системи</option>
-                                                <option value="">Телевизори и аксесоари</option>
-                                                <option value="">Системи за домашно кино</option>
-                                                <option value="">Електроника</option>
-                                                <option value="">Дронове</option>
-                                                <option value="">Видеокамери</option>
-                                                <option value="">Фотоапарати и аксесоари</option>
-                                                <option value="">Гейминг конзоли</option>
-                                                <option value="">Гейминг аксесоари</option>
-                                                <option value="">Игри за конзоли и компютри</option>
-                                                <option value="">PC компоненти</option>
-                                                <option value="">Гейминг лаптопи</option>
-                                                <option value="">Хладилна техника</option>
-                                                <option value="">Перални</option>
-                                                <option value="">Съдомиялни машини</option>
-                                                <option value="">Уреди за вграждане</option>
-                                                <option value="">Готварски печки и микровълнови</option>
-                                                <option value="">Бойлери</option>
-                                                <option value="">Климатици и уреди за отопление</option>
-                                                <option value="">Прахосмукачки и ютии</option>
-                                                <option value="">Приготвяне на напитки</option>
-                                                <option value="">Кухненски уреди</option>
-                                                <option value="">Кафемашини</option>
-                                                <option value="">Дамски чанти и аксесоари</option>
-                                                <option value="">Дамски обувки</option>
-                                                <option value="">Дамски дрехи</option>
-                                                <option value="">Мъжки аксесоари</option>
-                                                <option value="">Мъжки обувки</option>
-                                                <option value="">Мъжки дрехи</option>
-                                                <option value="">Детски аксесоари</option>
-                                                <option value="">Детски обувки</option>
-                                                <option value="">Детски дрехи</option>
-                                                <option value="">Часовници</option>
-                                                <option value="">Куфари и чанти</option>
-                                                <option value="">Уреди и Аксесоари за лична грижа</option>
-                                                <option value="">Устна хигиена</option>
-                                                <option value="">Здраве</option>
-                                                <option value="">Парфюми и комплекти</option>
-                                                <option value="">Дермокозметика</option>
-                                                <option value="">Козметика и Продукти за лична грижа</option>
-                                                <option value="">Градиснки мебели</option>
-                                                <option value="">Мебели и матраци</option>
-                                                <option value="">Домашен текстил</option>
-                                                <option value="">Готвене и сервиране</option>
-                                                <option value="">Почистване и поддръжка</option>
-                                                <option value="">Декорации</option>
-                                                <option value="">За домашните любимци</option>
-                                                <option value="">Храни и награди за доимашните любимци</option>
-                                                <option value="">Пелени и мокри кърпички</option>
-                                                <option value="">Бебешки храни</option>
-                                                <option value="">Транспортни артикули</option>
-                                                <option value="">За детската стая</option>
-                                                <option value="">Столчета и хранене</option>
-                                                <option value="">Грижа и хигиена</option>
-                                                <option value="">Майчинство и бременност</option>
-                                                <option value="">Игри и играчки</option>
-                                                <option value="">Фитнес и хранителни добавки</option>
-                                                <option value="">Спорт и Свободно време</option>
-                                                <option value="">Куфари и пътни чанти</option>
-                                                <option value="">Спортни аксесоари</option>
-                                                <option value="">Велосипеди, екипировка и аксесоари</option>
-                                                <option value="">Автомобилни гуми</option>
-                                                <option value="">Авто електроника</option>
-                                                <option value="">Крушки и акумулатори</option>
-                                                <option value="">Авто аксесоари</option>
-                                                <option value="">Масла и консумативи</option>
-                                                <option value="">Електрически превозни средства</option>
-                                                <option value="">Електрическо оборудване</option>
-                                                <option value="">Санитария</option>
-                                                <option value="">Строителни материали</option>
-                                                <option value="">Градинска техника</option>
-                                                <option value="">Осветление</option>
-                                                <option value="">Всичко за офиса</option>
-                                                <option value="">Ученически пособия</option>
-                                                <option value="">Идеи за подаръци</option>
-                                                <option value="">Книги</option>
-                                                <option value="">Музика</option>
-                                                <option value="">Кафе и чай</option>
-                                                <option value="">Напитки</option>
-                                                <option value="">Алкохолни напитки</option>
-                                                <option value="">Храни</option>
+                                                @if ($product->category)
+                                                <option name="category" value="{{ $product->category }}">{{ $product->category }}</option>
+                                                @endif
+                                                @foreach ($categories as $category)
+                                                @if (!($category->name == $product->category))
+                                                <option name="category" value="{{ $category->name }}">{{ $category->name }}</option>
+                                                @endif
+                                                @endforeach
                                             </select>
                                         </div>
-                                        <br />
                                         <div>
                                             <img class="mt-1 mb-2 filePreview max-h-[150px] rounded-md" src="{{ $product->getImageURL() }}">
                                             <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Снимка</label>
