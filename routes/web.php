@@ -37,6 +37,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 
     Route::get('/shopping', [PageController::class, 'shopping'])->name('shopping');
+    Route::get('/shopping/{category}', [PageController::class, 'shoppingCategory'])->name('shopping-category');
     Route::get('/shopping-filters', [PageController::class, 'shoppingFilters'])->name('shopping-filters');
     Route::get('/shopping-cart', [PageController::class, 'shoppingCart'])->name('shopping-cart');
     Route::get('/previous-purchases', [PageController::class, 'previousPurchases'])->name('previous-purchases');

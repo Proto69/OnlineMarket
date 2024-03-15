@@ -1,3 +1,6 @@
+@php
+use App\Models\Category;
+@endphp
 <x-app-layout>
     @section('title', $title)
     <x-slot name="header">
@@ -64,7 +67,7 @@
                                     <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Категория</label>
                                     <select id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                         @foreach ($categories as $category)
-                                        <option name="category" value="{{ $category->name }}">{{ $category->name }}</option>
+                                        <option name="category" value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -77,7 +80,7 @@
                                     @enderror
                                     <x-input type="file" name="image" class="fileInput" accept=".jpg, .jpeg, .png"></x-input>
                                 </div>
-                                
+
                                 <br />
                                 <div class="sm:col-span-2">
                                     <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Описание</label>
@@ -225,11 +228,11 @@
                                             <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Категория</label>
                                             <select id="category" name="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                                 @if ($product->category)
-                                                <option name="category" value="{{ $product->category }}">{{ $product->category }}</option>
+                                                <option name="category" value="{{ $product->category }}">{{ Category::find($product->category)->name }}</option>
                                                 @endif
                                                 @foreach ($categories as $category)
                                                 @if (!($category->name == $product->category))
-                                                <option name="category" value="{{ $category->name }}">{{ $category->name }}</option>
+                                                <option name="category" value="{{ $category->id }}">{{ $category->name }}</option>
                                                 @endif
                                                 @endforeach
                                             </select>
@@ -289,7 +292,12 @@
                                     <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Детайли</dt>
                                     <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">{{ $product->description }}</dd>
                                     <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Категория</dt>
-                                    <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">{{ $product->category }}</dd>
+                                    @if($product->category)
+                                    <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">{{ Category::find($product->category)->name }}</dd>
+                                    @else
+                                    <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">Category Not Found</dd>
+                                    @endif
+
                                     @if ($product->getImageURL())
                                     <div class="h-52 w-full bg-contain bg-no-repeat bg-center rounded-md" style="background-image: url('{{ $product->getImageURL() }}')"></div>
                                     @else

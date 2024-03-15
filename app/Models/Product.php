@@ -30,6 +30,7 @@ class Product extends Model
         'active' => 'boolean',
         'bought_quantity' => 'integer',
         'is_deleted' => 'boolean',
+        'category' => 'integer'
     ];
 
     public function getImageURL(){

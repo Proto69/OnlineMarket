@@ -144,7 +144,25 @@ class PageController extends Controller
         $categories = Category::all()->where('is_accepted', true)->sortBy('name');
 
         return view('buyer.index', ['products' => $products, 'title' => "Пазаруване", 'categories' => $categories, 'categoriesFilter' => null]);
+    }
 
+    public function shoppingCategory($category)
+    {
+        $typeOfAccount = Auth::user()->type;
+        if (Auth::user()->is_deleted) {
+            return redirect()->route('account-deleted', Auth::user()->id);
+        }
+
+        if ($typeOfAccount == 'Seller') {
+            return redirect()->route('dashboard');
+        } else if ($typeOfAccount == 'Admin') {
+            abort(404); // If type is 'Admin', return a 404 not found error
+        }
+        $category = Category::where('name', $category)->first();
+        $products = Product::all()->where('is_deleted', false)->where('category', $category->id);
+        $categories = Category::all()->where('is_accepted', true)->sortBy('name');
+
+        return view('buyer.index', ['products' => $products, 'title' => "Пазаруване", 'categories' => $categories, 'categoriesFilter' => null]);
     }
 
     public function shoppingFilters(Request $request)
@@ -160,16 +178,12 @@ class PageController extends Controller
             abort(404); // If type is 'Admin', return a 404 not found error
         }
 
-        $categoriesFilter = request()->input('categories');
-        $priceFrom = request()->input('price-from');
-        $priceTo = request()->input('price-to');
-        $rating = request()->input('rating');
+        $priceFrom = $request->input('price-from');
+        $priceTo = $request->input('price-to');
+        $rating = $request->input('rating');
 
         $query = Product::query();
 
-        if ($categoriesFilter) {
-            $query->whereIn('category', $categoriesFilter);
-        }
 
         if ($priceFrom && $priceTo) {
             $query->whereBetween('price', [$priceFrom, $priceTo]);
@@ -179,11 +193,7 @@ class PageController extends Controller
 
         $categories = Category::all()->where('is_accepted', true)->sortBy('name');
 
-        if ($categoriesFilter && $priceFrom) {
-            return view('buyer.index', ['products' => $filteredProducts, 'title' => "Пазаруване", 'categories' => $categories, 'categoriesFilter' => array_flip($categoriesFilter), 'priceFrom' => $priceFrom, 'priceTo' => $priceTo]);
-        } elseif ($categoriesFilter) {
-            return view('buyer.index', ['products' => $filteredProducts, 'title' => "Пазаруване", 'categories' => $categories, 'categoriesFilter' => array_flip($categoriesFilter)]);
-        } elseif ($priceFrom) {
+        if ($priceFrom) {
             return view('buyer.index', ['products' => $filteredProducts, 'title' => "Пазаруване", 'categories' => $categories, 'priceFrom' => $priceFrom, 'priceTo' => $priceTo]);
         }
         return view('buyer.index', ['products' => $filteredProducts, 'title' => "Пазаруване", 'categories' => $categories, 'categoriesFilter' => null]);
@@ -208,7 +218,7 @@ class PageController extends Controller
 
         $categories = Category::all()->where('is_accepted', true)->sortBy('name');
 
-        return view('buyer.index', ['products' => $products, 'title' => "Пазаруване", 'categories' => $categories]);
+        return view('buyer.index', ['products' => $products, 'title' => "Пазаруване", 'categories' => $categories, 'categoriesFilter' => null]);
     }
 
     public function shoppingCart()

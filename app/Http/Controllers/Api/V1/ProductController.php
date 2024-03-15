@@ -136,7 +136,7 @@ class ProductController extends Controller
             }
 
             if (!$categoryCountUpdate) {
-                $category = Category::where('name', request()->category)->first();
+                $category = Category::find(request()->category);
                 $category->products_count += 1;
                 $category->save();
             }
