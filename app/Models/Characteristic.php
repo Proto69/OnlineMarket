@@ -5,31 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Seller extends Model
+class Characteristic extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'user_id';
-
-    public function products()
+    public function product()
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsTo(Product::class);
     }
-
-    public function logs()
-    {
-        return $this->hasMany(Log::class);
-    }
-
-    /**
+    
+    /** 
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id', 'account_id', 'balance', 'is_test'
+        'name','description', 'product_id'
     ];
-
 
     /**
      * The attributes that should be cast.
@@ -37,8 +29,6 @@ class Seller extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'user_id' => 'integer',
-        'balance' => 'float',
-        'is_test' => 'boolean',
+        'product_id' => 'integer',
     ];
 }

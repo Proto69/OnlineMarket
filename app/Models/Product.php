@@ -9,6 +9,16 @@ class Product extends Model
 {
     use HasFactory;
 
+    public function characteristics()
+    {
+        return $this->hasMany(Characteristic::class);
+    }
+
+    public function punishments()
+    {
+        return $this->hasMany(Punishment::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -33,9 +43,10 @@ class Product extends Model
         'category' => 'integer'
     ];
 
-    public function getImageURL(){
-        if($this->image){
-            return url('storage/'. $this->image);
+    public function getImageURL()
+    {
+        if ($this->image) {
+            return url('storage/' . $this->image);
         }
         return "";
     }

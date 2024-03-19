@@ -9,13 +9,18 @@ class Category extends Model
 {
     use HasFactory;
 
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+    
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name','products_count', 'is_accepted', 'general_category', 'id', 'main_category'
+        'name', 'products_count', 'is_accepted', 'general_category', 'id', 'main_category'
     ];
 
     /**
