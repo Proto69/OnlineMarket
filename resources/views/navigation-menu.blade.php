@@ -74,7 +74,7 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="doubleDropdownButton-{{ $mainCategory->id }}">
                                     @foreach (Category::where('main_category', $mainCategory->id)->get() as $category)
                                     <li>
-                                        <a href="/shopping/{{ $category->name }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ $category->name }}</a>
+                                        <a href="/shopping/{{ $category->name }}" class="block px-4 py-2 rounded-lg mx-1 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ $category->name }}</a>
                                     </li>
                                     @endforeach
                                 </ul>
@@ -218,10 +218,31 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                 </div>
             </div>
 
-            <!-- TODO: Responsive dropdown needed -->
-            <x-basic-button class="my-2 px-3 text-center sm:hidden" >
+            <x-basic-button class="my-2 px-3 text-center sm:hidden" id="dropdownHoverButtonResponsive" data-dropdown-toggle="dropdownResponsiveHover">
                 Категории
             </x-basic-button>
+
+            <!-- Responsive dropdown menu -->
+            <div id="dropdownResponsiveHover" class="dropdown-content z-10 hidden w-72 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                <ul class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownResponsiveHover">
+                    @foreach ($mainCategories as $mainCategory)
+                    <li>
+                        <button id="doubleDropdownButton-responsive-{{ $mainCategory->id }}" data-dropdown-toggle="doubleDropdown-responsive-{{ $mainCategory->id }}" data-dropdown-placement="bottom-start" data-dropdown-trigger="click" type="button" class="flex items-center rounded-lg justify-between w-full px-4 py-1 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-sm">{{ $mainCategory->name }}<svg class="w-2.5 h-2.5 ms-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                            </svg></button>
+                        <div id="doubleDropdown-responsive-{{ $mainCategory->id }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-72 ms-2 dark:bg-gray-600">
+                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="doubleDropdown-responsive-{{ $mainCategory->id }}">
+                                @foreach (Category::where('main_category', $mainCategory->id)->get() as $category)
+                                <li>
+                                    <a href="/shopping/{{ $category->name }}" class="block px-4 py-2 rounded-lg mx-1 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ $category->name }}</a>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
 
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
