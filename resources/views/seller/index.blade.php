@@ -65,9 +65,12 @@ use App\Models\Category;
                                 </div>
                                 <div>
                                     <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Категория</label>
-                                    <select id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block sm:w-full w-80 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    @error('category')
+                                    <p class="text-red-500 text-sm mt-1 mb-1">{{ $message }}</p>
+                                    @enderror
+                                    <select id="category" name="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block sm:w-full w-80 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                         @foreach ($categories as $category)
-                                        <option name="category" value="{{ $category->id }}">{{ $category->name }}</option>
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -91,8 +94,8 @@ use App\Models\Category;
                                             const inputField = document.createElement('div');
                                             inputField.classList.add('sm:inline-flex', 'items-center', 'my-1');
                                             inputField.innerHTML = `
-                                            <input required class="inline-block mx-1 my-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="text" name="characteristics[][name]" placeholder="Име" />
-                                            <input required class="inline-block mx-1 my-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="text" name="characteristics[][description]" placeholder="Описание" />
+                                            <input required class="inline-block mx-1 my-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="text" name="characteristics[][name-c]" placeholder="Име" />
+                                            <input required class="inline-block mx-1 my-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="text" name="characteristics[][description-c]" placeholder="Описание" />
                                         <x-danger-button type="button" class="mx-1 my-1 removeCharacteristic">
                                             <svg class="w-6 h-6 text-red-800 dark:text-red-300 removeCharacteristic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" class="removeCharacteristic" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
@@ -273,15 +276,73 @@ use App\Models\Category;
                                             <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Категория</label>
                                             <select id="category" name="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                                 @if ($product->category)
-                                                <option name="category" value="{{ $product->category }}">{{ Category::find($product->category)->name }}</option>
+                                                <option value="{{ $product->category }}">{{ Category::find($product->category)->name }}</option>
                                                 @endif
                                                 @foreach ($categories as $category)
                                                 @if (!($category->name == $product->category))
-                                                <option name="category" value="{{ $category->id }}">{{ $category->name }}</option>
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
                                                 @endif
                                                 @endforeach
                                             </select>
                                         </div>
+
+                                        <div class="sm:col-span-2">
+                                            <label class="block text-sm font-medium text-gray-900 dark:text-white">Характеристики</label>
+                                            <x-basic-button id="addCharacteristic-{{ $product->id }}" class="my-2">Добави</x-basic-button>
+
+                                            <div id="newCharacteristics-{{ $product->id }}" class="sm:col-span-2">
+                                                @if (!$product->characteristics->isEmpty())
+                                                @foreach ($product->characteristics as $characteristic)
+                                                <div class="sm:inline-flex items-center my-1">
+                                                    <input required value="{{ $characteristic->name }}" class="inline-block mx-1 my-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="text" name="characteristics[][name-c]" placeholder="Име" />
+                                                    <input required value="{{ $characteristic->description }}" class="inline-block mx-1 my-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="text" name="characteristics[][description-c]" placeholder="Описание" />
+                                                    <x-danger-button type="button" class="mx-1 my-1 removeCharacteristic-{{ $product->id }}">
+                                                        <svg class="w-6 h-6 text-red-800 dark:text-red-300 removeCharacteristic-{{ $product->id }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                            <path stroke="currentColor" class="removeCharacteristic-{{ $product->id }}" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                                                        </svg>
+                                                    </x-danger-button>
+                                                </div>
+                                                @endforeach
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <script>
+                                            // JavaScript to handle adding and removing input fields
+                                            document.addEventListener('DOMContentLoaded', function() {
+                                                const addCharacteristicBtn = document.getElementById('addCharacteristic-' + `{{$product->id}}`);
+                                                const newCharacteristicsContainer = document.getElementById('newCharacteristics-' + `{{$product->id}}`);
+
+                                                // Function to add new input field
+                                                function addInputField() {
+                                                    const inputField = document.createElement('div');
+                                                    inputField.classList.add('sm:inline-flex', 'items-center', 'my-1');
+                                                    inputField.innerHTML = `
+                                            <input required class="inline-block mx-1 my-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="text" name="characteristics[][name-c]" placeholder="Име" />
+                                            <input required class="inline-block mx-1 my-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="text" name="characteristics[][description-c]" placeholder="Описание" />
+                                        <x-danger-button type="button" class="mx-1 my-1 removeCharacteristic-` + '{{$product->id}}' + `">
+                                            <svg class="w-6 h-6 text-red-800 dark:text-red-300 removeCharacteristic-` + '{{$product->id}}' + `" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" class="removeCharacteristic-` + '{{$product->id}}' + `" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                                            </svg>
+                                        </x-danger-button>
+                                        <br />
+                                        `;
+                                                    newCharacteristicsContainer.appendChild(inputField);
+                                                }
+
+                                                // Event listener for adding characteristic
+                                                addCharacteristicBtn.addEventListener('click', function() {
+                                                    addInputField();
+                                                });
+
+                                                // Event listener for removing characteristic
+                                                newCharacteristicsContainer.addEventListener('click', function(event) {
+                                                    if (event.target.classList.contains('removeCharacteristic-' + `{{$product->id}}`)) {
+                                                        event.target.closest('div').remove();
+                                                    }
+                                                });
+                                            });
+                                        </script>
                                         <div>
                                             <img class="mt-1 mb-2 filePreview max-h-[150px] rounded-md" src="{{ $product->getImageURL() }}">
                                             <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Снимка</label>
@@ -334,7 +395,7 @@ use App\Models\Category;
                                     </div>
                                 </div>
                                 <dl>
-                                    <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Детайли</dt>
+                                    <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Описание</dt>
                                     <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">{{ $product->description }}</dd>
                                     <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Категория</dt>
                                     @if($product->category)
@@ -344,18 +405,16 @@ use App\Models\Category;
                                     @endif
 
                                     @if (!$product->characteristics->isEmpty())
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Име</th>
-                                                <th>Описание</th>
-                                            </tr>
-                                        </thead>
+                                    <table class="min-w-full leading-normal sm:col-span-2 my-2">
                                         <tbody>
                                             @foreach ($product->characteristics as $characteristic)
-                                            <tr>
-                                                <td>{{ $characteristic->name }}</td>
-                                                <td>{{ $characteristic->description }}</td>
+                                            <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                                <td class="px-6 py-5 border-b border-gray-300 text-sm dark:border-gray-700 dark:text-gray-300">
+                                                    {{ $characteristic->name }}
+                                                </td>
+                                                <td class="px-6 py-5 border-b border-gray-300 text-sm dark:border-gray-700 dark:text-gray-300">
+                                                    {{ $characteristic->description }}
+                                                </td>
                                             </tr>
                                             @endforeach
                                         </tbody>

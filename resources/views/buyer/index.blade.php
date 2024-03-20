@@ -350,18 +350,16 @@ use App\Models\Category;
                                         @endif
 
                                         @if (!$product->characteristics->isEmpty())
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Име</th>
-                                                    <th>Описание</th>
-                                                </tr>
-                                            </thead>
+                                        <table class="min-w-full leading-normal sm:col-span-2 my-2">
                                             <tbody>
                                                 @foreach ($product->characteristics as $characteristic)
-                                                <tr>
-                                                    <td>{{ $characteristic->name }}</td>
-                                                    <td>{{ $characteristic->description }}</td>
+                                                <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                                    <td class="px-6 py-5 border-b border-gray-300 text-sm dark:border-gray-700 dark:text-gray-300">
+                                                        {{ $characteristic->name }}
+                                                    </td>
+                                                    <td class="px-6 py-5 border-b border-gray-300 text-sm dark:border-gray-700 dark:text-gray-300">
+                                                        {{ $characteristic->description }}
+                                                    </td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>

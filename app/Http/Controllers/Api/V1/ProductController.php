@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
+use App\Models\Characteristic;
 use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -42,7 +43,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store()
+    public function store(Request $request)
     {
         $validated = request()->validate([
             'name' => 'required|min:3|max:40',
@@ -78,7 +79,19 @@ class ProductController extends Controller
             $validated['image'] = $imagePath;
         }
 
-        Product::create($validated);
+        $product = Product::create($validated);
+
+        foreach ($request->characteristics as $index => $characteristic) {
+            // Check if the name and description keys exist
+            if (isset($characteristic['name-c']) && isset($request->characteristics[$index + 1]['description-c'])) {
+                // Create a new Characteristic model instance
+                $characteristicModel = new Characteristic;
+                $characteristicModel->name = $characteristic['name-c'];
+                $characteristicModel->description = $request->characteristics[$index + 1]['description-c'];
+                $characteristicModel->product_id = $product->id; // Assuming you have a relation to Product
+                $characteristicModel->save();
+            }
+        }
 
         return redirect()->route('dashboard')->with('success', 'Product created successfully.');
     }
@@ -139,6 +152,20 @@ class ProductController extends Controller
                 $category = Category::find(request()->category);
                 $category->products_count += 1;
                 $category->save();
+            }
+
+            Characteristic::where('product_id', $productId)->delete();
+
+            foreach (request()->characteristics as $index => $characteristic) {
+                // Check if the name and description keys exist
+                if (isset($characteristic['name-c']) && isset(request()->characteristics[$index + 1]['description-c'])) {
+                    // Create a new Characteristic model instance
+                    $characteristicModel = new Characteristic;
+                    $characteristicModel->name = $characteristic['name-c'];
+                    $characteristicModel->description = request()->characteristics[$index + 1]['description-c'];
+                    $characteristicModel->product_id = $product->id; // Assuming you have a relation to Product
+                    $characteristicModel->save();
+                }
             }
 
             return redirect()->route('dashboard');
