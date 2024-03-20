@@ -346,8 +346,28 @@ use App\Models\Category;
                                         @if($product->category)
                                         <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">{{ Category::find($product->category)->name }}</dd>
                                         @else
-                                        <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">Category Not Found</dd>
+                                        <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">Този продукт няма категория</dd>
                                         @endif
+
+                                        @if (!$product->characteristics->isEmpty())
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Име</th>
+                                                    <th>Описание</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($product->characteristics as $characteristic)
+                                                <tr>
+                                                    <td>{{ $characteristic->name }}</td>
+                                                    <td>{{ $characteristic->description }}</td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                        @endif
+
 
                                         @if ($product->getImageURL())
                                         <div class="h-52 w-full bg-contain bg-no-repeat bg-center rounded-md" style="background-image: url('{{ $product->getImageURL() }}')"></div>
