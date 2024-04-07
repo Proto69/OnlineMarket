@@ -291,8 +291,8 @@ use App\Models\Category;
                                             <x-basic-button id="addCharacteristic-{{ $product->id }}" class="my-2">Добави</x-basic-button>
 
                                             <div id="newCharacteristics-{{ $product->id }}" class="sm:col-span-2">
-                                                @if (!$product->characteristics->isEmpty())
-                                                @foreach ($product->characteristics as $characteristic)
+                                                @if (!$product->characteristics()->isEmpty())
+                                                @foreach ($product->characteristics() as $characteristic)
                                                 <div class="sm:inline-flex items-center my-1">
                                                     <input required value="{{ $characteristic->name }}" class="inline-block mx-1 my-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="text" name="characteristics[][name-c]" placeholder="Име" />
                                                     <input required value="{{ $characteristic->description }}" class="inline-block mx-1 my-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="text" name="characteristics[][description-c]" placeholder="Описание" />
@@ -404,10 +404,10 @@ use App\Models\Category;
                                     <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">Category Not Found</dd>
                                     @endif
 
-                                    @if (!$product->characteristics->isEmpty())
+                                    @if (!$product->characteristics()->isEmpty())
                                     <table class="min-w-full leading-normal sm:col-span-2 my-2">
                                         <tbody>
-                                            @foreach ($product->characteristics as $characteristic)
+                                            @foreach ($product->characteristics() as $characteristic)
                                             <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                                                 <td class="px-6 py-5 border-b border-gray-300 text-sm dark:border-gray-700 dark:text-gray-300">
                                                     {{ $characteristic->name }}
