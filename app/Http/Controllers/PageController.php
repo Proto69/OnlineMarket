@@ -159,7 +159,7 @@ class PageController extends Controller
             abort(404); // If type is 'Admin', return a 404 not found error
         }
         $category = Category::where('name', $category)->first();
-        $products = Product::all()->where('is_deleted', false)->where('category', $category->id);
+        $products = $category->products()->where('is_deleted', false);
         $categories = Category::all()->where('is_accepted', true)->sortBy('name');
 
         return view('buyer.index', ['products' => $products, 'title' => "Пазаруване", 'categories' => $categories, 'categoriesFilter' => null]);
@@ -276,6 +276,17 @@ class PageController extends Controller
 
 
         return view('buyer.previous-purchases', ['orders' => $ordersList, 'logs' => $logs, 'title' => "Минали покупки"]);
+    }
+
+    public function billingAddresses()
+    {
+        $user = Auth()->user();
+        if ($user->is_deleted) {
+            return redirect()->route('account-deleted', $user->id);
+        }
+        $addresses = $user->billingAddresses();
+
+        return view('buyer.billing-addresses', ['addresses' => $addresses]);
     }
 
     public function sellerDashboard()

@@ -41,6 +41,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/shopping-filters', [PageController::class, 'shoppingFilters'])->name('shopping-filters');
     Route::get('/shopping-cart', [PageController::class, 'shoppingCart'])->name('shopping-cart');
     Route::get('/previous-purchases', [PageController::class, 'previousPurchases'])->name('previous-purchases');
+    Route::get('/billing-addresses', [PageController::class, 'billingAddresses'])->name('billing-addresses');
     Route::get('/dashboard', [PageController::class, 'sellerDashboard'])->name('dashboard');
     Route::get('/sells', [PageController::class, 'sells'])->name('sells');
     // Working on it

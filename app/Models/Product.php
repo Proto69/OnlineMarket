@@ -11,12 +11,17 @@ class Product extends Model
 
     public function characteristics()
     {
-        return $this->hasMany(Characteristic::class);
+        return $this->hasMany(Characteristic::class)->get();
     }
 
     public function punishments()
     {
-        return $this->hasMany(Punishment::class);
+        return $this->hasMany(Punishment::class)->get();
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class)->get();
     }
 
     /**

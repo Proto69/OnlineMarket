@@ -5,22 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Characteristic extends Model
+class BillingAddress extends Model
 {
     use HasFactory;
 
-    public function product()
-    {
-        return $this->belongsTo(Product::class)->get();
-    }
-    
-    /** 
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name','description', 'product_id'
+        'full_name', 'address', 'phone', 'user_id'
     ];
 
     /**
@@ -29,6 +24,6 @@ class Characteristic extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'product_id' => 'integer',
+        'user_id' => 'integer',
     ];
 }
