@@ -38,7 +38,7 @@ class BillingAddressController extends Controller
             'address.max' => 'Полето за адрес не може да бъде по-дълго от 255 символа.',
         ]);
 
-        $validatedData['user_id'] = Auth::user()->id;
+        $validated['user_id'] = Auth::user()->id;
 
         BillingAddress::create($validated);
 
