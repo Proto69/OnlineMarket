@@ -199,6 +199,41 @@ class PageController extends Controller
         return view('buyer.index', ['products' => $filteredProducts, 'title' => "Пазаруване", 'categories' => $categories, 'categoriesFilter' => null]);
     }
 
+    public function completeOrderCart()
+    {
+        $user = Auth::user();
+        if ($user->is_deleted) {
+            return redirect()->route('account-deleted', $user->id);
+        }
+
+        if ($user->type !== 'Buyer') {
+            abort(404); // If type is not 'Buyer', return a 404 not found error
+        }
+
+        $shoppingList = ShoppingList::where('buyers_user_id', $user->id)->get();
+
+        $products = [];
+
+        $sum = 0.00;
+
+        foreach ($shoppingList as $item) {
+            $product = Product::find($item->products_id);
+
+            if ($product) {
+                $product->bought_quantity = $item->quantity;
+                $price = $product->price * $item->quantity;
+                $sum += $price;
+                $products[] = $product;
+            }
+        }
+
+        return view('buyer.complete-order', [
+            'products' => $products,
+            'sum' => $sum,
+            'title' => "Количка"
+        ]);
+    }
+
     public function shoppingKeyWord(Request $request)
     {
         $typeOfAccount = Auth::user()->type;
