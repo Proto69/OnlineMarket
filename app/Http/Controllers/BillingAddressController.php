@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BillingAddress;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BillingAddressController extends Controller
 {
@@ -36,6 +37,8 @@ class BillingAddressController extends Controller
             'phone.max' => 'Полето за телефонен номер не може да бъде по-дълго от 20 символа.',
             'address.max' => 'Полето за адрес не може да бъде по-дълго от 255 символа.',
         ]);
+
+        $validatedData['user_id'] = Auth::user()->id;
 
         BillingAddress::create($validated);
 
