@@ -15,7 +15,7 @@
                 <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
                     <!-- Modal content -->
                     <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
-                        <form id="newProductForm" enctype="multipart/form-data" action="{{ route('new-product-add') }}" method="POST">
+                        <form id="newAddressData" action="{{ route('new-address') }}" method="POST">
                             @csrf
                             <!-- Modal header -->
                             <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
@@ -39,19 +39,14 @@
                                     <x-modal-input type="text" name="name" id="name" placeholder="Пълно име на получател" value="{{ old('name') }}" required />
                                 </div>
                                 <div class="relative">
+                                    <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Телефонен номер</label>
                                     @error('phone')
                                     <p class="text-red-500 text-sm mt-1 mb-1">{{ $message }}</p>
                                     @enderror
-                                    <span class="absolute start-0 bottom-3 text-gray-500 dark:text-gray-400">
-                                        <svg class="w-4 h-4 rtl:rotate-[270deg]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 19 18">
-                                            <path d="M18 13.446a3.02 3.02 0 0 0-.946-1.985l-1.4-1.4a3.054 3.054 0 0 0-4.218 0l-.7.7a.983.983 0 0 1-1.39 0l-2.1-2.1a.983.983 0 0 1 0-1.389l.7-.7a2.98 2.98 0 0 0 0-4.217l-1.4-1.4a2.824 2.824 0 0 0-4.218 0c-3.619 3.619-3 8.229 1.752 12.979C6.785 16.639 9.45 18 11.912 18a7.175 7.175 0 0 0 5.139-2.325A2.9 2.9 0 0 0 18 13.446Z" />
-                                        </svg>
-                                    </span>
-                                    <input type="text" id="floating-phone-number" name="phone" class="block py-2.5 ps-6 pe-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" pattern="[0-9]{10}" placeholder=" " />
-                                    <label for="floating-phone-number" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:start-6 peer-focus:start-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Телефонен номер</label>
+                                    <x-modal-input type="text" name="phone" id="phone" placeholder="+35987654321" value="{{ old('phone') }}" required />
                                 </div>
                                 <div>
-                                    <label for="quantity" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Адрес за доставка</label>
+                                    <label for="address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Адрес за доставка</label>
                                     @error('address')
                                     <p class="text-red-500 text-sm mt-1 mb-1">{{ $message }}</p>
                                     @enderror

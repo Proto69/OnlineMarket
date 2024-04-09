@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\V1\LogController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BillingAddressController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
@@ -93,6 +94,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/mark-order-as-sent/{order_id}', [OrderController::class, 'orderSent'])->name('mark-order-as-sent');
     Route::post('/mark-order-as-delivered/{order_id}', [OrderController::class, 'orderDelivered'])->name('mark-order-as-delivered');
     Route::post('/mark-log-as-delivered/{log_id}', [OrderController::class, 'logDelivered'])->name('mark-log-as-delivered');
+    Route::post('/new-address', [BillingAddressController::class, 'store'])->name('new-address');
 
     Route::get('/search', [PageController::class, 'shoppingKeyWord']);
 });
