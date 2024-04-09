@@ -72,14 +72,18 @@
 
                 @if (!$addresses->isEmpty())
                 @foreach($addresses as $address)
-                <h2 id="accordion-collapse-heading-{{ $address->full_name }}-{{ $address->address }}-{{ $address->phone }}">
-                    <button type="button" aria-expanded="false" class="mt-3 flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 rounded-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-collapse-body-{{ $address->full_name }}-{{ $address->address }}-{{ $address->phone }}" aria-expanded="true" aria-controls="accordion-collapse-body-{{ $address->full_name }}-{{ $address->address }}-{{ $address->phone }}">
+                <h2 id="accordion-collapse-heading-{{ $address->id }}">
+                    <button type="button" aria-expanded="false" class="mt-3 flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 rounded-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-collapse-body-{{ $address->id }}" aria-expanded="true" aria-controls="accordion-collapse-body-{{ $address->id }}">
                         <span>
                             {{ $address->full_name }}
                         </span>
+                        <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5" />
+                        </svg>
+
                     </button>
                 </h2>
-                <div id="accordion-collapse-body-{{ $address->full_name }}-{{ $address->address }}-{{ $address->phone }}" class="hidden" aria-labelledby="accordion-collapse-heading-{{ $address->full_name }}-{{ $address->address }}-{{ $address->phone }}">
+                <div id="accordion-collapse-body-{{ $address->id }}" class="hidden" aria-labelledby="accordion-collapse-heading-{{ $address->id }}">
                     <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900 rounded-xl">
                         <h1 class="text-xl text-gray-800 dark:text-gray-300">
                             Информация за доставка:

@@ -15,7 +15,7 @@ class BillingAddress extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'full_name', 'address', 'phone', 'user_id'
+        'id', 'full_name', 'address', 'phone', 'user_id'
     ];
 
     /**
@@ -24,6 +24,7 @@ class BillingAddress extends Model
      * @var array<string, string>
      */
     protected $casts = [
+        'id' => 'integer',
         'user_id' => 'integer',
     ];
 }
