@@ -237,7 +237,7 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                             </svg></button>
                         <div id="doubleDropdown-responsive-{{ $mainCategory->id }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-72 ms-2 dark:bg-gray-600">
                             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="doubleDropdown-responsive-{{ $mainCategory->id }}">
-                                @foreach (Category::where('main_category', $mainCategory->id)->get() as $category)
+                                @foreach ($mainCategory->categories() as $category)
                                 <li>
                                     <a href="/shopping/{{ $category->name }}" class="block px-4 py-2 rounded-lg mx-1 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ $category->name }}</a>
                                 </li>
