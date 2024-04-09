@@ -349,10 +349,10 @@ use App\Models\Category;
                                         <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">Този продукт няма категория</dd>
                                         @endif
 
-                                        @if (!$product->characteristics->isEmpty())
+                                        @if (!$product->characteristics()->isEmpty())
                                         <table class="min-w-full leading-normal sm:col-span-2 my-2">
                                             <tbody>
-                                                @foreach ($product->characteristics as $characteristic)
+                                                @foreach ($product->characteristics() as $characteristic)
                                                 <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                                                     <td class="px-6 py-5 border-b border-gray-300 text-sm dark:border-gray-700 dark:text-gray-300">
                                                         {{ $characteristic->name }}

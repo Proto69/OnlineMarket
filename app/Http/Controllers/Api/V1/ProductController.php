@@ -154,17 +154,19 @@ class ProductController extends Controller
                 $category->save();
             }
 
-            Characteristic::where('product_id', $productId)->delete();
+            if (request()->characteristics !== null) {
+                Characteristic::where('product_id', $productId)->delete();
 
-            foreach (request()->characteristics as $index => $characteristic) {
-                // Check if the name and description keys exist
-                if (isset($characteristic['name-c']) && isset(request()->characteristics[$index + 1]['description-c'])) {
-                    // Create a new Characteristic model instance
-                    $characteristicModel = new Characteristic;
-                    $characteristicModel->name = $characteristic['name-c'];
-                    $characteristicModel->description = request()->characteristics[$index + 1]['description-c'];
-                    $characteristicModel->product_id = $product->id; // Assuming you have a relation to Product
-                    $characteristicModel->save();
+                foreach (request()->characteristics as $index => $characteristic) {
+                    // Check if the name and description keys exist
+                    if (isset($characteristic['name-c']) && isset(request()->characteristics[$index + 1]['description-c'])) {
+                        // Create a new Characteristic model instance
+                        $characteristicModel = new Characteristic;
+                        $characteristicModel->name = $characteristic['name-c'];
+                        $characteristicModel->description = request()->characteristics[$index + 1]['description-c'];
+                        $characteristicModel->product_id = $product->id; // Assuming you have a relation to Product
+                        $characteristicModel->save();
+                    }
                 }
             }
 
