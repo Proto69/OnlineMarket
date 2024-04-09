@@ -22,17 +22,17 @@ class BillingAddressController extends Controller
     {
         // Validate the incoming request data with custom messages
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'full_name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'address' => 'required|string|max:255',
         ], [
-            'name.required' => 'Полето за име е задължително.',
+            'full_name.required' => 'Полето за име е задължително.',
             'phone.required' => 'Полето за телефонен номер е задължително.',
             'address.required' => 'Полето за адрес е задължително.',
-            'name.string' => 'Полето за име трябва да бъде текст.',
+            'full_name.string' => 'Полето за име трябва да бъде текст.',
             'phone.string' => 'Полето за телефонен номер трябва да бъде текст.',
             'address.string' => 'Полето за адрес трябва да бъде текст.',
-            'name.max' => 'Полето за име не може да бъде по-дълго от 255 символа.',
+            'full_name.max' => 'Полето за име не може да бъде по-дълго от 255 символа.',
             'phone.max' => 'Полето за телефонен номер не може да бъде по-дълго от 20 символа.',
             'address.max' => 'Полето за адрес не може да бъде по-дълго от 255 символа.',
         ]);

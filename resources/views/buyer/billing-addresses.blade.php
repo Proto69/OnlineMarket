@@ -32,11 +32,11 @@
                             <!-- Modal body -->
                             <div class="grid gap-4 mb-4 sm:grid-cols-1">
                                 <div>
-                                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Пълно име</label>
-                                    @error('name')
+                                    <label for="full_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Пълно име</label>
+                                    @error('full_name')
                                     <p class="text-red-500 text-sm mt-1 mb-1">{{ $message }}</p>
                                     @enderror
-                                    <x-modal-input type="text" name="name" id="name" placeholder="Пълно име на получател" value="{{ old('name') }}" required />
+                                    <x-modal-input type="text" name="full_name" id="full_name" placeholder="Пълно име на получател" value="{{ old('full_name') }}" required />
                                 </div>
                                 <div class="relative">
                                     <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Телефонен номер</label>
