@@ -2,7 +2,7 @@
 	@section('title', $title)
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="fixed top-44 left-6 bottom-12 min-w-[320px] items-center mr-16 bg-white border border-lime-500 rounded-lg shadow-md dark:bg-gray-800 dark:border-lime-400 dark:hover:bg-gray-700 sm:rounded-lg pt-3 w-1/4">
+            <div class="fixed top-44 left-2 bottom-12 min-w-[320px] items-center mr-16 bg-white border border-lime-500 rounded-lg shadow-md dark:bg-gray-800 dark:border-lime-400 dark:hover:bg-gray-700 sm:rounded-lg pt-3 w-1/4">
                 <div class="px-4">
                     <h2 class="dark:text-white text-black font-bold px-20 text-xl pb-3">
                         Касова бележка
@@ -28,6 +28,15 @@
                         Обща сума: {{ $sum }}лв
                     </h1>
                 </div>
+            </div>
+
+            <div class="fixed top-44 right-2 bottom-12 min-w-[320px] items-center mr-16 bg-white border border-lime-500 rounded-lg shadow-md dark:bg-gray-800 dark:border-lime-400 dark:hover:bg-gray-700 sm:rounded-lg pt-3 w-1/4">
+                <div class="px-4">
+                    <h2 class="dark:text-white text-black font-bold px-20 text-xl pb-3">
+                        Данни за доставка
+                    </h2>
+                </div>
+                
             </div>
         </div>
     </div>
