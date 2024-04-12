@@ -230,6 +230,7 @@ class PageController extends Controller
         return view('buyer.complete-order', [
             'products' => $products,
             'sum' => $sum,
+            'billingAddresses' => $user->billingAddresses(),
             'title' => "Завършване на поръчка"
         ]);
     }

@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\V1\LogController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BillingAddressController;
+use App\Models\BillingAddress;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
@@ -85,7 +86,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/pay-order/{order_id}', [BuyerController::class, 'payOrder'])->name('pay-order');
     Route::post('/edit-order-save/{order_id}', [OrderController::class, 'editOrder'])->name('edit-order-save');
     Route::post('/edit-log/{log_id}/{new_quantity}', [LogController::class, 'editQuantity'])->name('edit-log');
+    Route::post('/edit-billing-address/{billingAddress_id}', [BillingAddressController::class, 'editBillingAddress'])->name('edit-billing-address');
     Route::post('/delete-order/{order_id}', [OrderController::class, 'destroy'])->name('delete-order');
+    Route::post('/delete-billingAddress/{billingAddress_id}', [BillingAddressController::class, 'destroy'])->name('delete-billing-address');
     Route::post('/delete-log/{log_id}', [LogController::class, 'destroy'])->name('delete-log');
     Route::post('/update-full-name/{order_id}/{new_quantity}', [OrderController::class, 'updateFullName'])->name('update-full-name');
     Route::post('/update-phone/{order_id}/{new_quantity}', [OrderController::class, 'updatePhone'])->name('update-phone');
