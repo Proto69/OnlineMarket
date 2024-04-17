@@ -285,7 +285,6 @@ use App\Models\Category;
                     @foreach($products as $product)
                     @if ($product->active)
 
-
                     <div id="readProductButton" data-modal-target="readProductModal-{{ $product->id }}" data-modal-toggle="readProductModal-{{ $product->id }}" class="hover:cursor-pointer card-form relative min-w-80 bg-white dark:bg-gray-800 border border-gray-300 p-4 rounded-lg flex flex-col h-full items-center">
 
                         <div class="mb-2 flex flex-col items-center">
@@ -299,19 +298,66 @@ use App\Models\Category;
                             <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ $product->name }}</h5>
                         </div>
 
+
+                        <!-- Main modal -->
+                        <div id="commentModal-{{ $product->id }}" onclick="event.stopPropagation()" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
+                            <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+                                <!-- Modal content -->
+                                <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+                                    <!-- Modal header -->
+                                    <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                            Добави ревю
+                                        </h3>
+                                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="commentModal-{{ $product->id }}" onclick="event.stopPropagation()">
+                                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            <span class="sr-only">Close modal</span>
+                                        </button>
+                                    </div>
+                                    <!-- Modal body -->
+                                    <form action="#">
+                                        @csrf
+                                        <div class="grid gap-4 mb-4 sm:grid-cols-2">
+                                            <div>
+                                                <label for="rating" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Оценка</label>
+                                                <input type="text" name="rating" id="rating" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type product name" required="">
+                                            </div>
+                                            <div class="sm:col-span-2">
+                                                <label for="comment" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Коментар</label>
+                                                <textarea id="comment" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Напиши коментар"></textarea>
+                                            </div>
+                                            <x-success-button type="submit">
+                                                Добави ревю
+                                            </x-success-button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="mt-auto mb-2 flex items-center justify-between">
                             <!-- Product Price -->
                             <span class="text-3xl font-bold mt-3 pr-2 text-gray-900 dark:text-white">{{ $product->price }}лв</span> <br />
+
                             <!-- Add to Cart Button -->
                             <x-basic-button class="mt-3 add-to-cart" data-product-id="{{ $product->id }}" onclick="event.stopPropagation()">
                                 <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.3L19 7h-1M8 7h-.7M13 5v4m-2-2h4" />
                                 </svg>
                             </x-basic-button>
+                            <!-- Review button -->
+                            <x-basic-button type="button" class="mt-3 ms-2" id="commentModalButton-{{ $product->id }}" onclick="event.stopPropagation()" data-modal-target="commentModal-{{ $product->id }}" data-modal-toggle="commentModal-{{ $product->id }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m363-390 117-71 117 71-31-133 104-90-137-11-53-126-53 126-137 11 104 90-31 133ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/></svg>
+                            </x-basic-button>
+
                             <!-- Hidden Input for Product ID -->
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                         </div>
+
                     </div>
+
 
                     <!-- Main modal -->
                     <div id="readProductModal-{{ $product->id }}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
@@ -367,22 +413,36 @@ use App\Models\Category;
                                         @endif
 
                                         @if (!$product->images()->isEmpty())
-                                        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-                                            <div class="carousel-inner">
-                                                @foreach($product->images as $key => $image)
-                                                <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
-                                                    <img src="storage/{{ $image->url }}" class="d-block w-100 h-100" alt="...">
+                                        <div>
+                                            <div id="controls-carousel" class="relative w-full" data-carousel="static">
+                                                <!-- Carousel wrapper -->
+                                                <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+                                                    <!-- Item 1 -->
+                                                    @foreach($product->images() as $image)
+                                                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                                                        <img src="storage/{{ $image->image }}" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                                                    </div>
+                                                    @endforeach
                                                 </div>
-                                                @endforeach
+                                                <!-- Slider controls -->
+                                                <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                                                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                                        <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+                                                        </svg>
+                                                        <span class="sr-only">Previous</span>
+                                                    </span>
+                                                </button>
+                                                <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                                                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                                        <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                                                        </svg>
+                                                        <span class="sr-only">Next</span>
+                                                    </span>
+                                                </button>
                                             </div>
-                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                <span class="visually-hidden">Previous</span>
-                                            </button>
-                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                <span class="visually-hidden">Next</span>
-                                            </button>
+
                                         </div>
                                         @elseif ($product->getImageURL())
                                         <div class="h-52 w-full bg-contain bg-no-repeat bg-center rounded-md" style="background-image: url('{{ $product->getImageURL() }}')"></div>
