@@ -54,7 +54,7 @@ use App\Models\Category;
                                     @error('price')
                                     <p class="text-red-500 text-sm mt-1 mb-1">{{ $message }}</p>
                                     @enderror
-                                    <x-modal-input value="{{ old('price') }}" type="number" name="price" id="price" placeholder="2999" required />
+                                    <x-modal-input value="{{ old('price') }}" step="0.01" type="number" name="price" id="price" placeholder="2999" required />
                                 </div>
                                 <div>
                                     <label for="quantity" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Количество</label>
@@ -94,8 +94,8 @@ use App\Models\Category;
                                             const inputField = document.createElement('div');
                                             inputField.classList.add('sm:inline-flex', 'items-center', 'my-1');
                                             inputField.innerHTML = `
-                                            <input required class="inline-block mx-1 my-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="text" name="characteristics[][name-c]" placeholder="Име" />
-                                            <input required class="inline-block mx-1 my-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="text" name="characteristics[][description-c]" placeholder="Описание" />
+                                            <input required class="characteristic-name-create inline-block mx-1 my-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="text" name="characteristics[][name-c]" placeholder="Име" />
+                                            <input required class="characteristic-description-create inline-block mx-1 my-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="text" name="characteristics[][description-c]" placeholder="Описание" />
                                         <x-danger-button type="button" class="mx-1 my-1 removeCharacteristic">
                                             <svg class="w-6 h-6 text-red-800 dark:text-red-300 removeCharacteristic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" class="removeCharacteristic" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
@@ -436,6 +436,7 @@ use App\Models\Category;
     <div id="toast-container" class="toast-container" />
 
 </x-app-layout>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <script>
     function submitForm(productId) {
@@ -530,7 +531,7 @@ use App\Models\Category;
             }
         });
     }
-    
+
     let filesArray = [];
 
     // Function to handle file uploads and display them
@@ -565,7 +566,7 @@ use App\Models\Category;
 
         let formData = new FormData();
         filesArray.forEach((file, index) => {
-            formData.append('pictures[]', file); // Use 'pictures[]' to send an array of files
+            formData.append('images[]', file); // Use 'pictures[]' to send an array of files
         });
 
         // Append other form data
@@ -576,8 +577,8 @@ use App\Models\Category;
         formData.append('description', document.getElementById('description').value);
 
         // Append characteristics
-        const nameInputs = document.querySelectorAll('[name="characteristics[][name-c]"]');
-        const descriptionInputs = document.querySelectorAll('[name="characteristics[][description-c]"]');
+        const nameInputs = document.querySelectorAll('.characteristic-name-create');
+        const descriptionInputs = document.querySelectorAll('.characteristic-description-create');
 
         nameInputs.forEach((nameInput, index) => {
             // Check if the corresponding description input exists
@@ -588,17 +589,20 @@ use App\Models\Category;
         });
 
         // Use fetch to submit the form data to the server
-        fetch('{{ route(\'new-product-add\') }}', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest', // Required for Laravel when submitting the form with fetch
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Add CSRF token for Laravel
-                }
-            })
+        fetch('{{ route('
+                new - product - add ') }}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest', // Required for Laravel when submitting the form with fetch
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Add CSRF token for Laravel
+                    }
+                })
             .then(response => response.json())
             .then(data => {
                 console.log(data); // Handle the response data
+
+                // location.reload();
             })
             .catch(error => {
                 console.error('Error:', error); // Handle any errors

@@ -6,6 +6,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use App\Models\Characteristic;
 use App\Models\Category;
+use App\Models\Image;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Filters\V1\ProductFilter;
@@ -45,14 +46,11 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
-        
         $validated = request()->validate([
             'name' => 'required|min:3|max:40',
             'description' => 'required|min:5|max:255',
             'quantity' => 'required|numeric|min:1',
             'price' => 'required|numeric|gt:0',
-            'image' => 'image',
             'category' => 'required'
         ], [
             'name.required' => __('Полето за име е задължително.'),
@@ -67,7 +65,6 @@ class ProductController extends Controller
             'price.required' => __('Полето за цена е задължително.'),
             'price.numeric' => __('Цената трябва да бъде число.'),
             'price.gt' => __('Цената трябва да бъде по-голяма от 0.'),
-            'image.image' => __('Файлът трябва да бъде изображение.'),
             'category.required' => __('Категорията е задължителна.')
         ]);
 
@@ -76,12 +73,29 @@ class ProductController extends Controller
         $validated['active'] = 1;
         $validated['seller_user_id'] = Auth::user()->id;
 
-        if (request()->has('image')) {
-            $imagePath = request()->file('image')->store('product', 'public');
-            $validated['image'] = $imagePath;
+        $product = Product::create($validated);
+
+        $paths = [];
+
+        if ($request->has('images')) {
+            $files = $request->file('images'); // This will get all the files as an array
+
+            foreach ($files as $file) {
+                $path = $file->store('product', 'public'); // Store the file and get the path
+                $paths[] = $path;
+
+                // Create a new Image record in the database
+                $image = new Image();
+                $image->product_id = $product->id; // Set the product ID
+                $image->image = $path; // Set the file path
+                $image->save(); // Save the record
+            }
+            
+            $product->image = $paths[0];
+            $product->save();
         }
 
-        $product = Product::create($validated);
+
 
         foreach ($request->characteristics as $index => $characteristic) {
             // Check if the name and description keys exist
@@ -95,7 +109,7 @@ class ProductController extends Controller
             }
         }
 
-        return redirect()->route('dashboard')->with('success', 'Product created successfully.');
+        return redirect()->route('dashboard')->with('success', 'Product created successfully.')->json(['paths' => $paths]);
     }
 
     /**
