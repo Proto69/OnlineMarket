@@ -26,7 +26,7 @@ use App\Models\Category;
                 <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
                     <!-- Modal content -->
                     <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
-                        <form id="newProductForm" enctype="multipart/form-data" action="{{ route('new-product-add') }}" method="POST">
+                        <form id="newProductForm" enctype="multipart/form-data" action="{{ route('new-product-add') }}" onsubmit="submitForm(event)" method="POST">
                             @csrf
                             <!-- Modal header -->
                             <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
@@ -121,12 +121,9 @@ use App\Models\Category;
                                 </script>
 
                                 <div>
-                                    <img class="mt-1 mb-2 filePreview">
-                                    <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Снимка</label>
-                                    @error('image')
-                                    <p class="text-red-500 text-sm mt-1 mb-1">{{ $message }}</p>
-                                    @enderror
-                                    <x-input type="file" name="image" class="fileInput" class="sm:w-full w-80" accept=".jpg, .jpeg, .png"></x-input>
+                                    <input type="file" id="fileInput" multiple onchange="handleFiles(this.files)">
+                                    <button type="button" onclick="document.getElementById('fileInput').click()">Add picture</button>
+                                    <ul id="fileList"></ul>
                                 </div>
 
                                 <br />
@@ -178,7 +175,6 @@ use App\Models\Category;
         </div>
     </div>
     @endif
-
 
     <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -441,7 +437,6 @@ use App\Models\Category;
 
 </x-app-layout>
 
-
 <script>
     function submitForm(productId) {
         // Get the form element by ID
@@ -535,21 +530,78 @@ use App\Models\Category;
             }
         });
     }
+    
+    let filesArray = [];
 
-    $(".fileInput").change(function() {
-        previewPhoto($(this));
-    });
+    // Function to handle file uploads and display them
+    function handleFiles(files) {
+        const fileList = document.getElementById('fileList');
+        for (let i = 0, numFiles = files.length; i < numFiles; i++) {
+            const file = files[i];
+            filesArray.push(file); // Add new file to the array
 
-    function previewPhoto(input) {
-        const files = input.prop('files');
-        const preview = input.closest('div').find('.filePreview'); // Modify the selector here
+            // Create a list item for each file
+            const li = document.createElement('li');
+            li.textContent = file.name;
 
-        if (files && files[0]) {
-            const fileReader = new FileReader();
-            fileReader.onload = function(event) {
-                preview.attr('src', event.target.result);
-            }
-            fileReader.readAsDataURL(files[0]);
+            // Create a remove button for each file
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'X';
+            removeButton.onclick = function() {
+                // Remove the file from the array and the list
+                filesArray = filesArray.filter(f => f.name !== file.name);
+                fileList.removeChild(li);
+            };
+
+            li.appendChild(removeButton);
+            fileList.appendChild(li);
         }
+    }
+
+    // Function to handle form submission
+    // Function to handle form submission
+    function submitForm(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        let formData = new FormData();
+        filesArray.forEach((file, index) => {
+            formData.append('pictures[]', file); // Use 'pictures[]' to send an array of files
+        });
+
+        // Append other form data
+        formData.append('name', document.getElementById('name').value);
+        formData.append('price', document.getElementById('price').value);
+        formData.append('quantity', document.getElementById('quantity').value);
+        formData.append('category', document.getElementById('category').value);
+        formData.append('description', document.getElementById('description').value);
+
+        // Append characteristics
+        const nameInputs = document.querySelectorAll('[name="characteristics[][name-c]"]');
+        const descriptionInputs = document.querySelectorAll('[name="characteristics[][description-c]"]');
+
+        nameInputs.forEach((nameInput, index) => {
+            // Check if the corresponding description input exists
+            if (descriptionInputs[index]) {
+                formData.append(`characteristics[${index}][name-c]`, nameInput.value);
+                formData.append(`characteristics[${index}][description-c]`, descriptionInputs[index].value);
+            }
+        });
+
+        // Use fetch to submit the form data to the server
+        fetch('{{ route(\'new-product-add\') }}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest', // Required for Laravel when submitting the form with fetch
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Add CSRF token for Laravel
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Handle the response data
+            })
+            .catch(error => {
+                console.error('Error:', error); // Handle any errors
+            });
     }
 </script>

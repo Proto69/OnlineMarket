@@ -8,6 +8,8 @@
 
     <title>@yield('title')</title>
 
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+    
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
@@ -60,6 +62,7 @@
     @livewireScripts
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 </body>
 
 </html>

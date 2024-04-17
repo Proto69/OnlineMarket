@@ -45,6 +45,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
+        
         $validated = request()->validate([
             'name' => 'required|min:3|max:40',
             'description' => 'required|min:5|max:255',

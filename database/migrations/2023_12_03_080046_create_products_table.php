@@ -21,7 +21,6 @@ return new class extends Migration
             $table->integer('quantity')->default(0);
             $table->string('currency')->default('eur');
             $table->boolean('active')->default(true);
-            $table->string('product_key');
             $table->foreignId('seller_user_id')->constrained('sellers', 'user_id')->onDelete('cascade');
 
             $table->timestamps();

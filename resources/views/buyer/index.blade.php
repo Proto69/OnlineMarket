@@ -366,8 +366,25 @@ use App\Models\Category;
                                         </table>
                                         @endif
 
-
-                                        @if ($product->getImageURL())
+                                        @if (!$product->images()->isEmpty())
+                                        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                                            <div class="carousel-inner">
+                                                @foreach($product->images as $key => $image)
+                                                <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
+                                                    <img src="storage/{{ $image->url }}" class="d-block w-100 h-100" alt="...">
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Previous</span>
+                                            </button>
+                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Next</span>
+                                            </button>
+                                        </div>
+                                        @elseif ($product->getImageURL())
                                         <div class="h-52 w-full bg-contain bg-no-repeat bg-center rounded-md" style="background-image: url('{{ $product->getImageURL() }}')"></div>
                                         @else
                                         <div class="h-52 w-full bg-contain bg-no-repeat bg-center rounded-md" style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg)"></div>
