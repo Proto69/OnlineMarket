@@ -1,14 +1,14 @@
 <x-app-layout>
     @section('title', 'Данни за доставка')
-    <!-- FIXME: responsive design maybe? -->
+    <!-- TODO: show invalid address information -->
     <x-slot name="header">
         <div class="grid grid-cols-5 gap-4 text-gray-800 dark:text-gray-200">
 
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Данни за доставка') }}
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight col-span-4">
+                Данни за доставка
             </h2>
-            <x-success-button class="col-end-7 col-span-1" type="submit" data-modal-target="createProductModal" data-modal-toggle="createProductModal">
-                СЪздай данни за доставка
+            <x-success-button class="col-end-7 col-span-1 shrinkable-button" type="submit" data-modal-target="createProductModal" data-modal-toggle="createProductModal">
+                Създай данни за доставка
             </x-success-button>
 
             <!-- Create product modal -->

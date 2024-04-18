@@ -121,10 +121,11 @@ use App\Models\Category;
                                 </script>
 
                                 <div>
-                                    <!-- FIXME: design -->
-                                    <input type="file" id="fileInput" multiple onchange="handleFiles(this.files)">
-                                    <button type="button" onclick="document.getElementById('fileInput').click()">Add picture</button>
+                                    <label class="block text-sm font-medium text-gray-900 dark:text-white">Снимки</label>
+                                    <input type="file" class="hidden" id="fileInput" multiple onchange="handleFiles(this.files)">                                
+                                    <x-basic-button type="button" class="my-2" onclick="document.getElementById('fileInput').click()">Добави снимка</x-basic-button>
                                     <ul id="fileList"></ul>
+
                                 </div>
 
                                 <br />
@@ -537,28 +538,40 @@ use App\Models\Category;
 
     // Function to handle file uploads and display them
     function handleFiles(files) {
-        const fileList = document.getElementById('fileList');
-        for (let i = 0, numFiles = files.length; i < numFiles; i++) {
-            const file = files[i];
-            filesArray.push(file); // Add new file to the array
+    const fileList = document.getElementById('fileList');
+    for (let i = 0, numFiles = files.length; i < numFiles; i++) {
+        const file = files[i];
+        filesArray.push(file); // Add new file to the array
 
-            // Create a list item for each file
-            const li = document.createElement('li');
-            li.textContent = file.name;
+        // Create a list item for each file
+        const li = document.createElement('li');
+        li.textContent = file.name;
 
-            // Create a remove button for each file
-            const removeButton = document.createElement('button');
-            removeButton.textContent = 'X';
-            removeButton.onclick = function() {
-                // Remove the file from the array and the list
-                filesArray = filesArray.filter(f => f.name !== file.name);
-                fileList.removeChild(li);
-            };
+        // Create a remove button for each file
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'X';
 
-            li.appendChild(removeButton);
-            fileList.appendChild(li);
-        }
+        // Add class to the remove button
+        removeButton.className = "inline-flex items-center px-4 py-2 my-2 bg-white dark:bg-gray-800 border border-red-300 dark:border-red-500 rounded-md font-semibold text-xs text-red-700 dark:text-red-300 uppercase tracking-widest shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-lime-800 disabled:opacity-25 transition ease-in-out duration-150 mx-1";
+
+        removeButton.onclick = function() {
+            // Remove the file from the array and the list
+            filesArray = filesArray.filter(f => f.name !== file.name);
+            fileList.removeChild(li);
+        };
+
+        // Create space between file name and remove button
+        const space = document.createTextNode(' ');
+        li.appendChild(space);
+
+        // Append the remove button to the list item
+        li.appendChild(removeButton);
+
+        // Append the list item to the file list
+        fileList.appendChild(li);
     }
+}
+
 
     // Function to handle form submission
     function submitForm(event) {
