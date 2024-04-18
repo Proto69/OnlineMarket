@@ -140,7 +140,7 @@ class PageController extends Controller
             abort(404); // If type is 'Admin', return a 404 not found error
         }
 
-        $products = Product::all()->where('is_deleted', false);
+        $products = Product::where('is_deleted', false)->paginate(6);
         $categories = Category::all()->where('is_accepted', true)->sortBy('name');
 
         return view('buyer.index', ['products' => $products, 'title' => "Пазаруване", 'categories' => $categories, 'categoriesFilter' => null]);

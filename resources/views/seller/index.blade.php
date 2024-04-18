@@ -121,6 +121,7 @@ use App\Models\Category;
                                 </script>
 
                                 <div>
+                                    <!-- FIXME: design -->
                                     <input type="file" id="fileInput" multiple onchange="handleFiles(this.files)">
                                     <button type="button" onclick="document.getElementById('fileInput').click()">Add picture</button>
                                     <ul id="fileList"></ul>

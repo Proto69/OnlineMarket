@@ -74,7 +74,12 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="doubleDropdownButton-{{ $mainCategory->id }}">
                                     @foreach (Category::where('main_category', $mainCategory->id)->get() as $category)
                                     <li>
-                                        <a href="/shopping/{{ $category->name }}" class="block px-4 py-2 rounded-lg mx-1 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ $category->name }}</a>
+                                        <a href="/shopping/{{ $category->name }}" class="block px-4 py-2 rounded-lg mx-1 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                            {{ $category->name }}
+                                            <span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
+                                                {{ $category->products_count }}
+                                            </span>
+                                        </a>
                                     </li>
                                     @endforeach
                                 </ul>
@@ -249,7 +254,7 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                 </ul>
             </div>
             @endif
-            
+
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">

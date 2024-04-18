@@ -328,6 +328,7 @@ use App\Models\Category;
                                                 <label for="comment" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Коментар</label>
                                                 <textarea id="comment" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Напиши коментар"></textarea>
                                             </div>
+                                            <!-- FIXME: design -->
                                             <x-success-button type="submit">
                                                 Добави ревю
                                             </x-success-button>
@@ -414,6 +415,7 @@ use App\Models\Category;
 
                                         @if (!$product->images()->isEmpty())
                                         <div>
+                                            <!-- FIXME: design -->
                                             <div id="controls-carousel" class="relative w-full" data-carousel="static">
                                                 <!-- Carousel wrapper -->
                                                 <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
@@ -484,6 +486,8 @@ use App\Models\Category;
         </div>
     </div>
     <div id="toast-container" class="toast-container" />
+
+    {{ $products->links() }}
 </x-app-layout>
 
 <script>

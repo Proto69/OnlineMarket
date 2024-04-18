@@ -1,5 +1,6 @@
 <x-app-layout>
     @section('title', 'Данни за доставка')
+    <!-- FIXME: responsive design maybe? -->
     <x-slot name="header">
         <div class="grid grid-cols-5 gap-4 text-gray-800 dark:text-gray-200">
 
