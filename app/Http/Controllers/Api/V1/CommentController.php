@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
 use App\Models\Log;
+use App\Models\Product;
 
 class CommentController extends Controller
 {
@@ -35,7 +36,7 @@ class CommentController extends Controller
             'comment.required' => 'Полето за коментар е задължително.',
             'comment.string' => 'Полето за коментар трябва да бъде текст.',
         ]);
-        
+
 
         $userId = Auth::user()->id;
         $validated['user_id'] = $userId;
@@ -53,6 +54,22 @@ class CommentController extends Controller
         $validated['is_bought'] = $logs->isNotEmpty();;
 
         Comment::create($validated);
+
+        $product = Product::find($product_id);
+
+        $rating = $product->rating;
+        if ($rating == 0) {
+            $product->rating = request()->rating;
+        } else {
+            $rating += request()->rating;
+            $rating /= 2;
+
+            $rating = round($rating, 2);
+
+            $product->rating = $rating;
+        }
+        
+        $product->update();
 
         return redirect()->back()->with('success', 'Comment created successfully.');
     }

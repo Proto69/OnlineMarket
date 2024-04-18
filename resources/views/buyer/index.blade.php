@@ -296,6 +296,7 @@ use App\Models\Category;
                             @endif
                             <!-- Product Name -->
                             <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ $product->name }}</h5>
+                            <h6 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">Рейтинг: {{ $product->rating }}</h6>
                         </div>
 
 
