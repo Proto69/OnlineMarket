@@ -317,13 +317,42 @@ use App\Models\Category;
                                         </button>
                                     </div>
                                     <!-- Modal body -->
-                                    <form action="#">
+                                    <form action="{{ route('new-comment', $product->id) }}" method="POST">
                                         @csrf
                                         <div class="grid gap-4 mb-4 sm:grid-cols-2">
                                             <div>
                                                 <label for="rating" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Оценка</label>
-                                                <input type="text" name="rating" id="rating" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type product name" required="">
+                                                <div class="flex items-center">
+                                                    <input type="number" class="rating-input" name="rating" id="rating-{{ $product->id }}" value="0">
+                                                    <span class="star" data-value="1">
+                                                        <svg class="star" data-value="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                            <path fill-rule="evenodd" d="M10 0l2.93 6.775L20 7.665l-5 5.15 1.18 7.19L10 15.25l-6.18 4.75 1.18-7.19-5-5.15 7.07-1.89L10 0zm0 2.5L7.67 7.665 2.5 8.55l4.29 4.4L5.65 17.5 10 14.25l4.35 3.25-1.14-6.55L17.5 8.55 12.33 7.67 10 2.5z" clip-rule="evenodd" />
+                                                        </svg>
+                                                    </span>
+                                                    <span class="star" data-value="2">
+                                                        <svg class="star" data-value="2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                            <path fill-rule="evenodd" d="M10 0l2.93 6.775L20 7.665l-5 5.15 1.18 7.19L10 15.25l-6.18 4.75 1.18-7.19-5-5.15 7.07-1.89L10 0zm0 2.5L7.67 7.665 2.5 8.55l4.29 4.4L5.65 17.5 10 14.25l4.35 3.25-1.14-6.55L17.5 8.55 12.33 7.67 10 2.5z" clip-rule="evenodd" />
+                                                        </svg>
+                                                    </span>
+                                                    <span class="star" data-value="3">
+                                                        <svg class="star" data-value="3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                            <path fill-rule="evenodd" d="M10 0l2.93 6.775L20 7.665l-5 5.15 1.18 7.19L10 15.25l-6.18 4.75 1.18-7.19-5-5.15 7.07-1.89L10 0zm0 2.5L7.67 7.665 2.5 8.55l4.29 4.4L5.65 17.5 10 14.25l4.35 3.25-1.14-6.55L17.5 8.55 12.33 7.67 10 2.5z" clip-rule="evenodd" />
+                                                        </svg>
+                                                    </span>
+                                                    <span class="star" data-value="4">
+                                                        <svg class="star" data-value="4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                            <path fill-rule="evenodd" d="M10 0l2.93 6.775L20 7.665l-5 5.15 1.18 7.19L10 15.25l-6.18 4.75 1.18-7.19-5-5.15 7.07-1.89L10 0zm0 2.5L7.67 7.665 2.5 8.55l4.29 4.4L5.65 17.5 10 14.25l4.35 3.25-1.14-6.55L17.5 8.55 12.33 7.67 10 2.5z" clip-rule="evenodd" />
+                                                        </svg>
+                                                    </span>
+                                                    <span class="star" data-value="5">
+                                                        <svg class="star" data-value="5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                            <path fill-rule="evenodd" d="M10 0l2.93 6.775L20 7.665l-5 5.15 1.18 7.19L10 15.25l-6.18 4.75 1.18-7.19-5-5.15 7.07-1.89L10 0zm0 2.5L7.67 7.665 2.5 8.55l4.29 4.4L5.65 17.5 10 14.25l4.35 3.25-1.14-6.55L17.5 8.55 12.33 7.67 10 2.5z" clip-rule="evenodd" />
+                                                        </svg>
+                                                    </span>
+                                                </div>
                                             </div>
+
+
                                             <div class="sm:col-span-2">
                                                 <label for="comment" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Коментар</label>
                                                 <textarea id="comment" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Напиши коментар"></textarea>
@@ -350,7 +379,9 @@ use App\Models\Category;
                             </x-basic-button>
                             <!-- Review button -->
                             <x-basic-button type="button" class="mt-3 ms-2" id="commentModalButton-{{ $product->id }}" onclick="event.stopPropagation()" data-modal-target="commentModal-{{ $product->id }}" data-modal-toggle="commentModal-{{ $product->id }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m363-390 117-71 117 71-31-133 104-90-137-11-53-126-53 126-137 11 104 90-31 133ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                                    <path d="m363-390 117-71 117 71-31-133 104-90-137-11-53-126-53 126-137 11 104 90-31 133ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z" />
+                                </svg>
                             </x-basic-button>
 
                             <!-- Hidden Input for Product ID -->
@@ -609,8 +640,6 @@ use App\Models\Category;
                     console.error('Response Text:', xhr.responseText);
                 }
             }
-
-
         });
     });
 
@@ -632,6 +661,57 @@ use App\Models\Category;
             priceToInput.value = parseFloat(priceFromInput.value) + 1;
         }
     });
+
+    // Get all star elements
+    const stars = document.querySelectorAll('.star');
+
+    // Initialize the rating value
+    let ratingValue = 0;
+
+    // Add event listeners for hover and click
+    stars.forEach((star, index) => {
+        star.addEventListener('mouseenter', () => {
+            // Highlight stars up to the hovered star
+            for (let i = 0; i <= index; i++) {
+                stars[i].classList.add('highlight');
+            }
+        });
+
+        star.addEventListener('mouseleave', () => {
+            // Remove highlight from all stars
+            const closestInput = star.closest('.flex').querySelector('input');
+            const starValue = star.getAttribute('data-value');
+            if (closestInput.value == 0){
+                stars.forEach((s) => s.classList.remove('highlight'));
+            }
+            if (closestInput.value != starValue) {
+                stars.forEach((s) => {
+                    if (s.getAttribute('data-value') > closestInput.value) {
+                        s.classList.remove('highlight');
+                    }
+                })
+            }
+        });
+
+        star.addEventListener('click', () => {
+            // Set the rating value based on the clicked star
+            const starValue = star.getAttribute('data-value');
+
+            // Update the input value
+            const closestInput = star.closest('.flex').querySelector('input');
+            closestInput.value = starValue;
+
+            const nearStars = star.closest('.flex').querySelectorAll('.star');
+            nearStars.forEach((st) => {
+                const sValue = parseInt(st.getAttribute('data-value'));
+                if (sValue <= starValue) {
+                    st.classList.add('highlight');
+                } else {
+                    st.classList.remove('highlight');
+                }
+            });
+        });
+    });
 </script>
 
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -643,5 +723,16 @@ use App\Models\Category;
         height: 24px;
         -webkit-appearance: none;
         /* @apply w-6 h-6 appearance-none pointer-events-auto; */
+    }
+
+    .star {
+        width: 2rem;
+        height: 2rem;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+
+    .star.highlight {
+        fill: yellow;
     }
 </style>
