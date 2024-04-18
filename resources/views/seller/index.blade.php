@@ -120,7 +120,7 @@ use App\Models\Category;
                                     });
                                 </script>
 
-                                <div>
+                                <div class="sm:col-span-2">
                                     <label class="block text-sm font-medium text-gray-900 dark:text-white">Снимки</label>
                                     <input type="file" class="hidden" id="fileInput" multiple onchange="handleFiles(this.files)">                                
                                     <x-basic-button type="button" class="my-2" onclick="document.getElementById('fileInput').click()">Добави снимка</x-basic-button>

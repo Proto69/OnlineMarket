@@ -22,15 +22,20 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $product_id)
+    public function store($product_id)
     {
-        $validated = $request->validate([
-            'rating' => 'required',
+        $validated = request()->validate([
+            'rating' => 'required|integer|min:0|max:5',
             'comment' => 'required|string',
         ], [
+            'rating.required' => 'Полето за оценка е задължително.',
+            'rating.integer' => 'Оценката трябва да бъде цяло число.',
+            'rating.min' => 'Оценката не може да бъде по-малка от 0.',
+            'rating.max' => 'Оценката не може да бъде по-голяма от 5.',
             'comment.required' => 'Полето за коментар е задължително.',
             'comment.string' => 'Полето за коментар трябва да бъде текст.',
         ]);
+        
 
         $userId = Auth::user()->id;
         $validated['user_id'] = $userId;
