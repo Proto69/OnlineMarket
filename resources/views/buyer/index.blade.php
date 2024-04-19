@@ -526,7 +526,6 @@ use App\Models\Category;
     </div>
     <div id="toast-container" class="toast-container" />
 
-    {{ $products->links() }}
 </x-app-layout>
 
 <script>
