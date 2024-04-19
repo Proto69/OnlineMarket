@@ -387,9 +387,7 @@ use App\Models\Category;
                             <!-- Review button -->
                             <x-basic-button type="button" class="mt-3 ms-2" id="commentModalButton-{{ $product->id }}" onclick="event.stopPropagation()" data-modal-target="commentModal-{{ $product->id }}" data-modal-toggle="commentModal-{{ $product->id }}">
                                 <!-- FIXME: fix color of icon and button placement maybe? -->
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                                    <path d="m363-390 117-71 117 71-31-133 104-90-137-11-53-126-53 126-137 11 104 90-31 133ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z" />
-                                </svg>
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABFElEQVR4nGNgGAWkAIVpn9sUpn76qTjt839ysMLUTz8Vpn5uxW0BBYYrwiyZ9ukHTgsIadad8wWMCakj24KmIz/+Nx75QRsLdGZ/+X/tzZ//N97+IegLoi0wX/jlf/7u7/+7Tvz4v+3ur/+PP/0FYxAbJAaSA6kh2wLVGZ//L72KMBgdr7r+67/6TAqDSGXG5/+LL2NaAhIDyVElDlK3fcOwIGXbN+pFctuxH2BD9zz4DcYgNkiMahZ0Hv/xP3Hrt/9K0z6DMYgNEqN6PlAkEtPUAgVKigpFYgq7aZ9biLJAYeqnrTK9/zkZqAngFkz9tNx45n9WqhoOt2Dq5xkM9f+ZqG44CChO+9zB8P8/I5gzCugFAI6m4qjeOG0UAAAAAElFTkSuQmCC">
                             </x-basic-button>
 
                             <!-- Hidden Input for Product ID -->
