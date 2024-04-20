@@ -359,7 +359,7 @@ use App\Models\Category;
                                         </div>
                                     </div>
                                     <div class="flex items-center space-x-4">
-                                        <x-success-button type="button" onclick="submitForm('{{ $product->id }}')">
+                                        <x-success-button type="button" onclick="submitForm1('{{ $product->id }}')">
                                             Запази промените
                                         </x-success-button>
                                     </div>
@@ -441,7 +441,7 @@ use App\Models\Category;
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <script>
-    function submitForm(productId) {
+    function submitForm1(productId) {
         // Get the form element by ID
         var form = document.getElementById('updateForm-' + productId);
 
