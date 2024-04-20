@@ -39,36 +39,43 @@ class CommentController extends Controller
 
 
         $userId = Auth::user()->id;
-        $validated['user_id'] = $userId;
-        $validated['product_id'] = $product_id;
-
-        $orders = Order::where('buyers_user_id', $userId)->get();
-
-        $orderIds = $orders->pluck('id')->toArray();
-
-        // Retrieve all logs related to the orders
-        $logs = Log::whereIn('order_id', $orderIds)
-            ->where('product', $product_id)
-            ->get();
-
-        $validated['is_bought'] = $logs->isNotEmpty();;
-
-        Comment::create($validated);
-
         $product = Product::find($product_id);
 
-        $rating = $product->rating;
-        if ($rating == 0) {
-            $product->rating = request()->rating;
+        $oldComment = Comment::where('user_id', $userId)->where('product_id', $product_id)->first();
+
+        if ($oldComment) {
+            $oldComment->update($validated);
         } else {
-            $rating += request()->rating;
-            $rating /= 2;
+            $validated['user_id'] = $userId;
+            $validated['product_id'] = $product_id;
 
-            $rating = round($rating, 2);
+            $orders = Order::where('buyers_user_id', $userId)->get();
 
-            $product->rating = $rating;
+            $orderIds = $orders->pluck('id')->toArray();
+
+            // Retrieve all logs related to the orders
+            $logs = Log::whereIn('order_id', $orderIds)
+                ->where('product', $product_id)
+                ->get();
+
+            $validated['is_bought'] = $logs->isNotEmpty();;
+            Comment::create($validated);
         }
-        
+
+        $allComments = Comment::where('product_id', $product_id)->get();
+
+        $rating = 0;
+
+        foreach ($allComments as $comment) {
+            $rating += $comment->rating;
+        }
+
+        $rating /= count($allComments);
+
+        $rating = round($rating, 2);
+
+        $product->rating = $rating; 
+
         $product->update();
 
         return redirect()->back()->with('success', 'Comment created successfully.');
