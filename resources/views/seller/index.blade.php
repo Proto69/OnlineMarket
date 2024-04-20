@@ -593,8 +593,6 @@ use App\Models\Category;
                 })
             .then(response => response.json())
             .then(data => {
-                console.log(data); // Handle the response data
-
                 location.reload();
             })
             .catch(error => {

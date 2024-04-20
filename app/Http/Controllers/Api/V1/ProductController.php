@@ -71,6 +71,7 @@ class ProductController extends Controller
         $validated['bought_quantity'] = 0;
         $validated['currency'] = "bgn";
         $validated['active'] = 1;
+        $validated['rating'] = 0;
         $validated['seller_user_id'] = Auth::user()->id;
 
         $product = Product::create($validated);
@@ -130,7 +131,6 @@ class ProductController extends Controller
             'description' => 'required|min:5|max:255',
             'quantity' => 'required|numeric|min:0',
             'price' => 'required|numeric|min:0',
-            'image' => 'image',
             'category' => 'required'
         ], [
             'name.required' => __('Полето за име е задължително.'),
@@ -145,7 +145,6 @@ class ProductController extends Controller
             'price.required' => __('Полето за цена е задължително.'),
             'price.numeric' => __('Цената трябва да бъде число.'),
             'price.min' => __('Цената не може да бъде по-малка от 0.'),
-            'image.image' => __('Файлът трябва да бъде изображение.'),
             'category.required' => __('Категорията е задължителна.')
         ]);
 
