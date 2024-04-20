@@ -148,6 +148,7 @@ class PageController extends Controller
 
     public function shoppingCategory($category)
     {
+        
         $typeOfAccount = Auth::user()->type;
         if (Auth::user()->is_deleted) {
             return redirect()->route('account-deleted', Auth::user()->id);
@@ -159,7 +160,7 @@ class PageController extends Controller
             abort(404); // If type is 'Admin', return a 404 not found error
         }
         $category = Category::where('name', $category)->first();
-        $products = $category->products()->where('is_deleted', false);
+        $products = Product::all()->where('category', $category->id)->where('is_deleted', false);
         $categories = Category::all()->where('is_accepted', true)->sortBy('name');
 
         return view('buyer.index', ['products' => $products, 'title' => "Пазаруване", 'categories' => $categories, 'categoriesFilter' => null]);
