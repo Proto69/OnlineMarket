@@ -10,7 +10,7 @@ class Comment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'rating','comment', 'product_id', 'user_id', 'is_bought'
+        'rating','comment', 'product_id', 'user_id', 'is_bought', 'is_deleted', 'header'
     ];
 
     /**
@@ -22,6 +22,7 @@ class Comment extends Model
         'product_id' => 'integer',
         'user_id' => 'integer',
         'rating' => 'integer',
-        'is_bought' => 'boolean'
+        'is_bought' => 'boolean',
+        'is_deleted' => 'boolean'
     ];
 }

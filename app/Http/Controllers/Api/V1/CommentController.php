@@ -28,11 +28,14 @@ class CommentController extends Controller
         $validated = request()->validate([
             'rating' => 'required|integer|min:0|max:5',
             'comment' => 'required|string',
+            'header' => 'required|string'
         ], [
             'rating.required' => 'Полето за оценка е задължително.',
             'rating.integer' => 'Оценката трябва да бъде цяло число.',
             'rating.min' => 'Оценката не може да бъде по-малка от 0.',
             'rating.max' => 'Оценката не може да бъде по-голяма от 5.',
+            'header.required' => 'Полето за заглавие е задължително.',
+            'header.string' => 'Полето за заглавие трябва да бъде текст.',
             'comment.required' => 'Полето за коментар е задължително.',
             'comment.string' => 'Полето за коментар трябва да бъде текст.',
         ]);

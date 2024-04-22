@@ -19,6 +19,11 @@ class Product extends Model
         return $this->hasMany(Punishment::class)->get();
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->get();
+    }
+
     public function images()
     {
         return $this->hasMany(Image::class)->get();
