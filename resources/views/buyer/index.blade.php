@@ -193,13 +193,13 @@ use App\Models\User;
                                                     </span>
                                                 </div>
                                             </div>
-
-                                            <div class="sm:col-span-1">
+                                            <br />
+                                            <div class="sm:col-span-2">
                                                 @error('header')
                                                 <p class="text-red-500 text-sm mt-1 mb-1">{{ $message }}</p>
                                                 @enderror
                                                 <label for="header" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Заглавие</label>
-                                                <x-input type="text" name="header" id="header" placeholder="Отлично"></x-input>
+                                                <x-input type="text" name="header" class="w-full" id="header" placeholder="Отлично"></x-input>
                                             </div>
 
                                             <div class="sm:col-span-2">
@@ -364,6 +364,7 @@ use App\Models\User;
                                                 </svg>
                                             </button>
                                         </div>
+                                        <!-- TODO: fix button -->
                                         <button type="submit" class="ml-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
                                             Покупка
                                         </button>
