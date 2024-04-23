@@ -243,10 +243,9 @@ use App\Models\User;
                     </div>
 
 
-                    <!-- FIXME: when too much content, top gets out of the page -->
                     <!-- Read modal -->
-                    <div id="readProductModal-{{ $product->id }}" tabindex="-1" aria-hidden="true" class="hidden pt-10 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0">
-                        <div class="relative p-8 bg-white rounded-lg shadow-lg dark:bg-gray-800 sm:p-10 max-w-screen-xl w-3/4">
+                    <div id="readProductModal-{{ $product->id }}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0">
+                        <div class="relative p-8 bg-white rounded-lg shadow-lg dark:bg-gray-800 overflow-y-auto sm:p-10 max-h-[80vh] max-w-screen-xl w-3/4">
                             <!-- Modal content -->
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 overflow-y-auto">
                                 <!-- Product image/carousel -->
