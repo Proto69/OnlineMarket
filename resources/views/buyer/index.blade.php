@@ -207,9 +207,8 @@ use App\Models\User;
                                                 <p class="text-red-500 text-sm mt-1 mb-1">{{ $message }}</p>
                                                 @enderror
                                                 <label for="comment" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Коментар</label>
-                                                <textarea id="comment" name="comment" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Напиши коментар"></textarea>
+                                                <textarea id="comment" name="comment" rows="4" class=" border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm w-full block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Напиши коментар"></textarea>
                                             </div>
-                                            <!-- FIXME: design -->
                                             <x-success-button type="submit" class="w-40 flex items-center justify-center">
                                                 Добави ревю
                                             </x-success-button>
@@ -232,7 +231,6 @@ use App\Models\User;
                             </x-basic-button>
                             <!-- Review button -->
                             <x-basic-button type="button" class="mt-3 ms-2" id="commentModalButton-{{ $product->id }}" onclick="event.stopPropagation()" data-modal-target="commentModal-{{ $product->id }}" data-modal-toggle="commentModal-{{ $product->id }}">
-                                <!-- FIXME: fix color of icon and button placement maybe? -->
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABFElEQVR4nGNgGAWkAIVpn9sUpn76qTjt839ysMLUTz8Vpn5uxW0BBYYrwiyZ9ukHTgsIadad8wWMCakj24KmIz/+Nx75QRsLdGZ/+X/tzZ//N97+IegLoi0wX/jlf/7u7/+7Tvz4v+3ur/+PP/0FYxAbJAaSA6kh2wLVGZ//L72KMBgdr7r+67/6TAqDSGXG5/+LL2NaAhIDyVElDlK3fcOwIGXbN+pFctuxH2BD9zz4DcYgNkiMahZ0Hv/xP3Hrt/9K0z6DMYgNEqN6PlAkEtPUAgVKigpFYgq7aZ9biLJAYeqnrTK9/zkZqAngFkz9tNx45n9WqhoOt2Dq5xkM9f+ZqG44CChO+9zB8P8/I5gzCugFAI6m4qjeOG0UAAAAAElFTkSuQmCC">
                             </x-basic-button>
 
