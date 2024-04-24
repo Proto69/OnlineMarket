@@ -13,9 +13,9 @@
             <div class="bg-transparent dark:bg-transparent overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="bg-transparent bg-opacity-25 grid grid-cols-1 md:grid-cols-4 gap-4 p-3">
 
-                <form action="{{ route('test', 54) }}" method="GET">
+                <form action="{{ route('test') }}" method="GET">
                     @csrf
-                    <button type="submit">
+                    <button type="submit" class="text-white">
                         Test
                     </button>
                 </form>

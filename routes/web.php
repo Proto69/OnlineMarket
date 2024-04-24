@@ -110,4 +110,4 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 Route::post('/webhook', [WebhookController::class, 'checkoutWebhook'])->name('webhook');
 // For testing email
-// Route::get('/test/{order_id}', [OrderController::class, 'test'])->name('test');
+Route::get('/test', [OrderController::class, 'test'])->name('test');
