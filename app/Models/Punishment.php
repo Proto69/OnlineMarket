@@ -15,7 +15,7 @@ class Punishment extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id', 'reason', 'product_id'
+        'user_id', 'reason', 'object_id', 'is_product'
     ];
 
     /**
@@ -25,6 +25,7 @@ class Punishment extends Model
      */
     protected $casts = [
         'user_id' => 'integer',
-        'product_id' => 'integer',
+        'object_id' => 'integer',
+        'is_product' => 'boolean'
     ];
 }

@@ -8,16 +8,16 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Order;
+use App\Model\Order;
 
-class OrderShipped extends Mailable
+class SellerNewOrder extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(public Collection $logs, public Order $order)
+    public function __construct(public Order $order)
     {
         //
     }
@@ -28,7 +28,7 @@ class OrderShipped extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Order Shipped',
+            subject: 'Нова поръчка',
         );
     }
 
@@ -38,7 +38,7 @@ class OrderShipped extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.order.shipped',
+            view: 'seller.new-order',
         );
     }
 

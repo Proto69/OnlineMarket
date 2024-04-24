@@ -21,8 +21,9 @@ class AdminController extends Controller
         $punishment = new Punishment();
 
         $punishment->user_id = $product->seller_user_id; 
-        $punishment->product_id = $productId;
+        $punishment->object_id = $productId;
         $punishment->reason = $request->reason;
+        $punishment->is_product = true;
 
         $punishment->save();
 
@@ -39,7 +40,7 @@ class AdminController extends Controller
         }
 
         $product = Product::find($productId);
-        $punishment = Punishment::where('product_id', $productId)->first();
+        $punishment = Punishment::where('object_id', $productId)->where('is_product', true)->first();
         $punishment->delete();
 
         $product->is_deleted = false;

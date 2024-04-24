@@ -4,24 +4,23 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Models\Order;
-use App\Models\Log;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Collection;
+use App\Models\Appeal;
 
-class PurchaseReceipt extends Mailable
+
+class PunishmentAppeal extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(public Order $order, public Collection $logs)
+    public function __construct(public Appeal $appeal)
     {
-        
+        //
     }
 
     /**
@@ -30,7 +29,7 @@ class PurchaseReceipt extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Успешна поръчка',
+            subject: 'Обжалване на наказание',
         );
     }
 
@@ -40,7 +39,7 @@ class PurchaseReceipt extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.order.successful',
+            view: 'emails.punishment.appeal',
         );
     }
 

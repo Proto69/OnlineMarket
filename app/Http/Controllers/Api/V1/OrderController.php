@@ -6,20 +6,44 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
 use App\Models\Log;
+use App\Models\Appeal;
+use App\Models\Punishment;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Mail\PurchaseReceipt;
+use App\Mail\OrderSuccessful;
+use App\Mail\OrderSent;
+use App\Mail\OrderShipped;
+use App\Mail\PunishmentAppeal;
+use App\Mail\PunishmentBan;
+use App\Mail\PunishmentCanceled;
+use App\Mail\PunishmentRecieved;
+use App\Mail\SellerNewOrder;
+use App\Mail\SellerRecievedOrder;
 use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
     // Testing emails
-    public function test($orderId)
+    public function test()
     {
+        $orderId = 55;
         $order = Order::find($orderId);
         $logs = Log::where('order_id', $orderId)->get();
-        Mail::to(Auth::user())->send(new PurchaseReceipt($order, $logs));
+        $appealId = 1;
+        $appeal = Appeal::find($appealId);
+        $punishmentId = 5;
+        $punishment = Punishment::find($punishmentId);
+        // Orders
+        // Mail::to(Auth::user())->send(new OrderSuccessful($order, $logs));
+        // Mail::to(Auth::user())->send(new OrderSent($order, $logs));
+        // Mail::to(Auth::user())->send(new OrderShipped($order, $logs));
+        // Mail::to(Auth::user())->send(new PunishmentAppeal($appeal));
+        // Mail::to(Auth::user())->send(new PunishmentBan());
+        // Mail::to(Auth::user())->send(new PunishmentCanceled($punishment));
+        // Mail::to(Auth::user())->send(new PunishmentRecieved($punishment));
+        // Mail::to(Auth::user())->send(new SellerNewOrder($order));
+        // Mail::to(Auth::user())->send(new SellerRecievedOrder($order));
         return redirect()->route('stats');
     }
     /**

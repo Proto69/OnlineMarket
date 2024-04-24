@@ -61,13 +61,16 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // Admin routes
     Route::get('/products', [PageController::class, 'products'])->name('products');
     Route::get('/users', [PageController::class, 'users'])->name('users');
+    Route::get('/comments', [PageController::class, 'comments'])->name('comments');
     Route::get('/search-account', [PageController::class, 'searchAccount'])->name('search-account');
     Route::get('/appeals', [PageController::class, 'appeals'])->name('appeals');
     Route::get('/search-appeals', [PageController::class, 'searchAppeals'])->name('search-appeals');
     Route::post('/deactivate-product-admin/{product_id}', [AdminController::class, 'deactivateProduct'])->name('deactivate-product-admin');
     Route::post('/deactivate-account-admin/{user_id}', [AdminController::class, 'deactivateAccount'])->name('deactivate-account-admin');
+    Route::post('/deactivate-comment-admin/{comment_id}', [AdminController::class, 'deactivateComment'])->name('deactivate-comment-admin');
     Route::post('/activate-product-admin/{product_id}', [AdminController::class, 'activateProduct'])->name('activate-product-admin');
     Route::post('/activate-account-admin/{user_id}', [AdminController::class, 'activateAccount'])->name('activate-account-admin');
+    Route::post('/activate-comment-admin/{comment_id}', [AdminController::class, 'activateComment'])->name('activate-comment-admin');
 
 
 
@@ -107,4 +110,4 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 Route::post('/webhook', [WebhookController::class, 'checkoutWebhook'])->name('webhook');
 // For testing email
-Route::get('/test/{order_id}', [OrderController::class, 'test'])->name('test');
+// Route::get('/test/{order_id}', [OrderController::class, 'test'])->name('test');
