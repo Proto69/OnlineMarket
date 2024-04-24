@@ -293,35 +293,12 @@ use App\Models\User;
                                         <!-- Header: Product name and price -->
                                         <div>
                                             <h3 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ $product->name }}</h3>
-                                            @php
-                                            $integerPart = floor($product->rating);
-                                            $fractionalPart = $product->rating - $integerPart;
-                                            @endphp
 
-                                            <!-- FIXME: stars (sent in discord) -->
-                                            <div class="flex items-center mb-1 space-x-1 rtl:space-x-reverse">
-                                                <!-- Full stars -->
-                                                @for ($i = 1; $i <= $integerPart; $i++) <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    @endfor
-
-                                                    <!-- Half star -->
-                                                    @if ($fractionalPart > 0)
-                                                    <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    @endif
-
-                                                    <!-- Gray stars for remaining empty stars -->
-                                                    @for ($i = ceil($product->rating); $i < 5; $i++) <svg class="w-4 h-4 text-gray-300 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                        </svg>
-                                                        @endfor
-
-                                                        <span class="ms-2 dark:text-white text-gray">
-                                                            ({{ $product->rating }})
-                                                        </span>
+                                            <div class="rating flex items-center mb-1 space-x-1 rtl:space-x-reverse" data-rating="{{ $product->rating }}">
+                                                <div class="stars-outer inline">
+                                                    <div class="stars-inner"></div>
+                                                </div>
+                                                <div class="number-rating inline text-gray dark:text-white"></div>
                                             </div>
                                             <p class="text-lg text-gray-700 dark:text-gray-300">{{ $product->price }}лв</p>
                                         </div>
@@ -648,6 +625,34 @@ use App\Models\User;
             console.log(closestInput.value);
         });
     });
+
+
+
+    // Run getRatings when DOM loads
+    document.addEventListener('DOMContentLoaded', getRatings);
+
+    // Get ratings
+    function getRatings() {
+        // Select all elements with class 'rating'
+        const elements = document.querySelectorAll('.rating');
+        
+        // Loop through each element
+        elements.forEach(element => {
+            // Get the data-rating attribute value
+            const rating = parseFloat(element.getAttribute('data-rating'));
+
+            // Get percentage
+            const starPercentage = (rating / 5) * 100;
+
+            // Round to nearest 10
+            const starPercentageRounded = `${Math.round(starPercentage / 10) * 10}%`;
+
+            // Set width of stars-inner to percentage
+            element.querySelector('.stars-inner').style.width = starPercentageRounded;
+
+            element.querySelector('.number-rating').innerHTML = "(" + rating + ")";
+        });
+    }
 </script>
 
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -671,4 +676,34 @@ use App\Models\User;
     .star.highlight {
         fill: yellow;
     }
+
+    .stars-outer {
+        position: relative;
+        display: inline-block;
+    }
+
+    .stars-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 0;
+    }
+
+    .stars-outer::before {
+        content: "\f005 \f005 \f005 \f005 \f005";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        color: #ccc;
+    }
+
+    .stars-inner::before {
+        content: "\f005 \f005 \f005 \f005 \f005";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        color: #f8ce0b;
+    }
 </style>
+
+<link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet" />
