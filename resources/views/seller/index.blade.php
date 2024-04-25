@@ -482,41 +482,6 @@ use App\Models\User;
         });
     }
 
-    // JavaScript to handle adding and removing input fields
-    document.addEventListener('DOMContentLoaded', function() {
-        const addCharacteristicBtn = document.getElementById('addCharacteristic-' + `{{$product->id}}`);
-        const newCharacteristicsContainer = document.getElementById('newCharacteristics-' + `{{$product->id}}`);
-
-        // Function to add new input field
-        function addInputField() {
-            const inputField = document.createElement('div');
-            inputField.classList.add('sm:inline-flex', 'items-center', 'my-1');
-            inputField.innerHTML = `
-                <input required class="inline-block mx-1 my-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="text" name="characteristics[][name-c]" placeholder="Име" />
-                <input required class="inline-block mx-1 my-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-64 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="text" name="characteristics[][description-c]" placeholder="Описание" />
-            <x-danger-button type="button" class="mx-1 my-1 removeCharacteristic-` + '{{$product->id}}' + `">
-                <svg class="w-6 h-6 text-red-800 dark:text-red-300 removeCharacteristic-` + '{{$product->id}}' + `" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" class="removeCharacteristic-` + '{{$product->id}}' + `" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-                </svg>
-            </x-danger-button>
-            <br />
-            `;
-            newCharacteristicsContainer.appendChild(inputField);
-        }
-
-        // Event listener for adding characteristic
-        addCharacteristicBtn.addEventListener('click', function() {
-            addInputField();
-        });
-
-        // Event listener for removing characteristic
-        newCharacteristicsContainer.addEventListener('click', function(event) {
-            if (event.target.classList.contains('removeCharacteristic-' + `{{$product->id}}`)) {
-                event.target.closest('div').remove();
-            }
-        });
-    });
-
     let filesArray = [];
 
     // Function to handle file uploads and display them
