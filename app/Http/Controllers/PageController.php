@@ -194,6 +194,10 @@ class PageController extends Controller
             $query->whereBetween('price', [$priceFrom, $priceTo]);
         }
 
+        if ($rating) {
+            $query->where('rating', '>=', $rating);
+        }
+
         $filteredProducts = $query->get();
 
         $categories = Category::all()->where('is_accepted', true)->sortBy('name');
@@ -414,42 +418,6 @@ class PageController extends Controller
         return view('seller.sells', ['formattedOrders' => $formattedOrders, 'title' => "Продажби"]);
     }
 
-    public function stats()
-    {
-        $user = Auth::user();
-        $userId = $user->id;
-        if ($user->is_deleted) {
-            return redirect()->route('account-deleted', $userId);
-        }
-        $typeOfAccount = $user->type;
-
-        if ($typeOfAccount !== 'Seller') {
-            abort(404); // If type is not 'Seller', return a 404 not found error
-        }
-
-        $dateLogs = Log::where('sellers_user_id', $userId)->get();
-
-        // Initialize an empty array to store summed prices for each date
-        $summedPrices = [];
-
-        // Iterate over the logs
-        foreach ($dateLogs as $log) {
-            $date = $log->date;
-            $price = $log->price;
-
-            // If the date is not already in the summedPrices array, initialize it with the current price
-            if (!isset($summedPrices[$date])) {
-                $summedPrices[$date] = $price;
-            } else {
-                // If the date already exists, add the current price to the existing sum
-                $summedPrices[$date] += $price;
-            }
-        }
-
-        $totalIncome = 0;
-
-        return view('seller.stats', ['dateLogs' => $dateLogs, 'totalIncome' => $totalIncome, 'title' => "Статистики"]);
-    }
 
     public function editProduct($product_id)
     {
@@ -554,10 +522,14 @@ class PageController extends Controller
         if (Auth::user()->is_deleted) {
             return redirect()->route('account-deleted', Auth::user()->id);
         }
+
         $logs = Log::where('order_id', $orderId)->get();
 
         $order = Order::find($orderId);
 
+        if ($order->buyers_user_id !== Auth::user()->id){
+            abort(404);
+        }
         $sum = $order->total_price;
 
 

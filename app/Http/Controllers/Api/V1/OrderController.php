@@ -19,18 +19,6 @@ use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
-    // Testing emails
-    public function test()
-    {
-        $orderId = 55;
-        $order = Order::find($orderId);
-        $logs = Log::where('order_id', $orderId)->get();
-        $appealId = 1;
-        $appeal = Appeal::find($appealId);
-        $punishmentId = 5;
-        $punishment = Punishment::find($punishmentId);
-        return redirect()->route('stats');
-    }
     /**
      * Display a listing of the resource.
      */

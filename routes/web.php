@@ -48,9 +48,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/complete-order-cart', [PageController::class, 'completeOrderCart'])->name('complete-order-cart');
     Route::get('/dashboard', [PageController::class, 'sellerDashboard'])->name('dashboard');
     Route::get('/sells', [PageController::class, 'sells'])->name('sells');
-    // Working on it
-    Route::get('/stats', [PageController::class, 'stats'])->name('stats');
-    //
     Route::get('/connect-stripe', [PageController::class, 'connectStripe'])->name('connect-stripe');
     Route::get('/refresh-stripe', [PageController::class, 'refreshStripe'])->name('refresh-stripe');
     Route::get('/return-stripe', [PageController::class, 'returnStripe'])->name('return-stripe');
@@ -110,5 +107,3 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 });
 
 Route::post('/webhook', [WebhookController::class, 'checkoutWebhook'])->name('webhook');
-// For testing email
-Route::get('/test', [OrderController::class, 'test'])->name('test');

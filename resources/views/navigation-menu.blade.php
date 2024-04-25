@@ -45,12 +45,6 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                     </x-nav-link>
                 </div>
 
-                <!-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link href="{{ route('stats') }}" :active="request()->routeIs('stats')">
-                        {{ __('Статистики') }}
-                    </x-nav-link>
-                </div> -->
-
                 @elseif ($typeOfAccount == "Buyer")
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -294,11 +288,6 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
             <x-responsive-nav-link href="{{ route('sells') }}" :active="request()->routeIs('sells')">
                 {{ __('Продажби') }}
             </x-responsive-nav-link>
-
-            <!-- <x-responsive-nav-link href="{{ route('stats') }}" :active="request()->routeIs('stats')">
-                {{ __('Статистики') }}
-            </x-responsive-nav-link> -->
-
 
             @elseif ($typeOfAccount == "Admin")
 

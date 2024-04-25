@@ -1,9 +1,9 @@
 @php
 use App\Models\Category;
 @endphp
-<x-app-layout>
+<x-app-layout class="items-center">
     <!-- Edit product modal -->
-    <div id="updateProductModal-{{ $product->id }}" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0">
+    <div id="updateProductModal-{{ $product->id }}" class="overflow-y-auto overflow-x-hidden flex z-50 justify-center items-center w-full md:inset-0">
         <div class="relative p-8 bg-white rounded-lg shadow-lg dark:bg-gray-800 overflow-y-auto sm:p-10 max-h-[80vh] max-w-screen-xl w-3/4">
             <!-- Modal content -->
             <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
@@ -72,7 +72,9 @@ use App\Models\Category;
                                 @endif
                             </div>
                         </div>
-                        <div class="col-span-1">
+                        <div class="sm:col-span-1">
+                        <label class="block text-sm font-medium text-gray-900 dark:text-white">Снимки</label>
+
                             @if (!$product->images()->isEmpty())
                             <div>
                                 <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
@@ -95,20 +97,22 @@ use App\Models\Category;
                             </div>
                         </div>
                         @endif
-                        <!-- File input for adding pictures -->
-                        <input type="file" id="fileInput" class="hidden" multiple onchange="handleFiles(this.files)">
-                        <x-basic-button type="button" class="my-2" onclick="document.getElementById('fileInput').click()">Добави снимка</x-basic-button>
-                        <ul id="imageList" class="space-y-2"></ul>
-                    </div>
-                    <div class="col-span-1">
                         <div>
                             <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
                                 <div id="imageDisplay" class="w-full h-full"></div>
                             </div>
                         </div>
+
+                    </div>
+                    <div class="sm:col-span-1">
+
+                        <ul id="imageList" class="space-y-2"></ul>
+
+                        <!-- File input for adding pictures -->
+                        <input type="file" id="fileInput" class="hidden" multiple accept="image/*" onchange="handleFiles(this.files)">
+                        <x-basic-button type="button" class="my-2" onclick="document.getElementById('fileInput').click()">Добави снимка</x-basic-button>
                         <ul id="imageList" class="space-y-2"></ul>
                     </div>
-
             </div>
             <br />
             <div class="sm:col-span-2">
@@ -118,12 +122,13 @@ use App\Models\Category;
                 @enderror
                 <textarea required name="description" rows="5" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Напишете описание на продукта тук ...">{{ $product->description }}</textarea>
             </div>
+            <div class="flex items-center mt-2 space-x-4">
+                <x-success-button type="submit">
+                    Запази промените
+                </x-success-button>
+            </div>
         </div>
-        <div class="flex items-center space-x-4">
-            <x-success-button type="submit">
-                Запази промените
-            </x-success-button>
-        </div>
+
         </form>
     </div>
     </div>
@@ -140,7 +145,7 @@ use App\Models\Category;
 
         imageElements.forEach((element, index) => {
             const imageUrl = element.getAttribute('data-image-url');
-            const label = `Image ${index + 1}`;
+            const label = `Снимка ${index + 1}`;
 
             // Push image name to the uploadedImages array
             uploadedImages.push(label);
