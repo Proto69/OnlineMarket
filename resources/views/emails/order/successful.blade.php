@@ -1,5 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="bg" style="padding:0;Margin:0">
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="bg"
+    style="padding:0;Margin:0">
 
 <head>
     <meta charset="UTF-8">
@@ -7,7 +9,7 @@
     <meta name="x-apple-disable-message-reformatting">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="telephone=no" name="format-detection">
-    <title>Изпратена поръчка</title><!--[if (mso 16)]>
+    <title>Приета поръчка</title><!--[if (mso 16)]>
     <style type="text/css">
     a {text-decoration: none;}
     </style>
@@ -308,30 +310,42 @@
     </style>
 </head>
 
-<body style="width:100%;font-family:arial, 'helvetica neue', helvetica, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0">
+<body
+    style="width:100%;font-family:arial, 'helvetica neue', helvetica, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0">
     <div dir="ltr" class="es-wrapper-color" lang="bg" style="background-color:#F6F6F6"><!--[if gte mso 9]>
 			<v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
 				<v:fill type="tile" color="#f6f6f6"></v:fill>
 			</v:background>
 		<![endif]-->
-        <table class="es-wrapper" width="100%" cellspacing="0" cellpadding="0" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;padding:0;Margin:0;width:100%;height:100%;background-repeat:repeat;background-position:center top;background-color:#F6F6F6">
+        <table class="es-wrapper" width="100%" cellspacing="0" cellpadding="0" role="none"
+            style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;padding:0;Margin:0;width:100%;height:100%;background-repeat:repeat;background-position:center top;background-color:#F6F6F6">
             <tr style="border-collapse:collapse">
                 <td valign="top" style="padding:0;Margin:0">
-                    <table cellpadding="0" cellspacing="0" class="es-content" align="center" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
+                    <table cellpadding="0" cellspacing="0" class="es-content" align="center" role="none"
+                        style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
                         <tr style="border-collapse:collapse">
                             <td align="center" style="padding:0;Margin:0">
-                                <table class="es-content-body" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px" cellspacing="0" cellpadding="0" align="center" role="none">
+                                <table class="es-content-body"
+                                    style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px"
+                                    cellspacing="0" cellpadding="0" align="center" role="none">
                                     <tr style="border-collapse:collapse">
-                                        <td align="left" style="Margin:0;padding-top:15px;padding-bottom:15px;padding-left:20px;padding-right:20px">
+                                        <td align="left"
+                                            style="Margin:0;padding-top:15px;padding-bottom:15px;padding-left:20px;padding-right:20px">
                                             <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr><td style="width:270px" valign="top"><![endif]-->
-                                            <table class="es-left" cellspacing="0" cellpadding="0" align="left" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left">
+                                            <table class="es-left" cellspacing="0" cellpadding="0" align="left"
+                                                role="none"
+                                                style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left">
                                                 <tr style="border-collapse:collapse">
                                                     <td align="left" style="padding:0;Margin:0;width:270px">
-                                                        <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                                        <table width="100%" cellspacing="0" cellpadding="0"
+                                                            role="presentation"
+                                                            style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                                             <tr style="border-collapse:collapse">
                                                                 <!-- Put real Datetime -->
-                                                                <td class="es-infoblock" align="left" style="padding:0;Margin:0;line-height:14px;font-size:12px;color:#CCCCCC">
-                                                                    <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:14px;color:#CCCCCC;font-size:12px">
+                                                                <td class="es-infoblock" align="left"
+                                                                    style="padding:0;Margin:0;line-height:14px;font-size:12px;color:#CCCCCC">
+                                                                    <p
+                                                                        style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:14px;color:#CCCCCC;font-size:12px">
                                                                         Поръчката Ви бе одобрена на
                                                                         <?php echo date('d.m.Y'); ?><br>
                                                                     </p>
@@ -342,13 +356,19 @@
                                                 </tr>
                                             </table>
                                             <!--[if mso]></td><td style="width:20px"></td><td style="width:270px" valign="top"><![endif]-->
-                                            <table class="es-right" cellspacing="0" cellpadding="0" align="right" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right">
+                                            <table class="es-right" cellspacing="0" cellpadding="0" align="right"
+                                                role="none"
+                                                style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right">
                                                 <tr style="border-collapse:collapse">
                                                     <td align="left" style="padding:0;Margin:0;width:270px">
-                                                        <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                                        <table width="100%" cellspacing="0" cellpadding="0"
+                                                            role="presentation"
+                                                            style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                                             <tr style="border-collapse:collapse">
-                                                                <td align="right" class="es-infoblock" style="padding:0;Margin:0;line-height:14px;font-size:12px;color:#CCCCCC">
-                                                                    <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:14px;color:#CCCCCC;font-size:12px">
+                                                                <td align="right" class="es-infoblock"
+                                                                    style="padding:0;Margin:0;line-height:14px;font-size:12px;color:#CCCCCC">
+                                                                    <p
+                                                                        style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:14px;color:#CCCCCC;font-size:12px">
                                                                         Both Sides of the Coin</p>
                                                                 </td>
                                                             </tr>
@@ -362,18 +382,33 @@
                             </td>
                         </tr>
                     </table>
-                    <table class="es-content" cellspacing="0" cellpadding="0" align="center" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
+                    <table class="es-content" cellspacing="0" cellpadding="0" align="center" role="none"
+                        style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
                         <tr style="border-collapse:collapse">
                             <td align="center" style="padding:0;Margin:0">
-                                <table class="es-content-body" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#ffffff;width:600px" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" role="none">
+                                <table class="es-content-body"
+                                    style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#ffffff;width:600px"
+                                    cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" role="none">
                                     <tr style="border-collapse:collapse">
                                         <td align="left" style="padding:0;Margin:0;padding-top:40px">
-                                            <table width="100%" cellspacing="0" cellpadding="0" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                            <table width="100%" cellspacing="0" cellpadding="0" role="none"
+                                                style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                                 <tr style="border-collapse:collapse">
-                                                    <td valign="top" align="center" style="padding:0;Margin:0;width:600px">
-                                                        <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                                    <td valign="top" align="center"
+                                                        style="padding:0;Margin:0;width:600px">
+                                                        <table width="100%" cellspacing="0" cellpadding="0"
+                                                            role="presentation"
+                                                            style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                                             <tr style="border-collapse:collapse">
-                                                                <td style="padding:0;Margin:0;position:relative" align="center"><a target="_blank" href="https://bsc.clients.jnhost.net/" style="text-decoration:underline;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#9AAEA6;font-size:16px"><img class="adapt-img" src="https://ehhmzba.stripocdn.email/content/guids/bannerImgGuid/images/image17139872623721743.png" alt="Проверете поръчката." title="Проверете поръчката." width="600" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></a>
+                                                                <td style="padding:0;Margin:0;position:relative"
+                                                                    align="center"><a target="_blank"
+                                                                        href="https://bsc.clients.jnhost.net/"
+                                                                        style="text-decoration:underline;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#9AAEA6;font-size:16px"><img
+                                                                            class="adapt-img"
+                                                                            src="https://ehhmzba.stripocdn.email/content/guids/bannerImgGuid/images/image17139872623721743.png"
+                                                                            alt="Проверете поръчката."
+                                                                            title="Проверете поръчката." width="600"
+                                                                            style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></a>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -383,11 +418,16 @@
                                         </td>
                                     </tr>
                                     <tr style="border-collapse:collapse">
-                                        <td align="left" style="Margin:0;padding-bottom:30px;padding-top:40px;padding-left:40px;padding-right:40px">
-                                            <table width="100%" cellspacing="0" cellpadding="0" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                        <td align="left"
+                                            style="Margin:0;padding-bottom:30px;padding-top:40px;padding-left:40px;padding-right:40px">
+                                            <table width="100%" cellspacing="0" cellpadding="0" role="none"
+                                                style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                                 <tr style="border-collapse:collapse">
-                                                    <td valign="top" align="center" style="padding:0;Margin:0;width:520px">
-                                                        <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                                    <td valign="top" align="center"
+                                                        style="padding:0;Margin:0;width:520px">
+                                                        <table width="100%" cellspacing="0" cellpadding="0"
+                                                            role="presentation"
+                                                            style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                                             <tr style="border-collapse:collapse">
                                                                 <!-- Information for the buyer -->
                                                                 <td align="center" style="padding:0;Margin:0">
@@ -397,14 +437,16 @@
                                                                     $product = App\Models\Product::where('id',
                                                                     $log->product)->first();
                                                                     @endphp
-                                                                    <p class="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:24px;color:#999999;font-size:16px">
+                                                                    <p
+                                                                        class="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:24px;color:#999999;font-size:16px">
                                                                         <strong>{{ $product->name }}</strong> x
                                                                         <strong>{{ $log->quantity }}</strong> =
                                                                         <strong>{{ $product->price *
                                                                             $log->quantity}}</strong>
                                                                     </p>
                                                                     @endforeach
-                                                                    <h1 class="total-sum ps-3 dark:text-lime-200 text-lime-600 font-bold text-2xl mt-2 mb-6">
+                                                                    <h1
+                                                                        class="total-sum ps-3 dark:text-lime-200 text-lime-600 font-bold text-2xl mt-2 mb-6">
                                                                         Обща сума: {{ $order->total_price }}лв
                                                                     </h1>
                                                                     <h1 class="text-xl font-semibold mt-6">Информация за
@@ -425,14 +467,24 @@
                                         </td>
                                     </tr>
                                     <tr style="border-collapse:collapse">
-                                        <td align="left" style="Margin:0;padding-top:10px;padding-left:20px;padding-right:20px;padding-bottom:40px">
-                                            <table width="100%" cellspacing="0" cellpadding="0" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                        <td align="left"
+                                            style="Margin:0;padding-top:10px;padding-left:20px;padding-right:20px;padding-bottom:40px">
+                                            <table width="100%" cellspacing="0" cellpadding="0" role="none"
+                                                style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                                 <tr style="border-collapse:collapse">
-                                                    <td valign="top" align="center" style="padding:0;Margin:0;width:560px">
-                                                        <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                                    <td valign="top" align="center"
+                                                        style="padding:0;Margin:0;width:560px">
+                                                        <table width="100%" cellspacing="0" cellpadding="0"
+                                                            role="presentation"
+                                                            style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                                             <tr style="border-collapse:collapse">
-                                                                <td align="center" style="padding:0;Margin:0;padding-bottom:10px;padding-left:10px;padding-right:10px">
-                                                                    <span class="es-button-border" style="border-style:solid;border-color:#9AAEA6;background:#2CB543;border-width:0px;display:inline-block;border-radius:0px;width:auto"><a href="https://bsc.clients.jnhost.net/previous-purchases" class="es-button" target="_blank" style="text-decoration:none;mso-style-priority:100 !important;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:18px;display:inline-block;background:#9AAEA6;border-radius:0px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center;padding:10px 20px 10px 20px;mso-padding-alt:0;mso-border-alt:10px solid #9AAEA6">Провери
+                                                                <td align="center"
+                                                                    style="padding:0;Margin:0;padding-bottom:10px;padding-left:10px;padding-right:10px">
+                                                                    <span class="es-button-border"
+                                                                        style="border-style:solid;border-color:#9AAEA6;background:#2CB543;border-width:0px;display:inline-block;border-radius:0px;width:auto"><a
+                                                                            href="https://bsc.clients.jnhost.net/previous-purchases"
+                                                                            class="es-button" target="_blank"
+                                                                            style="text-decoration:none;mso-style-priority:100 !important;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:18px;display:inline-block;background:#9AAEA6;border-radius:0px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center;padding:10px 20px 10px 20px;mso-padding-alt:0;mso-border-alt:10px solid #9AAEA6">Провери
                                                                             поръчка</a></span>
 
                                                                 </td>
@@ -447,28 +499,46 @@
                             </td>
                         </tr>
                     </table>
-                    <table class="es-footer" cellspacing="0" cellpadding="0" align="center" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%;background-color:transparent;background-repeat:repeat;background-position:center top">
+                    <table class="es-footer" cellspacing="0" cellpadding="0" align="center" role="none"
+                        style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%;background-color:transparent;background-repeat:repeat;background-position:center top">
                         <tr style="border-collapse:collapse"></tr>
                         <tr style="border-collapse:collapse">
                             <td align="center" style="padding:0;Margin:0">
-                                <table class="es-footer-body" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px" cellspacing="0" cellpadding="0" align="center" role="none">
+                                <table class="es-footer-body"
+                                    style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px"
+                                    cellspacing="0" cellpadding="0" align="center" role="none">
                                     <tr style="border-collapse:collapse">
                                         <td align="left" style="padding:0;Margin:0">
-                                            <table width="100%" cellspacing="0" cellpadding="0" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                            <table width="100%" cellspacing="0" cellpadding="0" role="none"
+                                                style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                                 <tr style="border-collapse:collapse">
-                                                    <td valign="top" align="center" style="padding:0;Margin:0;width:600px">
-                                                        <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                                    <td valign="top" align="center"
+                                                        style="padding:0;Margin:0;width:600px">
+                                                        <table width="100%" cellspacing="0" cellpadding="0"
+                                                            role="presentation"
+                                                            style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                                             <tr style="border-collapse:collapse">
-                                                                <td align="center" style="Margin:0;padding-bottom:5px;padding-left:20px;padding-right:20px;padding-top:25px;font-size:0px">
-                                                                    <a href="https://viewstripo.email" target="_blank" style="text-decoration:underline;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#666666;font-size:12px"><img src="https://ehhmzba.stripocdn.email/content/guids/CABINET_2349edd4d88e86dbcd461e73d6e7c837fec0b506a65901c2133d44a667b279b4/images/logodarktheme.png" alt="Company logo" title="Company logo" width="54" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></a>
+                                                                <td align="center"
+                                                                    style="Margin:0;padding-bottom:5px;padding-left:20px;padding-right:20px;padding-top:25px;font-size:0px">
+                                                                    <a href="https://viewstripo.email" target="_blank"
+                                                                        style="text-decoration:underline;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#666666;font-size:12px"><img
+                                                                            src="https://ehhmzba.stripocdn.email/content/guids/CABINET_2349edd4d88e86dbcd461e73d6e7c837fec0b506a65901c2133d44a667b279b4/images/logodarktheme.png"
+                                                                            alt="Company logo" title="Company logo"
+                                                                            width="54"
+                                                                            style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></a>
 
                                                                 </td>
                                                             </tr>
                                                             <tr style="border-collapse:collapse">
-                                                                <td esdev-links-color="#666666" align="center" class="es-m-txt-с" style="padding:0;Margin:0;padding-top:10px;padding-bottom:20px">
-                                                                    <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:18px;color:#666666;font-size:12px">
-                                                                        Авторско право © 2024. Всички права запазени.<br type="_moz"></p>
-                                                                    <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:18px;color:#666666;font-size:12px">
+                                                                <td esdev-links-color="#666666" align="center"
+                                                                    class="es-m-txt-с"
+                                                                    style="padding:0;Margin:0;padding-top:10px;padding-bottom:20px">
+                                                                    <p
+                                                                        style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:18px;color:#666666;font-size:12px">
+                                                                        Авторско право © 2024. Всички права запазени.<br
+                                                                            type="_moz"></p>
+                                                                    <p
+                                                                        style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:18px;color:#666666;font-size:12px">
                                                                         Получавате този имейл, защото Вашата поръчка бе
                                                                         одобрена.<br type="_moz"></p>
                                                                 </td>
@@ -483,26 +553,15 @@
                             </td>
                         </tr>
                     </table>
-                    <table class="es-content" cellspacing="0" cellpadding="0" align="center" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
+                    <table class="es-content" cellspacing="0" cellpadding="0" align="center" role="none"
+                        style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
                         <tr style="border-collapse:collapse">
                             <td align="center" style="padding:0;Margin:0">
-                                <table class="es-content-body" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px" cellspacing="0" cellpadding="0" align="center" role="none">
+                                <table class="es-content-body"
+                                    style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px"
+                                    cellspacing="0" cellpadding="0" align="center" role="none">
                                     <tr style="border-collapse:collapse">
-                                        <td align="left" style="Margin:0;padding-left:20px;padding-right:20px;padding-top:30px;padding-bottom:30px">
-                                            <table width="100%" cellspacing="0" cellpadding="0" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                                                <tr style="border-collapse:collapse">
-                                                    <td valign="top" align="center" style="padding:0;Margin:0;width:560px">
-                                                        <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                                                            <tr style="border-collapse:collapse">
-                                                                <td class="es-infoblock made_with" align="center" style="padding:0;Margin:0;line-height:14px;font-size:0;color:#CCCCCC">
-                                                                    <a target="_blank" href="https://viewstripo.email/?utm_source=templates&utm_medium=email&utm_campaign=software&utm_content=independence_day" style="text-decoration:underline;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#CCCCCC;font-size:12px"><img src="https://ehhmzba.stripocdn.email/content/guids/CABINET_9df86e5b6c53dd0319931e2447ed854b/images/64951510234941531.png" alt width="125" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></a>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
+
                                     </tr>
                                 </table>
                             </td>
