@@ -55,6 +55,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/refresh-stripe', [PageController::class, 'refreshStripe'])->name('refresh-stripe');
     Route::get('/return-stripe', [PageController::class, 'returnStripe'])->name('return-stripe');
     Route::get('/edit-order/{order_id}', [PageController::class, 'editOrder'])->name('edit-order');
+    Route::get('/edit-product/{product_id}', [PageController::class, 'editProduct'])->name('edit-product');
     Route::get('/profile', [PageController::class, 'profile'])->name('profile');
     Route::get('/account-deleted/{user_id}', [PageController::class, 'accountDeleted'])->name('account-deleted');
 

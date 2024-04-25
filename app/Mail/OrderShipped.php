@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Order;
+use Illuminate\Support\Collection;
 
 class OrderShipped extends Mailable
 {
@@ -17,7 +18,7 @@ class OrderShipped extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public Collection $logs, public Order $order)
+    public function __construct(public Order $order, public Collection $logs)
     {
         //
     }
@@ -28,7 +29,7 @@ class OrderShipped extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Order Shipped',
+            subject: 'Поръчката е доставена',
         );
     }
 

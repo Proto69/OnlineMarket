@@ -148,7 +148,7 @@ class PageController extends Controller
 
     public function shoppingCategory($category)
     {
-        
+
         $typeOfAccount = Auth::user()->type;
         if (Auth::user()->is_deleted) {
             return redirect()->route('account-deleted', Auth::user()->id);
@@ -452,15 +452,16 @@ class PageController extends Controller
         if (Auth::user()->is_deleted) {
             return redirect()->route('account-deleted', Auth::user()->id);
         }
-        $typeOfAccount = Auth::user()->type;
+        $user = Auth::user();
+        $product = Product::where('id', $product_id)->first();
 
-        if ($typeOfAccount !== 'Seller') {
+        if ($user->type !== 'Seller' || $user->id !== $product->seller_user_id) {
             abort(404); // If type is not 'Seller', return a 404 not found error
         }
 
-        $product = Product::where('id', $product_id)->first();
+        $product = Product::find($product_id);
 
-        return view('seller.edit-product', ['product' => $product, 'title' => "Поправи продукт"]);
+        return view('seller.edit-product', ['product' => $product, 'title' => "Промени продукт"]);
     }
 
     public function returnStripe()
