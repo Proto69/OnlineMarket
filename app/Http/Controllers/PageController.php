@@ -460,8 +460,9 @@ class PageController extends Controller
         }
 
         $product = Product::find($product_id);
+        $categories = Category::all()->where('is_accepted', true)->sortBy('name');
 
-        return view('seller.edit-product', ['product' => $product, 'title' => "Промени продукт"]);
+        return view('seller.edit-product', ['product' => $product, 'categories' => $categories, 'title' => "Промени продукт"]);
     }
 
     public function returnStripe()

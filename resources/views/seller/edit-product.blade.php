@@ -75,102 +75,175 @@ use App\Models\Category;
                         <div class="col-span-1">
                             @if (!$product->images()->isEmpty())
                             <div>
-                                <div id="controls-carousel" class="relative w-full" data-carousel="static">
-
-                                    <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+                                <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+                                    <ul id="imageList" class="space-y-2">
                                         @foreach($product->images() as $image)
-                                        <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                                            <img src="storage/{{ $image->image }}" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                                        </div>
+                                        <li hidden data-image-url="{{ url('storage/' . $image->image) }}">Image 1</li>
                                         @endforeach
-                                    </div>
-
-                                    <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-                                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                                            <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
-                                            </svg>
-                                            <span class="sr-only">Previous</span>
-                                        </span>
-                                    </button>
-                                    <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-                                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                                            <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
-                                            </svg>
-                                            <span class="sr-only">Next</span>
-                                        </span>
-                                    </button>
+                                    </ul>
                                 </div>
                             </div>
 
+
                             @elseif ($product->getImageURL())
-                            <div class="h-52 w-full bg-contain bg-no-repeat bg-center rounded-md" style="background-image: url('{{ $product->getImageURL() }}')"></div>
-                            @else
-                            <div class="h-52 w-full bg-contain bg-no-repeat bg-center rounded-md" style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg)"></div>
-                            @endif
+                            <div>
+                                <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+                                    <ul id="imageList" class="space-y-2">
+                                        <li hidden data-image-url="{{ $product->getImageURL() }}">
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                        <div class="sm:col-span-1">
-                            <input type="file" class="hidden" class="fileInput" multiple onchange="handleFiles(this.files)">
-                            <x-basic-button type="button" class="my-2" onclick="document.getElementById('fileInput').click()">Добави снимка</x-basic-button>
-                            <ul class="fileList"></ul>
-                        </div>
-                        <br />
-                        <div class="sm:col-span-2">
-                            <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Описание</label>
-                            @error('description')
-                            <p class="text-red-500 text-sm mt-1 mb-1">{{ $message }}</p>
-                            @enderror
-                            <textarea required name="description" rows="5" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Напишете описание на продукта тук ...">{{ $product->description }}</textarea>
-                        </div>
+                        @endif
+                        <!-- File input for adding pictures -->
+                        <input type="file" id="fileInput" class="hidden" multiple onchange="handleFiles(this.files)">
+                        <x-basic-button type="button" class="my-2" onclick="document.getElementById('fileInput').click()">Добави снимка</x-basic-button>
+                        <ul id="imageList" class="space-y-2"></ul>
                     </div>
-                    <div class="flex items-center space-x-4">
-                        <x-success-button type="submit">
-                            Запази промените
-                        </x-success-button>
+                    <div class="col-span-1">
+                        <div>
+                            <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+                                <div id="imageDisplay" class="w-full h-full"></div>
+                            </div>
+                        </div>
+                        <ul id="imageList" class="space-y-2"></ul>
                     </div>
-                </form>
+
+            </div>
+            <br />
+            <div class="sm:col-span-2">
+                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Описание</label>
+                @error('description')
+                <p class="text-red-500 text-sm mt-1 mb-1">{{ $message }}</p>
+                @enderror
+                <textarea required name="description" rows="5" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Напишете описание на продукта тук ...">{{ $product->description }}</textarea>
             </div>
         </div>
+        <div class="flex items-center space-x-4">
+            <x-success-button type="submit">
+                Запази промените
+            </x-success-button>
+        </div>
+        </form>
+    </div>
+    </div>
     </div>
 </x-app-layout>
 
 <script>
-    let filesArray = [];
+    document.addEventListener('DOMContentLoaded', () => {
+        const imageList = document.getElementById('imageList');
+        const imageElements = imageList.querySelectorAll('[data-image-url]');
+
+        // Array to store uploaded image names
+        const uploadedImages = [];
+
+        imageElements.forEach((element, index) => {
+            const imageUrl = element.getAttribute('data-image-url');
+            const label = `Image ${index + 1}`;
+
+            // Push image name to the uploadedImages array
+            uploadedImages.push(label);
+
+            // Create a label element for each image
+            const labelElement = document.createElement('span');
+            labelElement.textContent = label;
+            labelElement.className = 'cursor-pointer text-blue-500 mr-2';
+            labelElement.addEventListener('click', () => {
+                displayImage(imageUrl, label);
+            });
+
+            // Create a trash icon for each image
+            const trashIcon = document.createElement('span');
+            trashIcon.innerHTML = '&times;';
+            trashIcon.className = 'cursor-pointer text-red-500';
+            trashIcon.addEventListener('click', () => {
+                // Remove the parent of the trash icon, which is the list item (li)
+                const li = trashIcon.parentNode;
+                li.parentNode.removeChild(li);
+                // Remove the image name from the uploadedImages array
+                const indexToRemove = uploadedImages.indexOf(label);
+                if (indexToRemove !== -1) {
+                    uploadedImages.splice(indexToRemove, 1);
+                }
+            });
+
+            // Create a list item for each image
+            const li = document.createElement('li');
+            li.className = 'flex items-center';
+
+            // Append the label, image, and trash icon to the list item
+            li.appendChild(labelElement);
+            li.appendChild(trashIcon);
+
+            // Append the list item to the image list
+            imageList.appendChild(li);
+        });
+
+        // Store uploadedImages array in a hidden input field
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'uploaded_images';
+        hiddenInput.value = JSON.stringify(uploadedImages);
+        document.getElementById('updateForm').appendChild(hiddenInput);
+    });
+
+    // Function to display the clicked image
+    function displayImage(imageUrl, label) {
+        const imageDisplay = document.getElementById('imageDisplay');
+        imageDisplay.innerHTML = ''; // Clear previous content
+
+        // Create an image element
+        const image = document.createElement('img');
+        image.src = imageUrl;
+        image.alt = label;
+        image.className = 'w-full h-auto';
+
+        // Append the image to the image display div
+        imageDisplay.appendChild(image);
+    }
 
     // Function to handle file uploads and display them
     function handleFiles(files) {
-        const fileList = document.getElementById('fileList');
+        const imageList = document.getElementById('imageList');
+
         for (let i = 0, numFiles = files.length; i < numFiles; i++) {
             const file = files[i];
-            filesArray.push(file); // Add new file to the array
+            const label = file.name;
 
             // Create a list item for each file
             const li = document.createElement('li');
-            li.textContent = file.name;
 
-            // Create a remove button for each file
-            const removeButton = document.createElement('button');
-            removeButton.textContent = 'X';
+            const labelElement = document.createElement('span');
+            labelElement.textContent = label;
+            labelElement.className = 'cursor-pointer text-blue-500 mr-2';
+            labelElement.addEventListener('click', () => {
+                displayImage(URL.createObjectURL(file), label);
+            });
 
-            // Add class to the remove button
-            removeButton.className = "inline-flex items-center px-4 py-2 my-2 bg-white dark:bg-gray-800 border border-red-300 dark:border-red-500 rounded-md font-semibold text-xs text-red-700 dark:text-red-300 uppercase tracking-widest shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-lime-800 disabled:opacity-25 transition ease-in-out duration-150 mx-1";
+            // Add class to the list item
+            li.className = 'flex items-center';
 
-            removeButton.onclick = function() {
-                // Remove the file from the array and the list
-                filesArray = filesArray.filter(f => f.name !== file.name);
-                fileList.removeChild(li);
-            };
+            const trashIcon = document.createElement('span');
+            trashIcon.innerHTML = '&times;';
+            trashIcon.className = 'cursor-pointer text-red-500';
+            trashIcon.addEventListener('click', () => {
+                // Remove the parent of the trash icon, which is the list item (li)
+                const li = trashIcon.parentNode;
+                li.parentNode.removeChild(li);
+            });
 
-            // Create space between file name and remove button
-            const space = document.createTextNode(' ');
-            li.appendChild(space);
+            // Append the label and trash icon to the list item
+            li.appendChild(labelElement);
+            li.appendChild(trashIcon);
 
-            // Append the remove button to the list item
-            li.appendChild(removeButton);
-
-            // Append the list item to the file list
-            fileList.appendChild(li);
+            // Append the list item to the image list
+            imageList.appendChild(li);
         }
+    }
+
+    // Function to remove an image from the list
+    function removeImage(element) {
+        element.parentNode.removeChild(element);
     }
 </script>
