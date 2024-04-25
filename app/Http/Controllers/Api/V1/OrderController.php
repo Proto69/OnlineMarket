@@ -35,9 +35,9 @@ class OrderController extends Controller
         $punishmentId = 5;
         $punishment = Punishment::find($punishmentId);
         // Orders
-        // Mail::to(Auth::user())->send(new OrderSuccessful($order, $logs));
-        // Mail::to(Auth::user())->send(new OrderSent($order, $logs));
-        // Mail::to(Auth::user())->send(new OrderShipped($order, $logs));
+        Mail::to(Auth::user())->send(new OrderSuccessful($order, $logs));
+        Mail::to(Auth::user())->send(new OrderSent($order, $logs));
+        Mail::to(Auth::user())->send(new OrderShipped($order, $logs));
         // Mail::to(Auth::user())->send(new PunishmentAppeal($appeal));
         // Mail::to(Auth::user())->send(new PunishmentBan());
         // Mail::to(Auth::user())->send(new PunishmentCanceled($punishment));
