@@ -38,7 +38,6 @@
 
                     @if (!$billingAddresses->isEmpty())
                     <div class="px-10 my-5">
-                        <!-- TODO: center text -->
                         <x-basic-button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="w-full text-white font-medium rounded-lg text-sm py-2.5 text-center inline-flex items-center" type="button">
                             Избери запазени данни
                             <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">

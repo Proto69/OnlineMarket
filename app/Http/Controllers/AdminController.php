@@ -8,6 +8,10 @@ use App\Models\Punishment;
 use App\Models\User;
 use App\Models\Appeal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PunishmentBan;
+use App\Mail\PunishmentCanceled;
+use App\Mail\PunishmentRecieved;
 
 class AdminController extends Controller
 {
@@ -30,6 +34,8 @@ class AdminController extends Controller
         $product->is_deleted = true;
         $product->save();
 
+        Mail::to(User::find($product->seller_user_id))->send(new PunishmentRecieved($punishment));
+
         return redirect()->route('products');
     }
 
@@ -46,6 +52,8 @@ class AdminController extends Controller
         $product->is_deleted = false;
         $product->save();
 
+        Mail::to(User::find($product->seller_user_id))->send(new PunishmentCanceled($punishment));
+
         return redirect()->route('products');
     }
 
@@ -58,6 +66,8 @@ class AdminController extends Controller
         $user = User::find($userId);
         $user->is_deleted = true;
         $user->save();
+
+        Mail::to($user)->send(new PunishmentBan());
 
         return redirect()->route('users');
     }
@@ -74,6 +84,8 @@ class AdminController extends Controller
         $user = User::find($userId);
         $user->is_deleted = false;
         $user->save();
+
+        Mail::to($user)->send(new PunishmentCanceled($punishment));
 
         return redirect()->route('users');
     }

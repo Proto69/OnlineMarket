@@ -52,6 +52,7 @@ class Product extends Model
         'is_deleted' => 'boolean',
         'category' => 'integer',
         'rating' => 'float',
+        'seller_user_id' => 'integer'
     ];
 
     public function getImageURL()

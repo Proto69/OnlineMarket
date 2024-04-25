@@ -7,7 +7,11 @@ use App\Models\ShoppingList;
 use App\Models\Product;
 use App\Models\Seller;
 use App\Models\Log;
-
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderSuccessful;
+use Illuminate\Support\Facades\Auth;
+use App\Mail\SellerNewOrder;
 
 class WebhookController extends Controller
 {
@@ -88,19 +92,26 @@ class WebhookController extends Controller
 
                     $seller->save();
 
-                    
+
 
                     $item->delete();
                 }
 
                 $logs = Log::where('order_id', $order->id)->get();
 
-                foreach ($logs as $log){
+                foreach ($logs as $log) {
                     $log->is_paid = true;
                     $log->save();
                 }
 
-                // TODO: send email to the user
+                Mail::to(Auth::user())->send(new OrderSuccessful($order, $logs));
+                $userIds = $logs->pluck('user_id')->unique();
+
+                foreach ($userIds as $userId) {
+                    // FIXME: not all products
+                    Mail::to(User::find($userId))->send(new SellerNewOrder($order));
+                }
+
                 return response('Потвърдена и завършена поръчка!', 200);
 
             default:

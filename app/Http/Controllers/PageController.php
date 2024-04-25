@@ -12,6 +12,8 @@ use App\Models\User;
 use App\Models\Appeal;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PunishmentAppeal;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -101,6 +103,8 @@ class PageController extends Controller
         $appeal->text = $text;
         $appeal->name = User::find($userId)->name;
         $appeal->save();
+
+        Mail::to(User::find($userId))->send(new PunishmentAppeal($appeal));
 
         return redirect()->route('account-deleted', $userId);
     }

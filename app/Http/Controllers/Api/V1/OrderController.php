@@ -6,19 +6,14 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
 use App\Models\Log;
+use App\Models\User;
 use App\Models\Appeal;
 use App\Models\Punishment;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Mail\OrderSuccessful;
 use App\Mail\OrderSent;
 use App\Mail\OrderShipped;
-use App\Mail\PunishmentAppeal;
-use App\Mail\PunishmentBan;
-use App\Mail\PunishmentCanceled;
-use App\Mail\PunishmentRecieved;
-use App\Mail\SellerNewOrder;
 use App\Mail\SellerRecievedOrder;
 use Illuminate\Support\Facades\Mail;
 
@@ -34,16 +29,6 @@ class OrderController extends Controller
         $appeal = Appeal::find($appealId);
         $punishmentId = 5;
         $punishment = Punishment::find($punishmentId);
-        // Orders
-        Mail::to(Auth::user())->send(new OrderSuccessful($order, $logs));
-        Mail::to(Auth::user())->send(new OrderSent($order, $logs));
-        Mail::to(Auth::user())->send(new OrderShipped($order, $logs));
-        // Mail::to(Auth::user())->send(new PunishmentAppeal($appeal));
-        // Mail::to(Auth::user())->send(new PunishmentBan());
-        // Mail::to(Auth::user())->send(new PunishmentCanceled($punishment));
-        // Mail::to(Auth::user())->send(new PunishmentRecieved($punishment));
-        // Mail::to(Auth::user())->send(new SellerNewOrder($order));
-        // Mail::to(Auth::user())->send(new SellerRecievedOrder($order));
         return redirect()->route('stats');
     }
     /**
@@ -174,14 +159,15 @@ class OrderController extends Controller
             }
         }
 
+        $order = Order::find($orderId);
+
         if ($is_sent || $is_delivered) {
-            $order = Order::find($orderId);
             $order->is_sent = $is_sent;
             $order->is_delivered = $is_delivered;
             $order->save();
         }
 
-        // TODO: send email to customer for sent products
+        Mail::to(Auth::user())->send(new OrderSent($order, $logs));
 
         return redirect()->route('sells');
     }
@@ -195,6 +181,7 @@ class OrderController extends Controller
         $logs = Log::where('order_id', $log->order_id)->get();
         $is_sent = true;
         $is_delivered = true;
+
         foreach ($logs as $log) {
             if (!$log->is_sent) {
                 $is_sent = false;
@@ -211,8 +198,6 @@ class OrderController extends Controller
             $order->save();
         }
 
-        // TODO: send email to customer
-
         return redirect()->route('previous-purchases');
     }
 
@@ -224,12 +209,21 @@ class OrderController extends Controller
             $log->save();
         }
 
+        $userIds = $logs->pluck('user_id')->unique();
+
         $order = Order::find($orderId);
+
+        foreach ($userIds as $userId) {
+            // FIXME: not all products
+            Mail::to(User::find($userId))->send(new SellerRecievedOrder($order));
+        }
+
         $order->is_sent = true;
         $order->is_delivered = true;
         $order->save();
-        
-        return redirect()->route('previous-purchases');
 
+        Mail::to(Auth::user())->send(new OrderShipped($order, $logs));
+
+        return redirect()->route('previous-purchases');
     }
 }
