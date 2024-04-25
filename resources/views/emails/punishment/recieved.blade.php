@@ -431,6 +431,9 @@
                                                             <tr style="border-collapse:collapse">
                                                                 <!-- Information for the buyer -->
                                                                 <td align="center" style="padding:0;Margin:0">
+
+                                                                <!-- TODO: Reason for recieving punishments -->
+                                                                
                                                                     Здравейте,
                                                                     <br></br>
                                                                     Бихме искали да ви уведомим, че вашият акаунт е
