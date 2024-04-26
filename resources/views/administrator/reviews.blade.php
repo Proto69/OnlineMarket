@@ -24,7 +24,7 @@ use App\Models\User;
 
                         <div class="mb-2 flex-grow">
                             <!-- Seller Name -->
-                            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ $review->text }}</h5>
+                            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ $review->comment }}</h5>
                         </div>
 
                         <div class="mt-auto mb-2 flex items-center justify-between">
