@@ -38,7 +38,7 @@ class PunishmentCanceled extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.punishment.cancelled',
+            view: 'emails.punishment.canceled',
         );
     }
 

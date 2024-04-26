@@ -105,6 +105,7 @@ class WebhookController extends Controller
                 }
 
                 Mail::to(Auth::user())->send(new OrderSuccessful($order, $logs));
+                
                 $userIds = $logs->pluck('user_id')->unique();
 
                 foreach ($userIds as $userId) {

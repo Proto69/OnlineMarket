@@ -28,7 +28,7 @@ class PageController extends Controller
             abort(404);
         }
 
-        $products = Product::all();
+        $products = Product::all()->where('active');
         return view('administrator.index', ['products' => $products]);
     }
 

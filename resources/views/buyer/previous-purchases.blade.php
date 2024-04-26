@@ -113,7 +113,7 @@ use App\Models\Product;
 
                         @endif
 
-                        @if ($order->is_paid && !$order->is_delivered)
+                        @if ($order->is_paid && !$order->is_delivered && $order->is_sent)
                         <form action="{{ route('mark-order-as-delivered', $order->id) }}" method="POST">
                             @csrf
                             <x-success-button type="submit" class="mt-1">

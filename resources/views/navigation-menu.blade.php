@@ -184,10 +184,11 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                                 {{ __('Профил') }}
                             </x-dropdown-link>
 
+                            @if ($typeOfAccount == "Buyer")
                             <x-dropdown-link href="{{ route('billing-addresses') }}">
                                 {{ __('Адреси за доставка') }}
                             </x-dropdown-link>
-
+                            @endif
                             <form id="switchAcc" method="POST" action="{{ route('switch.account') }}">
                                 @csrf
                                 @if ($typeOfAccount === "Buyer")

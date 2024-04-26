@@ -15,16 +15,17 @@ use App\Mail\PunishmentRecieved;
 
 class AdminController extends Controller
 {
-    public function deactivateProduct(Request $request, $productId){
-        
-        if (Auth::user()->type !== "Admin"){
+    public function deactivateProduct(Request $request, $productId)
+    {
+
+        if (Auth::user()->type !== "Admin") {
             abort(404);
         }
 
         $product = Product::find($productId);
         $punishment = new Punishment();
 
-        $punishment->user_id = $product->seller_user_id; 
+        $punishment->user_id = $product->seller_user_id;
         $punishment->object_id = $productId;
         $punishment->reason = $request->reason;
         $punishment->is_product = true;
@@ -39,9 +40,10 @@ class AdminController extends Controller
         return redirect()->route('products');
     }
 
-    public function activateProduct($productId){
-        
-        if (Auth::user()->type !== "Admin"){
+    public function activateProduct($productId)
+    {
+
+        if (Auth::user()->type !== "Admin") {
             abort(404);
         }
 
@@ -57,9 +59,10 @@ class AdminController extends Controller
         return redirect()->route('products');
     }
 
-    public function deactivateAccount($userId){
-        
-        if (Auth::user()->type !== "Admin"){
+    public function deactivateAccount($userId)
+    {
+
+        if (Auth::user()->type !== "Admin") {
             abort(404);
         }
 
@@ -72,14 +75,17 @@ class AdminController extends Controller
         return redirect()->route('users');
     }
 
-    public function activateAccount($userId){
-        
-        if (Auth::user()->type !== "Admin"){
+    public function activateAccount($userId)
+    {
+
+        if (Auth::user()->type !== "Admin") {
             abort(404);
         }
-        
+
         $appeal = Appeal::where('user_id', $userId)->first();
-        $appeal->delete();
+        if ($appeal) {
+            $appeal->delete();
+        }
 
         $user = User::find($userId);
         $user->is_deleted = false;
