@@ -107,6 +107,12 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link href="{{ route('reviews') }}" :active="request()->routeIs('reviews')">
+                        {{ __('Всички ревюта') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')">
                         {{ __('Всички акаунти') }}
                     </x-nav-link>
@@ -294,6 +300,10 @@ $existingSeller = Seller::where('user_id', Auth::user()->id)->first();
 
             <x-responsive-nav-link href="{{ route('products') }}" :active="request()->routeIs('products')">
                 {{ __('Всички продукти') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('reviews') }}" :active="request()->routeIs('reviews')">
+                {{ __('Всички ревюта') }}
             </x-responsive-nav-link>
 
             <x-responsive-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')">

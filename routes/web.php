@@ -58,6 +58,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     // Admin routes
     Route::get('/products', [PageController::class, 'products'])->name('products');
+    Route::get('/reviews', [PageController::class, 'reviews'])->name('reviews');
     Route::get('/users', [PageController::class, 'users'])->name('users');
     Route::get('/comments', [PageController::class, 'comments'])->name('comments');
     Route::get('/search-account', [PageController::class, 'searchAccount'])->name('search-account');

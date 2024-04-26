@@ -14,6 +14,7 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PunishmentAppeal;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -28,8 +29,20 @@ class PageController extends Controller
             abort(404);
         }
 
-        $products = Product::all()->where('active');
+        $products = Product::where('active', true)->get();
         return view('administrator.index', ['products' => $products]);
+    }
+
+    public function reviews()
+    {
+
+        if (!Auth::user()->is_admin) {
+            abort(404);
+        }
+
+        $reviews = Comment::all();
+
+        return view('administrator.reviews', ['reviews' => $reviews]);
     }
 
     public function users()
