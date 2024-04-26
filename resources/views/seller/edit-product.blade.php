@@ -3,7 +3,7 @@ use App\Models\Category;
 @endphp
 <x-app-layout class="items-center">
     <!-- Edit product modal -->
-    <div id="updateProductModal-{{ $product->id }}" class="overflow-y-auto overflow-x-hidden flex z-50 justify-center items-center w-full md:inset-0">
+    <div id="updateProductModal-{{ $product->id }}" class="overflow-y-auto overflow-x-hidden flex z-50 justify-center items-center w-full mt-5 md:inset-0">
         <div class="relative p-8 bg-white rounded-lg shadow-lg dark:bg-gray-800 overflow-y-auto sm:p-10 max-h-[80vh] max-w-screen-xl w-3/4">
             <!-- Modal content -->
             <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">

@@ -84,7 +84,7 @@ class AdminController extends Controller
 
         Mail::to(User::find($review->user_id))->send(new PunishmentRecieved($punishment));
 
-        return redirect()->route('products');
+        return redirect()->route('review');
     }
 
     public function activateComment($reviewId)
@@ -105,7 +105,7 @@ class AdminController extends Controller
 
         Mail::to(User::find($review->user_id))->send(new PunishmentCanceled($punishment));
 
-        return redirect()->route('products');
+        return redirect()->route('review');
     }
 
     public function deactivateAccount($userId)
