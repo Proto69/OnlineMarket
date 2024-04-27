@@ -44,9 +44,11 @@ use App\Models\User;
 
                                 <!-- Prices -->
                                 <div class="space-y-2">
-                                    <h6 class="text-base font-medium text-black dark:text-white">
-                                        Ценови диапазон
+                                    <h6 class="text-base font-medium text-black my-2 dark:text-white">
+                                    <x-input type="checkbox" name="isPrice" value="false"></x-input> Ценови диапазон
                                     </h6>
+
+                                    
 
                                     <div x-data="range()" x-init="mintrigger(); maxtrigger()" class="relative max-w-xl w-full">
                                         <div class="mb-2">
@@ -72,7 +74,7 @@ use App\Models\User;
                                                         minprice: '{{ $priceFrom ?? 300 }}',
                                                         maxprice: '{{ $priceTo ?? 6000 }}',
                                                         min: 0,
-                                                        max: 100000,
+                                                        max: 10000,
                                                         minthumb: 0,
                                                         maxthumb: 0,
 
@@ -108,7 +110,7 @@ use App\Models\User;
                                 <!-- Rating -->
                                 <div class="space-y-2">
                                     <h6 class="text-base font-medium text-black dark:text-white">
-                                        Rating
+                                    <x-input type="checkbox" name="isRating" value="false" /> Рейтинг
                                     </h6>
 
                                     <div class="flex items-center">

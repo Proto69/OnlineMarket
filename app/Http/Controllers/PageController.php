@@ -199,15 +199,17 @@ class PageController extends Controller
         $priceFrom = $request->input('price-from');
         $priceTo = $request->input('price-to');
         $rating = $request->input('rating');
+        $isRating = $request->input('isRating');
+        $isPrice = $request->input('isPrice');
 
         $query = Product::query();
 
 
-        if ($priceFrom && $priceTo) {
+        if ($priceFrom && $priceTo && $isPrice) {
             $query->whereBetween('price', [$priceFrom, $priceTo]);
         }
 
-        if ($rating) {
+        if ($rating && $isRating) {
             $query->where('rating', '>=', $rating);
         }
 
